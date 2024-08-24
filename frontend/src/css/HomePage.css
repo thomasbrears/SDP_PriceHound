@@ -1,0 +1,99 @@
+/* HomePage.css */
+
+.home-page {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+/* Light background color for the search section */
+
+.search-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9; 
+}
+
+.search-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.suggested-searches {
+  margin-top: 20px;
+}
+
+.suggested-searches span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.suggested-searches a {
+  margin: 0 10px;
+  color: #0363BB;
+  text-decoration: none;
+}
+
+.suggested-searches a:hover {
+  text-decoration: underline;
+}
+
+/* Featured Products Section Styles */
+
+.featured-products {
+  padding: 60px 20px;
+}
+
+.featured-products h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.sub-text {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 40px;
+}
+
+.product-list {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between cards */
+  flex-wrap: wrap; /* Allows wrapping if too many cards */
+}
+
+/* Category Section Styles */
+
+.category-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.category-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.category-section .sub-text {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 40px;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping of buttons */
+  justify-content: center; /* Centers the buttons */
+  gap: 20px; /* Space between the buttons */
+  margin-bottom: 40px;
+}
+
+/* Pink buttons styles */
+
+.pink-button {
+  max-width: 300px; /* Centers the pink button */
+  margin: 0 auto;
+}
+
+

@@ -1,11 +1,23 @@
-import './App.css';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import SearchPage from './pages/SearchPage';
+import HomePage from './pages/HomePage';
+import TestPage from './pages/TestPage';
+import AboutPage from './pages/AboutPage';
 
 function App() {
   return (
-    <div className="App">
-        <LoginPage/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/test" element={<TestPage />} />
+      </Routes>
+    </Router>
   );
 }
 

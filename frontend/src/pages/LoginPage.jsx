@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './css/LoginPage.css'
-import { FaUser, FaLock } from "react-icons/fa";
-import logo from"../images/PriceHound_Logo.png";
+import '../css/LoginPage.css';
+import { FaUser } from "react-icons/fa";
+
 function LoginPage() {
 
     const [Email, setEmail] = useState('');
@@ -13,7 +13,7 @@ function LoginPage() {
     return (
         <div className='center'>
             <div className='loginDetails'>
-                <img src={logo}/>
+                <img src="/images/PriceHound_Logo.png" alt='profilehead'/>
                 <h1>Login</h1>
                 <form onSubmit={handleLogin} className='loginForm'>
                     <FaUser />
@@ -22,7 +22,6 @@ function LoginPage() {
                     <button type='submit' className="formButton">Login</button>
                     <button type='button' className="gButton">Sign in with Google</button>
                 </form>
-
                 <p><a className='link'>Forgot password?</a></p> <p>Dont have an account? <a className='link'>Create an account</a></p>
             </div>
         </div>

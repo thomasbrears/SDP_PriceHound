@@ -1,0 +1,22 @@
+/* CategoryButton.css */
+
+.category-button {
+    background-color: #d8d8d8; 
+    color: white; 
+    border: none; 
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px 30px; /* Padding inside button */
+    font-size: 18px; 
+    cursor: pointer; 
+    text-align: center; 
+    width: 100%; /* Full width of its container */
+    height: 75px; 
+    max-width: 300px; /* Maximum width for the button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow lifted effect */
+    transition: background-color 0.3s ease; /* background color transition */
+  }
+  
+  .category-button:hover {
+    background-color: #c0c0c0; /* Slightly darker gray on hover */
+  }
+  
