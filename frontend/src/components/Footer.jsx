@@ -1,28 +1,31 @@
 import React from 'react';
-import logo from 'frontend/public/images/PriceHound_Logo.png'; // Update the path to your logo image
+import '../css/Footer.css';
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-left">
-          <img src={logo} alt="PriceHound Logo" className="footer-logo" />
+        <div className="footer-top">
+          <img src="images/PriceHound_Logo.png"  alt="PriceHound Logo" className="footer-logo" />
         </div>
-        <div className="footer-right">
+        <div className="footer-category">
           <div className="footer-column">
-            {/* <ul className="footer-categories">
+            { <ul className="footer-categories">
               <li><a href="/home" className="footer-link">Home</a></li>
-              <li><a href="/about" className="footer-link">About</a></li>
-              <li><a href="/account" className="footer-link">My Account</a></li>
-            </ul> */}
+              <li><a href="/about" className="footer-link">About Us </a></li>
+              <li><a href="/contactus " className="footer-link">Contact Us </a></li>
+              <li><a href="/browse" className="footer-link">Browse Categories </a></li>
+              <li><a href="/brand" className="footer-link">Browse Brand</a></li>
+              <li><a href="/wishlist" className="footer-link">My Wishlist </a></li>
+              <li><a href="/account" className="footer-link">Manage My Account </a></li>
+              <li><a href="/" className="footer-link">Login </a></li>
+            
+            </ul> }
           </div>
-          <div className="footer-column">
-            {/* <ul className="footer-categories">
-              <li><a href="/brands" className="footer-link">Brands</a></li>
-              <li><a href="/categories" className="footer-link">Categories</a></li>
-              <li><a href="/search" className="footer-link">Search</a></li>
-            </ul> */}
-          </div>
+          
+        </div>
+        <div>
+            <p className="footer-text">© 2024 PriceHound. All Rights Reserved.V1.0</p>
         </div>
       </div>
     </footer>
