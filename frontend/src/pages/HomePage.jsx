@@ -73,8 +73,6 @@ function HomePage() {
         </div>
         <PinkButton text="Browse all Brands" />
       </div>
-      {/* Footer Section */}
-      <Footer/>
     </div>
   );
 }
