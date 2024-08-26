@@ -14,10 +14,10 @@ const Footer = () => {
               <li><a href="/" className="footer-link">Home</a></li>
               <li><a href="/about" className="footer-link">About Us </a></li>
               <li><a href="/contact " className="footer-link">Contact Us </a></li>
-              <li><a href="/browse" className="footer-link">Browse Categories </a></li>
-              <li><a href="/brand" className="footer-link">Browse Brand</a></li>
+              <li><a href="/categories" className="footer-link">Browse Categories </a></li>
+              <li><a href="/brands" className="footer-link">Browse Brand</a></li>
               <li><a href="/wishlist" className="footer-link">My Wishlist </a></li>
-              <li><a href="/account" className="footer-link">Manage My Account </a></li>
+              <li><a href="/manage-account" className="footer-link">Manage My Account </a></li>
               <li><a href="/login" className="footer-link">Login </a></li>
             
             </ul> }
