@@ -3,6 +3,7 @@ const NavBar = () => {
     return (
       <nav>
         {/* Navigation content */}
+        <p>In Development</p>
       </nav>
     );
   };
