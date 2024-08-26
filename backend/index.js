@@ -1,26 +1,20 @@
-// backend/index.js
-
 import express from 'express';
-import cors from 'cors'; // Import cors
 import { connectToDb } from './db.js';
-import dotenv from 'dotenv';
 import productRoutes from './routes/products.js';
 import retailerRoutes from './routes/retailers.js';
 
-dotenv.config();
-
 const app = express();
 
-// Use CORS middleware
-app.use(cors()); // This will allow requests from any origin
-
+// Middleware to parse JSON bodies
 app.use(express.json());
 
+// Use the routes
 app.use('/api/products', productRoutes);
 app.use('/api/retailers', retailerRoutes);
 
+// Connect to the database and start the server
 connectToDb(() => {
-  app.listen(process.env.PORT || 8000, () => {
-    console.log('Server is running on port 8000');
-  });
+    app.listen(8000, () => {
+        console.log('Server is running on port 8000');
+    });
 });
