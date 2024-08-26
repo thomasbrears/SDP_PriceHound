@@ -51,7 +51,7 @@ function LoginPage() {
                     <button type='submit' className="formButton">Login</button>
                     <button type='button' className="gButton" onClick={handleGoogle}>Sign in with Google</button>
                 </form>
-                <p><a className='link'>Forgot password?</a></p> <p>Dont have an account?  <Link to="/signup">Create an account</Link></p>
+                <p><Link to="/reset-password">Forgot password?</Link></p> <p>Dont have an account?  <Link to="/signup">Create an account</Link></p>
             </div>
         </div>
     )
