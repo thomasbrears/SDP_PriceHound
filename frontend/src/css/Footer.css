@@ -1,0 +1,36 @@
+/* Footer.css */
+
+.footer {
+    background-color:rgb(237, 244, 244);
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 80px;
+  }
+.footer-categories {
+    list-style: none; 
+    padding: 0;
+    margin: 20px auto;
+    text-align: center;
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+  }
+.footer-categories li {
+    text-align: center; 
+    margin: 0;
+  }
+  
+.footer-categories a {
+    text-decoration: none; 
+    color: #000; 
+  }  
+.footer-link:hover {
+    text-decoration: underline;
+  }
+.footer-text{
+    margin-top: 30px;
+    color:#0363BB;
+    font-size: 12px;
+}

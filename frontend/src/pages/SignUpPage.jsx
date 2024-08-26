@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import "../css/SignUpPage.css"
+import { FaUser } from "react-icons/fa";
 
 const SignUpPage = () => {
     const [email, setEmail] = useState('');
@@ -47,7 +48,9 @@ const SignUpPage = () => {
         <div className='center'>
             <div className='signUpDetails'>
                 <img src="/images/PriceHound_Logo.png" alt='profilehead' />
+                <h1>Sign Up</h1>
                 <form onSubmit={HandleSubmit} className='signUpForm'>
+                    <FaUser/>
                     <input className="formInput" type='email' placeholder='Your Email' required value={email} onChange={(e) => setEmail(e.target.value)} />
                     <input className="formInput" type='password' placeholder='Your Password' required value={password} onChange={(e) => setPassword(e.target.value)} />
                     <input className="formInput" type='password' placeholder='Confirm password' required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
