@@ -7,7 +7,6 @@ import SearchPage from './pages/SearchPage';
 import HomePage from './pages/HomePage';
 import TestPage from './pages/TestPage';
 import AboutPage from './pages/AboutPage';
-import WishList from './pages/WishList';
 import SignUpPage from './pages/SignUpPage';
 import ContactPage from './pages/ContactPage';
 import WishlistPage from './pages/WishlistPage';
@@ -17,7 +16,6 @@ import CategoryPage from './pages/CategoryPage';
 import ProductPage from './pages/ProductPage';
 import AddProductPage from './pages/AddProductPage';
 import LoginPage from './pages/LoginPage';
-import CreateAccountPage from './pages/CreateAccountPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
 function App() {  
@@ -38,7 +36,7 @@ function App() {
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/manage-account" element={<ManageAccountPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/create-account" element={<CreateAccountPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
         <Footer />
