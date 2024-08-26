@@ -11,9 +11,6 @@ function BrandPage() {
         title="Brands" 
         subtitle="Brands placeholder page"
       />
-      
-      {/* Footer Section */}
-      <Footer/>
     </div>
   );
 }

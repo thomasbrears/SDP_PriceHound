@@ -1,5 +1,5 @@
 /* SearchBar.css */
-.search-container {
+.search-big-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,7 +7,7 @@
     width: 100%;
   }
   
-  .search-input-wrapper {
+  .search-big-input-wrapper {
     display: flex;
     align-items: center;
     background-color: #0363BB;
@@ -17,7 +17,7 @@
     padding-right: 10px; /* padding to right side */
   }
   
-  .search-input {
+  .search-big-input {
     width: 100%;
     padding: 15px 15px;
     border: none;
@@ -28,15 +28,15 @@
     border-radius: 10px 10px 10px 10px;
   }
   
-  .search-input::placeholder {
+  .search-big-input::placeholder {
     color: #fff;
   }
   
-  .search-input:focus::placeholder {
+  .search-big-input:focus::placeholder {
     color: transparent; /* Makes placeholder text invisible when input is focused */
   }
   
-  .search-button {
+  .search-big-button {
     padding: 10px 10px;
     background-color: #000;
     color: #fff;
@@ -49,7 +49,7 @@
     margin-right: 2.5px; /* Move button slightly to left */
   }
   
-  .search-icon {
+  .search-big-icon {
     font-size: 16px;
   }
   

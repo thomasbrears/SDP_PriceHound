@@ -1,7 +1,6 @@
 import React from 'react';
 import MainHeadTitle from '../components/MainHeadTitle'; 
 import PinkButton from '../components/PinkButton'; 
-import Footer from '../components/Footer';
 import '../css/AboutPage.css'; 
 
 function AboutPage() {
@@ -17,8 +16,6 @@ function AboutPage() {
         <p>We hope you find this website useful and continue to share it with your friends and family</p>
         <PinkButton text="Try it out today: Search a product" />
       </div>
-      {/* Footer Section */}
-      <Footer/>
     </div>
   );
 }

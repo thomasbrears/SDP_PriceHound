@@ -1,0 +1,37 @@
+.contact-page {
+    text-align: center;
+}
+
+.contact-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.contact-form-container p {
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-form-group {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.contact-input, .contact-select, .contact-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-textarea {
+    height: 150px;
+    resize: none;
+}

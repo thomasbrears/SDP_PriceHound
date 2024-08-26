@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+
+
 function AddRetailer() {
   const [name, setName] = useState('');
   const [verified, setVerified] = useState(false);

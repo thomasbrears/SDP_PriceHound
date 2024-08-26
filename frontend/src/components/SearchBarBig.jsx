@@ -14,17 +14,17 @@ function SearchBarBig({ onSearch }) {
   };
 
   return (
-    <div className="search-container">
-      <div className="search-input-wrapper">
+    <div className="search-big-container">
+      <div className="search-big-input-wrapper">
         <input
           type="text"
           value={query}
           onChange={handleInputChange}
           placeholder="Search for a product to compare ..."
-          className="search-input"
+          className="search-big-input"
         />
-        <button onClick={handleSearch} className="search-button">
-          <FiSearch className="search-icon" />
+        <button onClick={handleSearch} className="search-big-button">
+          <FiSearch className="search-big-icon" />
         </button>
       </div>
     </div>
