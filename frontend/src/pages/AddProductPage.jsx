@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import MainHeadTitle from '../components/MainHeadTitle'; 
 
 
-
-function AddRetailer() {
+function AddProductPage() {
   const [name, setName] = useState('');
   const [verified, setVerified] = useState(false);
   const [domain, setDomain] = useState('');
@@ -46,13 +46,17 @@ function AddRetailer() {
 
   return (
     <div className="add-project-page">
-      <h1>Add Products and Retailers</h1>
+      <MainHeadTitle 
+        title="Add Products and Retailers" 
+        subtitle="add products n retailers  placeholder page"
+      />
+     
       <div className="add-forms-container">
         <div className="add-product-form-container">
-          <AddProduct />
+          {/* <AddProduct /> */}
         </div>
         <div className="add-retailer-form-container">
-          <AddRetailer />
+          {/* <AddRetailer /> */}
         </div>
       </div>
     </div>

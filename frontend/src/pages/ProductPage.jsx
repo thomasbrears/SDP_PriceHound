@@ -1,8 +1,14 @@
 import React from 'react';
+import MainHeadTitle from '../components/MainHeadTitle'; 
 
 function ProductPage() {
   return (
-      <h1>Product Page</h1>
+    <div className="product-page">
+    <MainHeadTitle 
+      title="Product Page" 
+      subtitle="product placeholder page"
+    />
+    </div>
   );
 }
 

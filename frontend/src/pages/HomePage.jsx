@@ -5,7 +5,6 @@ import ProductCard from '../components/ProductCard';
 import CategoryButton from '../components/CategoryButton'; 
 import PinkButton from '../components/PinkButton'; 
 import BrandLogo from '../components/BrandLogo'; 
-import Footer from '../components/Footer';
 import '../css/HomePage.css'; 
 
 function HomePage() {
