@@ -17,6 +17,9 @@ app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/retailers', retailerRoutes);
 
+// Use environment variable PORT, or default to 8000
+const PORT = process.env.PORT || 8000;
+
 // Connect to the database and start the server
 connectToDb(() => {
     app.listen(process.env.PORT || 8000, () => {

@@ -15,8 +15,7 @@ import ManageAccountPage from './pages/ManageAccountPage';
 import BrandPage from './pages/BrandPage';
 import CategoryPage from './pages/CategoryPage';
 import ProductPage from './pages/ProductPage';
-//import AddProductPage from './pages/AddProductPage';
-//<Route path="/add-product" element={<AddProductPage />} />
+import AddProductRetailerPage from './pages/AddProductRetailerPage';
 import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
@@ -34,6 +33,7 @@ function App() {
           <Route path="/categories" element={<CategoryPage />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/product/:productId" element={<ProductPage />} />
+          <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/manage-account" element={<ManageAccountPage />} />
           <Route path="/login" element={<LoginPage />} />
