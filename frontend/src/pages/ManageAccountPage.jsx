@@ -87,7 +87,7 @@ function ManageAccountPage() {
                     <input
                      type='password' 
                      onChange={(e) => setConfirmNewPassword(e.target.value)} 
-                     required 
+                     required git
                      className="formInput" 
                      placeholder='Confirm your new password'
                      />
