@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const ProductImages = ({ images, name }) => {
+  const [mainImage, setMainImage] = useState(images[0]); // Set the initial main image
+
+  const handleImageClick = (image) => {
+    setMainImage(image);
+  };
+
   return (
     <div className="product-images">
-      <img src={images[0]} alt={name} className="main-image" />
+      <img src={mainImage} alt={name} className="main-image" />
       <div className="additional-images">
-        {images.slice(1).map((img, index) => (
-          <img key={index} src={img} alt={`Additional ${index + 1}`} />
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`${name} ${index + 1}`}
+            onClick={() => handleImageClick(image)}
+            className={`thumbnail ${image === mainImage ? 'active' : ''}`}
+          />
         ))}
       </div>
     </div>
