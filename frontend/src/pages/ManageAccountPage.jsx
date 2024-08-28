@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { FaUser } from 'react-icons/fa'; 
+import React, { useState , useEffect} from 'react'; 
+import { getAuth, updateProfile, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import MainHeadTitle from '../components/MainHeadTitle'; 
 import PinkButton from '../components/PinkButton';
 import '../css/PinkButton.css'; 
@@ -8,27 +8,34 @@ import '../css/ManageAccountPage.css';
 
 
 function ManageAccountPage() {
-  // Example state for current user data
+  const auth = getAuth();
+  // state for current user data
   const [currentUser, setCurrentUser] = useState({
-    name: 'John Doe',
-    email: 'johndoe@example.com',
+    name: '',
+    uid: '',
+    email: '',
 });
     // State variables for form inputs
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [newName, setnewName] = useState('');
-// // Example: fetch user data on component mount
-// useEffect(() => {
-//   // Replace with actual data fetching logic
-//   // fetchCurrentUser().then(user => setCurrentUser(user));
-// }, []);
+    //const [newEmail, setNewEmail] = useState('');
+//  fetch user data on component mount
+    useEffect(() => {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser) {
+        setCurrentUser({
+          name: storedUser.displayName || storedUser.email || 'No Name', // Or default name if displayName is not set
+          email: storedUser.email,
+          uid: storedUser.uid
+        });
+      }
+    }, []);
   
-    // Handle form submission
-    const handleSubmit = (e) => {
+    const handleChangePassword = async (e) => {
       e.preventDefault();
   
-      // Basic validation
       if (newPassword !== confirmNewPassword) {
         alert('New passwords do not match!');
         return;
@@ -37,21 +44,58 @@ function ManageAccountPage() {
         alert('Password must be at least 6 characters long!');
         return;
       }
+  
+      try {
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, newPassword);
+        alert('Password updated successfully');
+      } catch (error) {
+        console.error('Error updating password:', error);
+        alert('Error updating password');
+      }
+    };
+    const handleChangeName = async (e) => {
+      e.preventDefault();
+  
       if (newName.length < 1) {
         alert('Please enter a name!');
         return;
-      }  
-     
-      
-      // Perform password change logic here
-    console.log('Current Password:', currentPassword);
-    console.log('New Password:', newPassword);
-    if (newName){
-        console.log('New Name:', newName);
-    }
-    
-  };
-
+      }
+  
+      try {
+        const user = auth.currentUser;
+        await updateProfile(user, { displayName: newName });
+        setCurrentUser({ ...currentUser, name: newName });
+        localStorage.setItem('user', JSON.stringify({ ...currentUser, name: newName })); 
+        alert('Name updated successfully');
+      } catch (error) {
+        console.error('Error updating name:', error);
+        alert('Error updating name');
+      }
+    };
+    // const handleChangeEmail = async (e) => {
+    //   e.preventDefault();
+  
+    //   if (newEmail === currentUser.email) {
+    //     alert('The new email is the same as the current email!');
+    //     return;
+    //   }
+  
+    //   try {
+    //     const user = auth.currentUser;
+    //     const credential = EmailAuthProvider.credential(user.email, currentPassword);
+    //     await reauthenticateWithCredential(user, credential);
+    //     await updateEmail(user, newEmail);
+    //     setCurrentUser({ ...currentUser, email: newEmail });
+    //     alert('Email updated successfully');
+    //   } catch (error) {
+    //     console.error('Error updating email:', error);
+    //     alert('Error updating email');
+    //   }
+    // };
+  
 
   return (
     <div className="manage-account-page">
@@ -66,7 +110,7 @@ function ManageAccountPage() {
     <div className='manage-account-page-form'>
     <div className='change-password'>
     <h1>Change Password</h1>
-                <form onSubmit={handleSubmit} className='change-Form'>
+                <form onSubmit={handleChangePassword} className='change-Form'>
                 <label>Current Password</label>
                     <input 
                     type='password' 
@@ -99,7 +143,7 @@ function ManageAccountPage() {
     <div className='change-name'>
     <h1>Change Password</h1>
     <p>Current name is {currentUser.name}</p>
-                <form onSubmit={handleSubmit} className='change-Form'>
+                <form onSubmit={handleChangeName} className='change-Form'>
                 <label >Enter New Name</label>
                     <input 
                     type='name' 
