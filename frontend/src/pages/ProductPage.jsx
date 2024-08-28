@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductFeaturedSection from '../components/ProductFeaturedSection';
+import MainHeadTitle from '../components/MainHeadTitle';
 import Breadcrumb from '../components/Breadcrumb';
 import ProductImages from '../components/ProductImages';
 import ProductInfo from '../components/ProductInfo';
@@ -60,7 +60,7 @@ const ProductPage = () => {
 
   return (
     <div className="product-page">
-      <ProductFeaturedSection name={product.name} tagline={tagline} />
+      <MainHeadTitle title={product.name} subtitle={tagline} />
       <Breadcrumb category={product.category} subCategory={product.subCategory} name={product.name} />
       <div className="product-details">
         <ProductImages images={product.images} name={product.name} />
