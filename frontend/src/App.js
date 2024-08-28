@@ -18,8 +18,9 @@ import ProductPage from './pages/ProductPage';
 import AddProductRetailerPage from './pages/AddProductRetailerPage';
 import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import VerifyCheck from './components/VerifyCheck';
 
-function App() {  
+function App() {
   return (
     <BrowserRouter>
       <div className="App">
@@ -35,13 +36,15 @@ function App() {
           <Route path="/products/:productId/:slug" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/manage-account" element={<ManageAccountPage />} />
+          <Route path="/manage-account" element={<VerifyCheck />}>
+            <Route path="/manage-account" element={<ManageAccountPage />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
         <Footer />
-      </div> 
+      </div>
     </BrowserRouter>
   );
 }

@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function LoginPage() {
 
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -16,7 +17,6 @@ function LoginPage() {
         e.preventDefault();
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log(userCredential)
             const user = userCredential.user;
             localStorage.setItem('token', user.accessToken)
             localStorage.setItem('user', JSON.stringify(user))
