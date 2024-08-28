@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaShippingFast } from 'react-icons/fa';
 
 const PriceComparisonSection = ({ retailers }) => {
   return (
@@ -11,10 +12,15 @@ const PriceComparisonSection = ({ retailers }) => {
             <div className="retailer-info">
               <p>{retailer.name}</p>
               <p className="price">${retailer.price.toFixed(2)}</p>
-              <div className="shipping-details">
-                <p>{retailer.shippingInfo}</p>
-                <p>{retailer.deliveryInfo}</p>
-                <p>{retailer.location}</p>
+              <div className="shipping-icon-container">
+                <FaShippingFast className="shipping-icon" />
+                <div className="shipping-tooltip">
+                  {retailer.location ? <span>Ships from {retailer.location}</span> : ""}
+                  {retailer.shippingInfo && retailer.shippingInfo !== "0" ? (
+                    <span>| Free shipping on orders over ${retailer.shippingInfo}</span>
+                  ) : ""}
+                  {retailer.deliveryInfo ? <span>| Estimated delivery: {retailer.deliveryInfo}</span> : ""}
+                </div>
               </div>
             </div>
             <a 
