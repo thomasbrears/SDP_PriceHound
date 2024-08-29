@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import '../css/SearchBarBig.css'; 
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBarBig({ onResults }) {
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
 
   const handleSearch = async () => {
-    console.log('Search button clicked'); // Log when the button is clicked
+    console.log('Search button clicked'); 
     if (typeof onResults !== 'function') {
       console.error('onResults is not a function');
       return;
@@ -19,11 +21,22 @@ function SearchBarBig({ onResults }) {
 
     try {
       const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
-      console.log('Search results received:', response.data); // Log the response data
-      onResults(response.data); // Call onResults with the data
+      console.log('Search results received:', response.data);
+
+      // Check if specific search
+      if (response.data && response.data.length > 0) {
+        const isSpecific = response.data.some(item => item.title && item.shopLogo);
+        
+        // Navigate to the /product page with state if specific search
+        if (isSpecific) {
+          navigate('/product', { state: { searchResults: response.data } });
+        } else {
+          onResults(response.data); 
+        }
+      }
     } catch (error) {
       console.error('Error searching:', error);
-      onResults([]); // Pass an empty array in case of error
+      onResults([]);
     }
   };
 

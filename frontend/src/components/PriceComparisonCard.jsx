@@ -1,10 +1,13 @@
 import React from 'react';
 import '../css/PriceComparisonCard.css';
 
-const PriceComparisonCard = ({ logo, retailerName, price, link, shippingInfo }) => {
+const PriceComparisonCard = ({ logo, retailerName, price, link, shippingInfo, isSubItem }) => {
   return (
     <div className="price-comparison-card">
-      <img src={logo} alt={`${retailerName} logo`} className="retailer-logo" />
+      {/* Only display the logo if it's not a sub-item */}
+      {!isSubItem && logo && (
+        <img src={logo} alt={`${retailerName} logo`} className="retailer-logo" />
+      )}
       <div className="retailer-details">
         <h4 className="retailer-name">{retailerName}</h4>
         <p className="shipping-info">{shippingInfo}</p>
