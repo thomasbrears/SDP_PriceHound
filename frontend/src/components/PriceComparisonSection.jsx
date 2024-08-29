@@ -1,26 +1,20 @@
 import React from 'react';
+import '../css/PriceComparisonCard.css';
 
-const PriceComparisonSection = ({ retailers }) => {
+const PriceComparisonCard = ({ logo, retailerName, price, link, shippingInfo }) => {
   return (
-    <section className="price-comparison">
-      <h3>Let's Compare Prices</h3>
-      <div className="retailers">
-        {retailers.map((retailer, index) => (
-          <div key={index} className="retailer-card">
-            <img src={retailer.logo} alt={retailer.name} className="retailer-logo" />
-            <div className="retailer-info">
-              <p>{retailer.name}</p>
-              <p className="price">{retailer.price}</p>
-              <p className="shipping-info">{retailer.shippingInfo}</p>
-              <p className="delivery-info">{retailer.deliveryInfo}</p>
-              <p className="location">Ships from: {retailer.location}</p>
-            </div>
-            <button className="buy-now">Buy Now</button>
-          </div>
-        ))}
+    <div className="price-comparison-card">
+      <img src={logo} alt={`${retailerName} logo`} className="retailer-logo" />
+      <div className="retailer-details">
+        <h4 className="retailer-name">{retailerName}</h4>
+        <p className="shipping-info">{shippingInfo}</p>
       </div>
-    </section>
+      <div className="price-section">
+        <p className="price">{price}</p>
+        <a href={link} className="buy-now-button">Buy Now</a>
+      </div>
+    </div>
   );
 };
 
-export default PriceComparisonSection;
+export default PriceComparisonCard;

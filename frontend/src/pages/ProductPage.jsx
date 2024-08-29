@@ -1,54 +1,96 @@
 import React from 'react';
-import ProductFeaturedSection from '../components/ProductFeaturedSection';
-import Breadcrumb from '../components/Breadcrumb';
-import ProductImages from '../components/ProductImages';
-import ProductInfo from '../components/ProductInfo';
-import PriceComparisonSection from '../components/PriceComparisonSection';
-import '../css/ProductPage.css';
+import MainHeadTitle from '../components/MainHeadTitle';
+import ComparisonCard from '../components/ComparisonCard';
+import '../css/ProductPage.css'; 
 
-const ProductPage = () => {
-  // Mock data to use in the component. Replace with real data.
-  const product = {
-    id: "12345", 
-    name: "Apple Macbook Pro 14 inch Laptop with M3 Chip",
-    slug: "apple-macbook-pro-14-inch-laptop-with-m3-chip", 
-    category: "Laptops",
-    subCategory: "Apple MacBook",
-    description: "Apple Macbook Pro 14 inch Laptop with M3 Chip Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquet nullam cubilia primis phasellus lectus rhoncus torquent justo.",
-    images: [
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__1.jpg?h=3045129675", // Main image
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__2.jpg?h=747220081", // Smaller images below the main image
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__3.jpg?h=1536072935",
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__5.jpg?h=3157701088",
-    ],
-    retailers: [
-      {
-        name: "PB Technologies Ltd",
-        price: 1997.00,
-        logo: "https://www.pbtech.co.nz/imglib/dd/pb-logo-alt.svg",
-        shippingInfo: "Free shipping on orders over $100",
-        deliveryInfo: "Estimated delivery: 2-5 Working Days",
-        location: "New Zealand",
-      },
-      {
-        name: "PB Technologies Ltd TWO",
-        price: 2199.99,
-        logo: "https://www.pbtech.co.nz/imglib/dd/pb-logo-alt.svg",
-        shippingInfo: "Free shipping on orders over $100",
-        deliveryInfo: "Estimated delivery: 10-14 Working Days",
-        location: "Australia",
-      },
-      {
-        name: "PB Technologies Ltd THREE",
-        price: 1829.00,
-        logo: "https://www.pbtech.co.nz/imglib/dd/pb-logo-alt.svg",
-        shippingInfo: "Free shipping on orders over $800",
-        deliveryInfo: "Estimated delivery: 1-4 Working Days",
-        location: "New Zealand",
-      },
-    ],
-  };
+function ProductPage() {
+  return (
+    <div className="product-page">
+      {/* Main Product Title */}
+      <MainHeadTitle 
+        title="Apple MacBook Air (2023) - M2"
+        subtitle="Found at 3 retailers from 1 country for as low as $1997.00"
+      />
 
+      {/* Product Details Section */}
+      <div className="product-page-details">
+        <div className="product-page-main-image">
+          {/* Placeholder for main product image */}
+          <div className="product-page-image-placeholder"></div>
+        </div>
+
+        <div className="product-page-info">
+          <h3>Apple MacBook Air (2023) - M2</h3>
+          <p className="product-page-price">$1997.00 - $2099.00 <span className="product-page-rating">★★★★☆ (2 reviews)</span></p>
+          <p className="product-page-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at lorem consequat mi tristique hendrerit aliquet. Sed aliquam posuere quam ac dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at lorem consequat mi tristique hendrerit aliquet.
+          </p>
+          {/* Additional Product Info */}
+          <ul className="product-page-additional-info">
+            <li>Lorem ipsum dolor sit amet, adipiscing elit.</li>
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Image Thumbnails Section */}
+      <div className="product-page-thumbnails">
+        <div className="product-page-thumbnail"></div>
+        <div className="product-page-thumbnail"></div>
+        <div className="product-page-thumbnail"></div>
+      </div>
+
+      {/* Comparison Section */}
+      <div className="product-page-comparison-section">
+        <h2>Let's Compare Prices</h2>
+        <p>We have found this product on 4 retailers in 2 countries</p>
+
+        {/* Example ComparisonCards */}
+        <ComparisonCard
+          logo="/images/pbtech.png"
+          title="products name from retailer"
+          price="$1997.00"
+          link="#"
+          shippingInfo="This retailer typically offers Free worldwide shipping on orders over $100"
+          deliveryTime="Estimated delivery is 2-5 Working Days"
+          location="This seller is based in and ships from New Zealand"
+        />
+
+        {/* Additional ComparisonCards as needed */}
+        <ComparisonCard
+          logo="/images/pbtech.png"
+          title="PB Technologies Ltd"
+          price="$1098.99"
+          link="#"
+          shippingInfo="This retailer typically offers Free worldwide shipping on orders over $100"
+          deliveryTime="Estimated delivery is 2-5 Working Days"
+          location="This seller is based in and ships from New Zealand"
+        />
+      </div>
+
+      {/* Product Rating Section */}
+      <div className="product-page-rating-section">
+        <h3>Product Rating</h3>
+        <p>This product has been rated 4 out of 5 stars by two of our users.</p>
+        {/* Stars Representation and Rating Inputs */}
+        <div className="product-page-stars">
+          ★★★★☆ (4 stars)
+        </div>
+        {/* CTA for product rating and feedback */}
+        <div className="product-page-cta-feedback">
+          <p>Do you have this product? How would you rate it?</p>
+          <input type="range" min="1" max="5" step="1" />
+          <button className="product-page-submit-rating">Submit Rating</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ProductPage;
+
+  /*
   // Calculate the price range and tagline dynamically
   const prices = product.retailers.map(retailer => retailer.price);
   const minPrice = Math.min(...prices);
@@ -75,6 +117,4 @@ const ProductPage = () => {
       <PriceComparisonSection retailers={product.retailers} />
     </div>
   );
-};
-
-export default ProductPage;
+}; */
