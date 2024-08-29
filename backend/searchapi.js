@@ -26,10 +26,10 @@ const performScraping = async (searchTerm) => {
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--disable-gpu',
-      '--window-size=1920x1080', // Set a standard window size
-      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36' // Use a common user-agent
+      '--window-size=1920x1080',
+      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
     ],
-    defaultViewport: { width: 1920, height: 1080 }, // Set viewport size
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
@@ -96,3 +96,21 @@ const performScraping = async (searchTerm) => {
     throw error;
   }
 };
+
+// Define a route to handle search requests
+app.get('/api/search', async (req, res) => {
+  const searchTerm = req.query.query; // Assuming the query parameter is 'query'
+  console.log('Received search query:', searchTerm);
+
+  try {
+    const searchResults = await performScraping(searchTerm);
+    res.json(searchResults); // Send the search results as JSON response
+  } catch (error) {
+    res.status(500).json({ error: 'Scraping failed.' });
+  }
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "PriceHound Backend",
   "dependencies": {
+    "all": "^0.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -20,6 +21,7 @@
     "mongodb": "^6.8.0",
     "puppeteer": "^23.2.0",
     "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-anonymize-ua": "^2.4.6",
     "puppeteer-extra-plugin-block-resources": "^2.4.3",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
