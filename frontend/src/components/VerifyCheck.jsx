@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 const VerifyCheck = () => {
   const token = localStorage.getItem('token');
   return (
-    token ? <Outlet /> : <Navigate to="/" />
+    token ? <Outlet /> : <Navigate to="/login" />
   );
 };
 

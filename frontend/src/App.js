@@ -35,7 +35,9 @@ function App() {
           <Route path="/test" element={<TestPage />} />
           <Route path="/products/:productId/:slug" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/wishlist" element={<VerifyCheck />}>
+            <Route path="/wishlist" element={<WishlistPage />} />
+          </Route>
           <Route path="/manage-account" element={<VerifyCheck />}>
             <Route path="/manage-account" element={<ManageAccountPage />} />
           </Route>

@@ -39,3 +39,7 @@
   color: #888; 
   margin: 0; /* Remove default margin */
 }
+.product-image img{
+  width: 100%;
+  height: auto;
+}
