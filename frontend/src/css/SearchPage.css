@@ -1,0 +1,92 @@
+/* src/css/SearchPage.css */
+
+.search-page-bar-container {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.search-page-content {
+  display: flex;
+  width: 100%;
+  max-width: 1600px;
+  gap: 20px;
+}
+
+.search-page-filters-sidebar {
+  flex: 1;
+  max-width: 250px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.search-page-filter-section {
+  margin-bottom: 20px;
+}
+
+.search-page-filter-section h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.search-page-filter-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.search-page-products-grid {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid layout */
+  gap: 20px;
+  padding: 20px;
+  width: 100%; 
+}
+
+.search-page-products-grid h3 {
+  grid-column: 1 / -1; 
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.search-page-pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.search-page-load-more-button {
+  padding: 10px 20px;
+  background-color: #0363BB;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Additional Styles for Consistency */
+.search-page-bar-container .search-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.search-page-bar-container .search-button {
+  background-color: #0363BB;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-page-bar-container .search-button:hover {
+  background-color: #024f94;
+}

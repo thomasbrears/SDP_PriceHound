@@ -34,11 +34,11 @@
     font-size: 16px;
   }
   
-.search-profile {
-  display: flex;
-  align-items: center;
-  gap: 15px; 
-}
+  .search-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;  
+  }
   
   .search-bar {
     position: relative;
@@ -59,6 +59,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: #666;
+    cursor: pointer;
   }
   
   .profile-pic {

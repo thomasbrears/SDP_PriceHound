@@ -1,80 +1,41 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import MainHeadTitle from '../components/MainHeadTitle';
-import Breadcrumb from '../components/Breadcrumb';
-import ProductImages from '../components/ProductImages';
-import ProductInfo from '../components/ProductInfo';
-import PriceComparisonSection from '../components/PriceComparisonSection';
-import '../css/ProductPage.css';
+import PriceComparisonCard from '../components/PriceComparisonCard';
+import '../css/ProductPage.css'; 
 
-const ProductPage = () => {
-  // Mock data to use in the component. Replace with real data.
-  const product = {
-    id: "12345", 
-    name: "Apple Macbook Pro 14 inch Laptop with M3 Chip",
-    slug: "apple-macbook-pro-14-inch-laptop-with-m3-chip", 
-    category: "Laptops",
-    subCategory: "Apple MacBook",
-    description: "Apple Macbook Pro 14 inch Laptop with M3 Chip Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquet nullam cubilia primis phasellus lectus rhoncus torquent justo.",
-    images: [
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__1.jpg?h=3045129675", // Main image
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__2.jpg?h=747220081", // Smaller images below the main image
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__3.jpg?h=1536072935",
-      "https://www.pbtech.co.nz/imgprod/N/B/NBKAPP143151212__5.jpg?h=3157701088",
-    ],
-    retailers: [
-      {
-        name: "PB Technologies Ltd",
-        price: 1997.00,
-        logo: "https://www.pbtech.co.nz/imglib/dd/pb-logo-alt.svg",
-        shippingInfo: "0",
-        deliveryInfo: "2-5 Working Days",
-        location: "New Zealand",
-      },
-      {
-        name: "PB Technologies Ltd TWO",
-        price: 2199.99,
-        logo: "https://www.pbtech.co.nz/imglib/dd/pb-logo-alt.svg",
-        shippingInfo: "100",
-        deliveryInfo: "10-14 Working Days",
-        location: "Australia",
-      },
-      {
-        name: "PB Technologies Ltd THREE",
-        price: 1829.00,
-        logo: "https://www.pbtech.co.nz/imglib/dd/pb-logo-alt.svg",
-        shippingInfo: "800",
-        deliveryInfo: "1-4 Working Days",
-        location: "United States",
-      },
-    ],
-  };
+function ProductPage() {
+  const location = useLocation();
+  const searchResults = location.state?.searchResults || []; 
+  const mainProduct = searchResults[0];
 
-  // Calculate the price range and tagline dynamically
-  const prices = product.retailers.map(retailer => retailer.price);
-  const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
-  const priceRange = minPrice === maxPrice ? `$${minPrice.toFixed(2)}` : `$${minPrice.toFixed(2)} - $${maxPrice.toFixed(2)}`;
-
-  const countries = [...new Set(product.retailers.map(retailer => retailer.location))];
-  const tagline = `Found at ${product.retailers.length} retailers from ${countries.length} ${countries.length > 1 ? 'countries' : 'country'} for as low as $${minPrice.toFixed(2)}`;
+  // Filter only with a direct shop link
+  const filteredResults = searchResults.filter(item => item.shopLink);
 
   return (
     <div className="product-page">
-      <MainHeadTitle title={product.name} subtitle={tagline} />
-      <Breadcrumb category={product.category} subCategory={product.subCategory} name={product.name} />
-      <div className="product-details">
-        <ProductImages images={product.images} name={product.name} />
-        <ProductInfo 
-          name={product.name} 
-          priceRange={priceRange} 
-          rating={4} 
-          ratingCount={5} 
-          description={product.description} 
-        />
+      <MainHeadTitle 
+        title={mainProduct.title}
+        subtitle={`Found at ${filteredResults.length} retailers for as low as ${mainProduct.price}`}
+      />
+
+      <div className="product-page-comparison-section">
+        <h2>Let's Compare Prices</h2>
+        <p>We have found this product on several retailers</p>
+
+        {filteredResults.map((item, index) => (
+          <PriceComparisonCard
+            key={index}
+            logo={item.shopLogo}
+            retailerName={item.title}
+            price={item.price}
+            link={item.shopLink}
+            shippingInfo={item.shippingAvailable}
+          />
+        ))}
       </div>
-      <PriceComparisonSection retailers={product.retailers} />
     </div>
   );
-};
+}
 
 export default ProductPage;
