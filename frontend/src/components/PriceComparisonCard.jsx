@@ -4,7 +4,6 @@ import '../css/PriceComparisonCard.css';
 const PriceComparisonCard = ({ logo, retailerName, price, link, shippingInfo, isSubItem }) => {
   return (
     <div className="price-comparison-card">
-      {/* Only display the logo if it's not a sub-item */}
       {!isSubItem && logo && (
         <img src={logo} alt={`${retailerName} logo`} className="retailer-logo" />
       )}
@@ -14,7 +13,10 @@ const PriceComparisonCard = ({ logo, retailerName, price, link, shippingInfo, is
       </div>
       <div className="price-section">
         <p className="price">{price}</p>
-        <a href={link} className="buy-now-button">Buy Now</a>
+        {/* Ensure the link prop is the direct shop link */}
+        <a href={link} className="buy-now-button" target="_blank" rel="noopener noreferrer">
+          Buy Now
+        </a>
       </div>
     </div>
   );

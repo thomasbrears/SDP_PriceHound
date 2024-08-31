@@ -23,11 +23,11 @@ function SearchBarBig({ onResults }) {
       const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
       console.log('Search results received:', response.data);
 
-      // Check if specific search
+      // Check specific search
       if (response.data && response.data.length > 0) {
         const isSpecific = response.data.some(item => item.title && item.shopLogo);
         
-        // Navigate to the /product page with state if specific search
+        // Navigate to /product page with state if specific search
         if (isSpecific) {
           navigate('/product', { state: { searchResults: response.data } });
         } else {

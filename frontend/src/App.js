@@ -31,7 +31,6 @@ function App() {
           <Route path="/brands" element={<BrandPage />} />
           <Route path="/categories" element={<CategoryPage />} />
           <Route path="/test" element={<TestPage />} />
-          {/* Dynamic route for specific product */}
           <Route path="/product" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />

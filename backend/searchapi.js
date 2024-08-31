@@ -4,17 +4,18 @@ import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
 
-// Initialize Express app
+// Initialize Express app & packages etc.
 const app = express();
 const PORT = 5000;
-
 app.use(cors());
-
 puppeteer.use(StealthPlugin());
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 
+// Function to perform scraping
 const performScraping = async (searchTerm) => {
+  // Launch Puppeteer browser
   const browser = await puppeteer.launch({
+    // Hidden browser settings w/ custom settings to hide footprints
     headless: true,
     args: [
       '--no-sandbox',
@@ -28,7 +29,12 @@ const performScraping = async (searchTerm) => {
     defaultViewport: { width: 1920, height: 1080 },
   });
 
+  // Open new page
   const page = await browser.newPage();
+
+  // **********************
+  // Specific Search Scrape 
+  // **********************
 
   try {
     console.log('Navigating to homepage...');
@@ -48,19 +54,37 @@ const performScraping = async (searchTerm) => {
       const productItems = Array.from(document.querySelectorAll('.c-product'));
 
       return productItems.map((item) => {
-        // Main product scraping logic
         const shopLogo = item.querySelector('amp-img')?.getAttribute('src') || item.querySelector('img')?.src;
         const title = item.querySelector('.title')?.innerText.trim();
         const price = item.querySelector('.total-price')?.innerText.trim();
         const productLink = item.querySelector('.title a')?.href;
-        const shippingAvailable = item.querySelector('.notdelivery') ? 'No delivery available' : 'Delivery available';
+        const shippingStockAvailable = item.querySelector('.notdelivery') ? 'No delivery stock' : 'Delivery stock available';
 
-        return shopLogo || title || price || productLink ? { shopLogo, title, price, productLink, shippingAvailable } : null;
+        // Attempt to get the direct shop link using multiple selectors
+        let shopLink = item.querySelector('#compare-price > div > div.content > div:nth-child(4) > div:nth-child(3) > div.d-flex.justify-content-between.align-items-md-center.main > div.d-flex.flex-column.flex-md-row.align-items-md-center.price-shipping > a')?.href;
+        // If the first selector doesn't work, try other possible selectors
+        if (!shopLink) {
+          shopLink = item.querySelector('#compare-price > div > div.content > div:nth-child(4) > div:nth-child(4) > div:nth-child(1) > div > div:nth-child(2) > a')?.href;
+        }
+        if (!shopLink) {
+          shopLink = item.querySelector('.d-flex.justify-content-between.align-items-md-center.main a')?.href;
+        }
+        if (!shopLink) {
+          shopLink = item.querySelector('.d-flex.flex-column.flex-md-row.align-items-md-center.price-shipping a')?.href;
+        }
+
+        const deliveryInfo = item.querySelector('.dropdown .delivery')?.innerText.trim();
+
+        return shopLogo || title || price || productLink ? { shopLogo, title, price, productLink, shippingAvailable: shippingStockAvailable, shopLink, deliveryInfo } : null;
       }).filter((item) => item !== null);
     });
 
     if (!searchResults || searchResults.length === 0) {
       console.log('Specific search returned no results, running broad search...');
+      
+    // ****************************************  
+    // If no results, run a broad search scrape
+    // ****************************************
 
       const broadSearchUrl = `https://www.priceme.co.nz/search.aspx?q=${encodeURIComponent(searchTerm)}`;
       console.log('Navigating to broad search URL:', broadSearchUrl);
@@ -71,7 +95,6 @@ const performScraping = async (searchTerm) => {
         const productItems = Array.from(document.querySelectorAll('div.product-item.pdp'));
 
         return productItems.map((item) => {
-          // Broad search product scraping logic
           const image = item.querySelector('amp-img')?.getAttribute('src') || item.querySelector('img')?.getAttribute('src');
           const name = item.querySelector('.name')?.innerText.trim();
           const price = item.querySelector('.price')?.innerText.trim();
@@ -90,9 +113,9 @@ const performScraping = async (searchTerm) => {
     await browser.close();
     throw error;
   }
-};
+}; // END OF SCRAPING FUNCTION
 
-// Sample express route to use scraping
+// Express route to use scraping
 app.get('/api/search', async (req, res) => {
   const searchTerm = req.query.query;
   if (!searchTerm) {
@@ -107,4 +130,5 @@ app.get('/api/search', async (req, res) => {
   }
 });
 
+// Server responding?
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
