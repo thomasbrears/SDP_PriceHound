@@ -5,10 +5,20 @@ import ProductCard from '../components/ProductCard';
 import CategoryButton from '../components/CategoryButton'; 
 import PinkButton from '../components/PinkButton'; 
 import BrandLogo from '../components/BrandLogo'; 
-import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import '../css/HomePage.css'; 
 
 function HomePage() {
+  const navigate = useNavigate(); // Initialize navigate
+
+  // Handle search results from SearchBarBig
+  const handleSearchResults = (results) => {
+    console.log('Broad search results:', results); // Debugging output
+
+    // Navigate to /search page with search results for broad search
+    navigate('/search', { state: { searchResults: results } });
+  };
+
   return (
     <div className="home-page">
       <MainHeadTitle 
@@ -17,8 +27,8 @@ function HomePage() {
       />
 
       <div className="search-section">
-        <h2>Search over 1000 products from 10 country's</h2>
-        <SearchBarBig onSearch={(query) => console.log('Searching for:', query)} />
+        <h2>Search over 1000 products from 2 countries</h2>
+        <SearchBarBig onResults={handleSearchResults} />
         <div className="suggested-searches">
           <span>Suggested Searches:</span>
           <a href="#">Apple Macbook Pro, 2024</a>
@@ -31,10 +41,10 @@ function HomePage() {
         <h3>Featured Products</h3>
         <p className="sub-text">Latest deals</p>
         <div className="product-list">
-        <ProductCard productName="Product name" price={200.00} link="/product/1" />
-        <ProductCard productName="Product name" price={200.00} link="/product/2" />
-        <ProductCard productName="Product name" price={200.00} link="/product/3" />
-        <ProductCard productName="Product name" price={200.00} link="/product/4" />
+          <ProductCard productName="Product name" price={200.00} link="/product/1" />
+          <ProductCard productName="Product name" price={200.00} link="/product/2" />
+          <ProductCard productName="Product name" price={200.00} link="/product/3" />
+          <ProductCard productName="Product name" price={200.00} link="/product/4" />
         </div>
       </div>
 

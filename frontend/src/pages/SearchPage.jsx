@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom'; 
 import MainHeadTitle from '../components/MainHeadTitle';
 import SearchBarBig from '../components/SearchBarBig';
 import ComparisonCard from '../components/ComparisonCard';
 import '../css/SearchPage.css'; 
 
 function SearchPage() {
-  const [results, setResults] = useState([]);
+  const location = useLocation(); // Access the state passed through the router
+  const initialResults = location.state?.searchResults || []; // Safely access the searchResults from state
+  const [results, setResults] = useState(initialResults); // Initialize with results from state
 
   const handleSearchResults = (searchResults) => {
-    setResults(searchResults);
+    setResults(searchResults); // Update the results with new search
   };
 
   return (
@@ -25,7 +28,6 @@ function SearchPage() {
       <div className="search-page-content">
         {/* Filters Sidebar */}
         <div className="search-page-filters-sidebar">
-          {/* Placeholder for filters */}
           <h4>Sort by</h4>
           {/* Additional filter elements */}
         </div>
@@ -52,7 +54,5 @@ function SearchPage() {
     </div>
   );
 }
-
-
 
 export default SearchPage;

@@ -23,16 +23,20 @@ function SearchBarBig({ onResults }) {
       const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
       console.log('Search results received:', response.data);
 
-      // Check specific search
+      // Check if specific search
       if (response.data && response.data.length > 0) {
         const isSpecific = response.data.some(item => item.title && item.shopLogo);
         
-        // Navigate to /product page with state if specific search
         if (isSpecific) {
+          // Navigate to the /product page with state if specific search
           navigate('/product', { state: { searchResults: response.data } });
         } else {
-          onResults(response.data); 
+          // Navigate to the /search page with state if broad search
+          navigate('/search', { state: { searchResults: response.data, query } });
         }
+      } else {
+        // No results, pass empty results to onResults if provided
+        onResults([]);
       }
     } catch (error) {
       console.error('Error searching:', error);

@@ -52,7 +52,8 @@ function ComparisonCard({
   
       <div className="comparison-card-price-action">
         <h3 className="comparison-card-price">{price}</h3>
-        <button onClick={handleSearch} className="comparison-card-button">Buy Now</button> {/* Updated button */}
+        { /* rerun search with the product name */ }
+        <button onClick={handleSearch} className="comparison-card-button">Buy Now</button>
       </div>
     </div>
   );
