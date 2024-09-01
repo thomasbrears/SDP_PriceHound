@@ -46,6 +46,7 @@ function ManageAccountPage() {
       }
   
       try {
+
         const user = auth.currentUser;
         const credential = EmailAuthProvider.credential(user.email, currentPassword);
         await reauthenticateWithCredential(user, credential);
@@ -141,7 +142,7 @@ function ManageAccountPage() {
                 </form>
     </div>
     <div className='change-name'>
-    <h1>Change Password</h1>
+    <h1>Change Name </h1>
     <p>Current name is {currentUser.name}</p>
                 <form onSubmit={handleChangeName} className='change-Form'>
                 <label >Enter New Name</label>
