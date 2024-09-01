@@ -7,3 +7,4 @@ router.get('/', getAllProducts);
 router.post('/', addProduct);
 
 export default router;
+
