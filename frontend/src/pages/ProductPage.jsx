@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PriceComparisonSection from '../components/PriceComparisonSection'; 
+//import Loading from '../components/Loading';
 import '../css/ProductPage.css';
 import '../css/PriceComparisonCard.css';
 
@@ -9,6 +10,7 @@ function ProductPage() {
   
   const location = useLocation();
   const searchResults = location.state?.searchResults || [];
+  //const [loading, setLoading] = useState(false); // loading state
 
   // Check if there are any results
   if (searchResults.length === 0) {

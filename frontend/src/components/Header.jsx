@@ -1,34 +1,32 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa'; 
+import Loading from '../components/Loading';
 import '../css/Header.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for API requests
+import axios from 'axios';
 
 function Header() {
-  const [query, setQuery] = useState(''); // State to manage the search query
-  const navigate = useNavigate(); // Initialize navigate hook
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
 
-  // Handle search logic
   const handleSearch = async () => {
-    console.log('Search button clicked'); 
+    setLoading(true); // Start loading
 
     try {
       const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
-      console.log('Search results received:', response.data);
+      setLoading(false); // Stop loading
 
-      // Check if specific search
       if (response.data && response.data.length > 0) {
         const isSpecific = response.data.some(item => item.title && item.shopLogo);
-        
+
         if (isSpecific) {
-          // Navigate to the /product page with state if specific search
           navigate('/product', { state: { searchResults: response.data } });
         } else {
-          // Navigate to the /search page with state if broad search
           navigate('/search', { state: { searchResults: response.data, query } });
         }
       } else {
@@ -36,6 +34,7 @@ function Header() {
       }
     } catch (error) {
       console.error('Error searching:', error);
+      setLoading(false); // Stop loading on error
     }
   };
 
@@ -61,6 +60,7 @@ function Header() {
             />
             <FaSearch className="search-icon" onClick={handleSearch} />
           </div>
+          {loading && <Loading />} {/* Show loading indicator */}
           <img src="/images/profile.png" alt="Profile" className="profile-pic" />
         </div>
       </div>
