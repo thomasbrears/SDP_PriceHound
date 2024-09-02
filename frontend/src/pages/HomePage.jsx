@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle'; 
 import SearchBarBig from '../components/SearchBarBig'; 
 import ProductCard from '../components/ProductCard'; 
-import CategoryButton from '../components/CategoryButton'; 
+import CategorySearch from '../components/CategorySearch'; 
 import PinkButton from '../components/PinkButton'; 
+import Loading from '../components/Loading';
 import BrandLogo from '../components/BrandLogo'; 
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom';
 import '../css/HomePage.css'; 
 
 function HomePage() {
   const navigate = useNavigate(); // Initialize navigate
+  const [loading, setLoading] = useState(false); // Initialize the loading state
 
   // Handle search results from SearchBarBig
   const handleSearchResults = (results) => {
-    console.log('Broad search results:', results); // Debugging output
-
-    // Navigate to /search page with search results for broad search
+    setLoading(false); // Hide loading once results are ready
     navigate('/search', { state: { searchResults: results } });
   };
 
   return (
     <div className="home-page">
+      {loading && <Loading />} {/* Show loading indicator if loading */}
+
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"
         subtitle="Always double check prices before buying, we collect our prices from a variety of sources and can't guarantee their accuracy. We are not responsible for any issues that may arise from using this site."
@@ -53,16 +55,12 @@ function HomePage() {
         <h2>Browse our Categories</h2>
         <p className="sub-text">Browse & compare products from your favorite categories</p>
         <div className="category-buttons">
-          <CategoryButton categoryName="Computers & Tablets" />
-          <CategoryButton categoryName="PC Peripherals" />
-          <CategoryButton categoryName="PC Parts" />
-          <CategoryButton categoryName="Networking" />
-          <CategoryButton categoryName="Phones & Accessories" />
-          <CategoryButton categoryName="Headphones & Audio" />
-          <CategoryButton categoryName="TV & AV" />
-          <CategoryButton categoryName="Gaming and VR" />
+          <CategorySearch category="Computers" setLoading={setLoading} />
+          <CategorySearch category="Laptops" setLoading={setLoading} />
+          <CategorySearch category="Audio & Visual" setLoading={setLoading} />
+          {/* Add more cards as needed */}
         </div>
-        <PinkButton text="Browse all categories" />
+        <PinkButton text="Browse all Categories" />
       </div>
 
       {/* Brand Section */}

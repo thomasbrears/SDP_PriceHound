@@ -5,7 +5,6 @@ import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton'; 
 import SearchBarBig from '../components/SearchBarBig'; 
 import ProductCard from '../components/ProductCard';
-import CategoryButton from '../components/CategoryButton';
 import ComparisonCard from '../components/ComparisonCard';
 
 function TestPage() {
@@ -15,7 +14,6 @@ function TestPage() {
       <PinkButton text="Try it out today: Search a product" />
       <SearchBarBig onSearch={(query) => console.log('Searching for:', query)} />
       <ProductCard productName="Product Name" price={9.99} />
-      <CategoryButton categoryName="Laptops" />
       <ComparisonCard
         logo="/images/apple.png"
         title="PB Technologies Ltd"
