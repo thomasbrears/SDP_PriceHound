@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "all": "^0.0.0",
+    "axios": "^1.7.7",
     "browserify-zlib": "^0.2.0",
     "firebase": "^10.13.0",
     "https-browserify": "^1.0.0",

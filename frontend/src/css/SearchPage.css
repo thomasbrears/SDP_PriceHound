@@ -1,5 +1,3 @@
-/* src/css/SearchPage.css */
-
 .search-page-bar-container {
   width: 100%;
   margin: 20px 0;
@@ -41,7 +39,7 @@
 .search-page-products-grid {
   flex: 3;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid layout */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
   gap: 20px;
   padding: 20px;
   width: 100%; 
@@ -68,7 +66,6 @@
   margin-top: 10px;
 }
 
-/* Additional Styles for Consistency */
 .search-page-bar-container .search-input {
   width: 100%;
   max-width: 600px;
