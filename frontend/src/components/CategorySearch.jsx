@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../css/CategoryButton.css'; 
+import '../css/HomePage.css'; 
 
-function CategorySearch({ category, setLoading }) {
+function CategorySearch({ category, setLoading, backgroundImage }) {
   const navigate = useNavigate();
 
   const handleSearch = async () => {
@@ -21,6 +23,7 @@ function CategorySearch({ category, setLoading }) {
   return (
     <div
       className="category-card"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
       onClick={handleSearch}
     >
       <div className="category-card-content">{category}</div>

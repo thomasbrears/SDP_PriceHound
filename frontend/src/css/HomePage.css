@@ -83,7 +83,7 @@
 .category-buttons {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 3 cards per row */
-  gap: 20px; /* Space between the cards */
+  gap: 20px; 
   justify-content: center;
   margin-bottom: 40px;
   max-width: 1200px;
@@ -97,7 +97,7 @@
   background-position: center;
   border-radius: 15px;
   overflow: hidden;
-  height: 100px;
+  height: 75px;
   color: white;
   display: flex;
   align-items: center;

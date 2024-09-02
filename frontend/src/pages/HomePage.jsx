@@ -61,10 +61,87 @@ function HomePage() {
         <h2>Browse our Categories</h2>
         <p className="sub-text">Browse & compare products from your favorite categories</p>
         <div className="category-buttons">
-          <CategorySearch category="Computers" setLoading={setLoading} />
-          <CategorySearch category="Laptops" setLoading={setLoading} />
-          <CategorySearch category="Audio & Visual" setLoading={setLoading} />
-          {/* Add more cards as needed */}
+          <CategorySearch 
+            category="Phones" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/phones.jpg" 
+          />
+          <CategorySearch 
+            category="Computers" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/laptop.jpg" 
+          />
+          <CategorySearch 
+            category="Cameras" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/cameras.jpg" 
+          />
+          <CategorySearch 
+            category="Appliances" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/appliances.jpg" 
+          />
+          <CategorySearch 
+            category="Sound" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/sound.jpg" 
+          />
+          <CategorySearch 
+            category="Vision" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/vision.jpg" 
+          />
+          <CategorySearch 
+            category="Automotive" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/automotive.jpg" 
+          />
+          <CategorySearch 
+            category="Clothing and Fashion" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/clothingAndFasion.jpg" 
+          />
+          <CategorySearch 
+            category="Games and Consoles" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/gamesAndConsoles.jpg" 
+          />
+          <CategorySearch 
+            category="Gifts and Flowers" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/giftsAndFlowers.jpg" 
+          />
+          <CategorySearch 
+            category="Health and Beauty" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/healthAndBeauty.jpg" 
+          />
+          <CategorySearch 
+            category="Home and Garden" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/HomeAndGarden.jpg" 
+          />
+          <CategorySearch 
+            category="Small Appliances" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/smallAppliances.jpg" 
+          />
+          <CategorySearch 
+            category="Sports and Outdoors" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/sportsAndOutdoors.jpg" 
+          />
+          <CategorySearch 
+            category="Office Products" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/officeProducts.jpg" 
+          />
+          <CategorySearch 
+            category="Smart Home" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/smartHome.jpg" 
+          />
+         
         </div>
         <a href="/categories" className="pink-button">Browse all Categories</a>
       </div>
