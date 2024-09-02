@@ -11,7 +11,13 @@ import '../css/HomePage.css';
 
 function HomePage() {
   const navigate = useNavigate(); // Initialize navigate
-  const [loading, setLoading] = useState(false); // Initialize the loading state
+  const [loading, setLoadingState] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+
+  const setLoading = (state, message = '') => {
+    setLoadingState(state);
+    setLoadingMessage(message); // Set the loading message
+  };
 
   // Handle search results from SearchBarBig
   const handleSearchResults = (results) => {
@@ -21,7 +27,7 @@ function HomePage() {
 
   return (
     <div className="home-page">
-      {loading && <Loading />} {/* Show loading indicator if loading */}
+      {loading && <Loading message={loadingMessage} />}
 
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"
@@ -60,7 +66,7 @@ function HomePage() {
           <CategorySearch category="Audio & Visual" setLoading={setLoading} />
           {/* Add more cards as needed */}
         </div>
-        <PinkButton text="Browse all Categories" />
+        <a href="/categories" className="pink-button">Browse all Categories</a>
       </div>
 
       {/* Brand Section */}

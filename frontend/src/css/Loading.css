@@ -1,5 +1,6 @@
 .loading-container {
   display: flex;
+  flex-direction: column; /* Arrange the spinner and message vertically */
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -28,8 +29,14 @@
   height: 50px;
 }
 
+.loading-message {
+  margin-top: 10px; /* Space between the spinner and message */
+  font-size: 1rem;
+  color: #0363BB; /* Same color as the spinner border */
+}
+
 @keyframes spin {
   to {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

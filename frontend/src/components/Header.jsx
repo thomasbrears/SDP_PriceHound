@@ -8,6 +8,7 @@ import axios from 'axios';
 function Header() {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(''); 
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -16,6 +17,7 @@ function Header() {
 
   const handleSearch = async () => {
     setLoading(true); // Start loading
+    setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
 
     try {
       const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
@@ -60,7 +62,7 @@ function Header() {
             />
             <FaSearch className="search-icon" onClick={handleSearch} />
           </div>
-          {loading && <Loading />} {/* Show loading indicator */}
+          {loading && <Loading message={loadingMessage} />} {/* Show loading with message */}
           <img src="/images/profile.png" alt="Profile" className="profile-pic" />
         </div>
       </div>

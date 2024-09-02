@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function SearchBarBig({ onResults }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -16,6 +17,7 @@ function SearchBarBig({ onResults }) {
 
   const handleSearch = async () => {
     setLoading(true); // Start loading
+    setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
 
     try {
       const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
@@ -53,7 +55,7 @@ function SearchBarBig({ onResults }) {
           <FiSearch className="search-big-icon" />
         </button>
       </div>
-      {loading && <Loading />} {/* Show loading indicator */}
+      {loading && <Loading message={loadingMessage} />} {/* Show loading icon with message */}
     </div>
   );
 }

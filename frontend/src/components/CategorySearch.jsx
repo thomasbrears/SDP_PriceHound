@@ -6,7 +6,7 @@ function CategorySearch({ category, setLoading }) {
   const navigate = useNavigate();
 
   const handleSearch = async () => {
-    setLoading(true);
+    setLoading(true, `Searching ${category}...`); // Pass the loading message
 
     try {
       const response = await axios.get(`http://localhost:5000/api/search?query=${category}`);
