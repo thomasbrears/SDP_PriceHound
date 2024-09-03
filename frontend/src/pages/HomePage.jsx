@@ -1,26 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle'; 
 import SearchBarBig from '../components/SearchBarBig'; 
 import ProductCard from '../components/ProductCard'; 
-import CategoryButton from '../components/CategoryButton'; 
+import CategorySearch from '../components/CategorySearch'; 
 import PinkButton from '../components/PinkButton'; 
+import Loading from '../components/Loading';
 import BrandLogo from '../components/BrandLogo'; 
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom';
 import '../css/HomePage.css'; 
 
 function HomePage() {
   const navigate = useNavigate(); // Initialize navigate
+  const [loading, setLoadingState] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+
+  const setLoading = (state, message = '') => {
+    setLoadingState(state);
+    setLoadingMessage(message); // Set the loading message
+  };
 
   // Handle search results from SearchBarBig
   const handleSearchResults = (results) => {
-    console.log('Broad search results:', results); // Debugging output
-
-    // Navigate to /search page with search results for broad search
+    setLoading(false); // Hide loading once results are ready
     navigate('/search', { state: { searchResults: results } });
   };
 
   return (
     <div className="home-page">
+      {loading && <Loading message={loadingMessage} />}
+
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"
         subtitle="Always double check prices before buying, we collect our prices from a variety of sources and can't guarantee their accuracy. We are not responsible for any issues that may arise from using this site."
@@ -53,16 +61,89 @@ function HomePage() {
         <h2>Browse our Categories</h2>
         <p className="sub-text">Browse & compare products from your favorite categories</p>
         <div className="category-buttons">
-          <CategoryButton categoryName="Computers & Tablets" />
-          <CategoryButton categoryName="PC Peripherals" />
-          <CategoryButton categoryName="PC Parts" />
-          <CategoryButton categoryName="Networking" />
-          <CategoryButton categoryName="Phones & Accessories" />
-          <CategoryButton categoryName="Headphones & Audio" />
-          <CategoryButton categoryName="TV & AV" />
-          <CategoryButton categoryName="Gaming and VR" />
+          <CategorySearch 
+            category="Phones" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/phones.jpg" 
+          />
+          <CategorySearch 
+            category="Computers" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/laptop.jpg" 
+          />
+          <CategorySearch 
+            category="Cameras" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/cameras.jpg" 
+          />
+          <CategorySearch 
+            category="Appliances" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/appliances.jpg" 
+          />
+          <CategorySearch 
+            category="Sound" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/sound.jpg" 
+          />
+          <CategorySearch 
+            category="Vision" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/vision.jpg" 
+          />
+          <CategorySearch 
+            category="Automotive" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/automotive.jpg" 
+          />
+          <CategorySearch 
+            category="Clothing and Fashion" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/clothingAndFasion.jpg" 
+          />
+          <CategorySearch 
+            category="Games and Consoles" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/gamesAndConsoles.jpg" 
+          />
+          <CategorySearch 
+            category="Gifts and Flowers" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/giftsAndFlowers.jpg" 
+          />
+          <CategorySearch 
+            category="Health and Beauty" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/healthAndBeauty.jpg" 
+          />
+          <CategorySearch 
+            category="Home and Garden" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/HomeAndGarden.jpg" 
+          />
+          <CategorySearch 
+            category="Small Appliances" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/smallAppliances.jpg" 
+          />
+          <CategorySearch 
+            category="Sports and Outdoors" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/sportsAndOutdoors.jpg" 
+          />
+          <CategorySearch 
+            category="Office Products" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/officeProducts.jpg" 
+          />
+          <CategorySearch 
+            category="Smart Home" 
+            setLoading={setLoading} 
+            backgroundImage="images/categorys/smartHome.jpg" 
+          />
+         
         </div>
-        <PinkButton text="Browse all categories" />
+        <a href="/categories" className="pink-button">Browse all Categories</a>
       </div>
 
       {/* Brand Section */}

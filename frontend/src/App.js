@@ -19,6 +19,12 @@ import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import VerifyCheck from './components/VerifyCheck';
 
+import NotFoundPage from './pages/error/NotFoundPage';
+import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
+import InternalServerErrorPage from './pages/error/InternalServerErrorPage';
+import UnauthorisedPage from './pages/error/UnauthorisedPage';
+import ForbiddenPage from './pages/error/ForbiddenPage';
+
 function App() {
   return (
     <BrowserRouter>
@@ -33,7 +39,17 @@ function App() {
           <Route path="/categories" element={<CategoryPage />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/product" element={<ProductPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
+
+          {/* Error pages */}
+          <Route path="*" element={<NotFoundPage />} />  {/* 404 Error */}
+          <Route path="/500" element={<InternalServerErrorPage />} /> {/* 500 Error */}
+          <Route path="/403" element={<ForbiddenPage />} /> {/* 403 Error */}
+          <Route path="/401" element={<UnauthorisedPage />} /> {/* 401 Error */}
+          <Route path="/product-not-found" element={<ProductNotFoundPage />} />
+          
+
           <Route path="/wishlist" element={<VerifyCheck />}>
             <Route path="/wishlist" element={<WishlistPage />} />
           </Route>

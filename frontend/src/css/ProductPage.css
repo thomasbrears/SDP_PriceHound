@@ -54,8 +54,28 @@
 }
 
 .product-page-comparison-section {
-  margin-bottom: 30px;
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
+}
+
+.product-page-comparison-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #0363BB;
+}
+
+.retailers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .product-page-rating-section {

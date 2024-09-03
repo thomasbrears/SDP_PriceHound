@@ -1,8 +1,9 @@
-import { db } from '../db.js';
+import { db } from '../firebase.js';
 
 export async function getAllRetailers(req, res) {
   try {
-    const retailers = await db.collection('retailers').find().toArray();
+    const retailersSnapshot = await db.collection('retailers').get();
+    const retailers = retailersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.status(200).json(retailers);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch retailers' });
@@ -24,8 +25,8 @@ export async function addRetailer(req, res) {
       };
   
       // Insert the retailer into the database
-      await db.collection('retailers').insertOne(retailer);
-      res.status(201).json(retailer);
+      const docRef = await db.collection('retailers').add(retailer);
+      res.status(201).json({ id: docRef.id, ...retailer });
     } catch (err) {
       res.status(500).json({ error: 'Failed to add retailer' });
     }

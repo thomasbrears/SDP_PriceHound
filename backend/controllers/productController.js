@@ -1,4 +1,5 @@
-import { db } from '../db.js';
+
+import { db } from '../firebase.js';
 
 // Utility function to generate slug
 const generateSlug = (name) => {
@@ -10,7 +11,8 @@ const generateSlug = (name) => {
 
 export async function getAllProducts(req, res) {
   try {
-    const products = await db.collection('products').find().toArray();
+    const productsSnapshot = await db.collection('products').get();
+    const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
@@ -21,7 +23,7 @@ export async function addProduct(req, res) {
     try {
       // Destructure the relevant fields from the request body
       const { name, description, category, subcategories, photos, prices } = req.body;
-  
+
       // Generate slug from the product name
       const slug = generateSlug(name);
 
@@ -36,8 +38,8 @@ export async function addProduct(req, res) {
       };
   
       // Insert the product into the database
-      await db.collection('products').insertOne(product);
-      res.status(201).json(product);
+      const docRef = await db.collection('products').add(product);
+      res.status(201).json({ id: docRef.id, ...product });
     } catch (err) {
       res.status(500).json({ error: 'Failed to add product' });
     }
