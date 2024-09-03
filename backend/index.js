@@ -14,6 +14,20 @@ app.use(express.json());
 // Cores middleware to allow cross-origin requests
 app.use(cors());
 
+// Error handler middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    if (err.status === 401) {
+      res.status(401).redirect('/401');
+    } else if (err.status === 403) {
+      res.status(403).redirect('/403');
+    } else if (err.status === 500 || err.statusCode === 500) {
+      res.status(500).redirect('/500');
+    } else {
+      res.status(404).redirect('/404');
+    }
+  });
+
 // Use the routes
 app.use('/api/products', productRoutes);
 app.use('/api/retailers', retailerRoutes);
