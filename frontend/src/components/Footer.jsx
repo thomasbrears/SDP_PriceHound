@@ -1,18 +1,10 @@
-import React , { useEffect, useState }from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Footer.css';
-import { auth } from '../FirebaseAuth/Firebase.js'; 
-import { onAuthStateChanged } from 'firebase/auth';
+
 
 const Footer = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAuthenticated(!!user);
-    });
-    return () => unsubscribe(); 
-  }, []);
+  const isAuthenticated = localStorage.getItem('user') !== null;
 
   return (
     <footer className="footer">
@@ -28,10 +20,17 @@ const Footer = () => {
               <li><Link to="/contact " className="footer-link">Contact Us </Link></li>
               <li><Link to="/categories" className="footer-link">Browse Categories </Link></li>
               <li><Link to="/brands" className="footer-link">Browse Brand</Link></li>
-             {isAuthenticated && <li><Link to="/wishlist" className="footer-link">My Wishlist </Link></li>}
-             {isAuthenticated && <li><Link to="/manage-account" className="footer-link">Manage My Account </Link></li>}
-              <li><Link to="/login" className="footer-link">Login </Link></li>
-            
+             {isAuthenticated && (
+                     <>
+                        <li><Link to="/wishlist" className="footer-link">My Wishlist </Link></li>
+                        <li><Link to="/manage-account" className="footer-link">Manage My Account </Link></li>
+                    </>
+             )}
+             {!isAuthenticated && (
+                    <>
+                         <li><Link to="/login" className="footer-link">Login </Link></li>
+                    </>
+             )}
             </ul> }
           </div>
           
