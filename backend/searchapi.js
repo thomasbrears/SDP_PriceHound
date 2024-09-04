@@ -6,7 +6,7 @@ import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
 
 // Initialize Express app & packages etc.
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
 app.use(cors());
 puppeteer.use(StealthPlugin());
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
