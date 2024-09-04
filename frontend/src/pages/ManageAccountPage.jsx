@@ -207,7 +207,7 @@ function ManageAccountPage() {
     <div className='change-email'>
     <h1>Change Email</h1>
     <h3>Your current email address is {currentUser.email} </h3>
-    <p>To change this, please contact us </p>
+    <p>To change this, please contact us.</p>
     </div>
      <div className='delete-account'>           
          <h1>Delete Account</h1>
