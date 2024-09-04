@@ -20,7 +20,7 @@ function SearchBarBig({ onResults }) {
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
+      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`);
       setLoading(false); // Stop loading
 
       if (response.data && response.data.length > 0) {

@@ -18,7 +18,7 @@ function ComparisonCard({
   const handleSearch = async () => {
     try {
       // Make API call to backend to run searchapi.js with new search term
-      const response = await axios.get(`http://localhost:5000/api/search?query=${encodeURIComponent(title)}`);
+      const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(title)}`);
     
       const newSearchResults = response.data;
       

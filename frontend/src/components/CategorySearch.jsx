@@ -11,7 +11,7 @@ function CategorySearch({ category, setLoading, backgroundImage }) {
     setLoading(true, `Searching ${category}...`); // Pass the loading message
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/search?query=${category}`);
+      const response = await axios.get(`http://localhost:5001/api/search?query=${category}`);
       setLoading(false);
       navigate('/search', { state: { searchResults: response.data, query: category } });
     } catch (error) {
