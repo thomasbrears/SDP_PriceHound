@@ -12,7 +12,7 @@ puppeteer.use(StealthPlugin());
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 
 // Function to perform scraping
-const performScraping = async (searchTerm) => {
+const performScraping = async (searchTerm, sortOrder) => {
   // Launch Puppeteer browser
   const browser = await puppeteer.launch({
     // Hidden browser settings w/ custom settings to hide footprints
@@ -86,7 +86,10 @@ const performScraping = async (searchTerm) => {
     // If no results, run a broad search scrape
     // ****************************************
 
-      const broadSearchUrl = `https://www.priceme.co.nz/search.aspx?q=${encodeURIComponent(searchTerm)}`;
+      let broadSearchUrl = `https://www.priceme.co.nz/search.aspx?q=${encodeURIComponent(searchTerm)}`;
+      if (sortOrder) {
+        broadSearchUrl += `&sb=${encodeURIComponent(sortOrder)}`;
+      }
       console.log('Navigating to broad search URL:', broadSearchUrl);
       await page.goto(broadSearchUrl, { waitUntil: 'networkidle2' });
 
@@ -117,13 +120,15 @@ const performScraping = async (searchTerm) => {
 
 // Express route to use scraping
 app.get('/api/search', async (req, res) => {
-  const searchTerm = req.query.query;
+  console.log('Incoming Request:', req.query); // 打印查询参数
+  let searchTerm = req.query.query;
+  let sortOrder = req.query.sort;
   if (!searchTerm) {
     return res.status(400).json({ error: 'No search term provided' });
   }
 
   try {
-    const results = await performScraping(searchTerm);
+    const results = await performScraping(searchTerm, sortOrder);
     res.json(results);
   } catch (error) {
     res.status(500).json({ error: 'Error performing search' });

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Loading from '../components/Loading';
 import '../css/SearchBarBig.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function SearchBarBig({ onResults }) {
+function SearchBarBig({ onResults, sortOrder }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -15,12 +15,23 @@ function SearchBarBig({ onResults }) {
     setQuery(e.target.value);
   };
 
+  useEffect(() => {
+    if (query && sortOrder) {
+      handleSearch();
+    }
+  }, [query, sortOrder]);
+
   const handleSearch = async () => {
     setLoading(true); // Start loading
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`);
+      const response = await axios.get(`http://localhost:5001/api/search`, {
+        params: {
+          query: query,
+          sort: sortOrder 
+        }
+      });
       setLoading(false); // Stop loading
 
       if (response.data && response.data.length > 0) {

@@ -1,53 +1,40 @@
 
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
+const PriceRange = ({ onPriceRangeChange, minPrice, maxPrice }) => {
+  const [sliderValue, setSliderValue] = useState([minPrice, maxPrice]);
 
-const PriceRangeComponent = ({ onPriceRangeChange }) => {
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  // Update slider values when minPrice or maxPrice changes
+  useEffect(() => {
+    setSliderValue([minPrice, maxPrice]);
+  }, [minPrice, maxPrice]);
 
-  const handleMinPriceChange = (e) => {
-    setMinPrice(e.target.value);
-    onPriceRangeChange(e.target.value, maxPrice);
+  const handleSliderChange = (event) => {
+    const [newMin, newMax] = event.target.value.split(',').map(Number);
+    setSliderValue([newMin, newMax]);
+    onPriceRangeChange(newMin, newMax);
   };
 
-  const handleMaxPriceChange = (e) => {
-    setMaxPrice(e.target.value);
-    onPriceRangeChange(minPrice, e.target.value);
-  };
 
   return (
-    <div className="price-range-component">
-      <label>Price Range:</label>
-      <div>
-        <input 
-          type="number" 
-          value={minPrice} 
-          onChange={handleMinPriceChange} 
-          placeholder="Min Price" 
-        />
-        <input 
-          type="number" 
-          value={maxPrice} 
-          onChange={handleMaxPriceChange} 
-          placeholder="Max Price" 
-        />
+    <div className="price-range">
+      <div className="price-range-predefined">
       </div>
-      <input 
-        type="range" 
-        min={0} 
-        max={1000} 
-        value={minPrice} 
-        onChange={handleMinPriceChange} 
-      />
-      <input 
-        type="range" 
-        min={0} 
-        max={1000} 
-        value={maxPrice} 
-        onChange={handleMaxPriceChange} 
-      />
+      <div className="price-range-slider">
+        <input
+          type="range"
+          min={minPrice}
+          max={maxPrice}
+          value={sliderValue.join(',')}
+          onChange={handleSliderChange}
+          step="1"
+          multiple
+        />
+        <div className="price-range-values">
+          <span>${sliderValue[0]}</span> - <span>${sliderValue[1]}</span>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default PriceRangeComponent;
+export default PriceRange;

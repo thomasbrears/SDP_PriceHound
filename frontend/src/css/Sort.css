@@ -1,0 +1,12 @@
+.sort-component {
+    margin-bottom: 20px; /* Space from other elements */
+  }
+  
+  .sort-component label {
+    margin-right: 10px; /* Space between label and dropdown */
+  }
+  
+  .sort-component select {
+    padding: 5px; /* Padding inside the dropdown */
+    border-radius: 4px; /* Rounded corners */
+  }

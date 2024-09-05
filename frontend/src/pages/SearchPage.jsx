@@ -5,11 +5,17 @@ import SearchBarBig from '../components/SearchBarBig';
 import ComparisonCard from '../components/ComparisonCard';
 import Loading from '../components/Loading';
 import '../css/SearchPage.css'; 
+import Sort from '../components/Sort';
 
 function SearchPage() {
   const location = useLocation(); 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sortOrder, setSortOrder] = useState(''); // State to manage sorting order
+  
+  const handleSortChange = (order) => {
+    setSortOrder(order);
+  };
 
   // Use useEffect to handle location changes
   useEffect(() => {
@@ -28,7 +34,7 @@ function SearchPage() {
       />
       
       <div className="search-page-bar-container">
-        <SearchBarBig onResults={setResults} />
+        <SearchBarBig onResults={setResults} sortOrder={sortOrder} />
       </div>
 
       {loading ? (
@@ -37,8 +43,7 @@ function SearchPage() {
         <div className="search-page-content">
           {/* Filters Sidebar */}
           <div className="search-page-filters-sidebar">
-            <h4>Sort by</h4>
-            {/* Additional filter elements */}
+          <Sort onSort={handleSortChange} />
           </div>
 
           {/* Products Grid Section */}

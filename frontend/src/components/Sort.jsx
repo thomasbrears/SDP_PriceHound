@@ -1,23 +1,35 @@
-
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import '../css/Sort.css';
 
-const SortComponent = ({ onSort }) => {
+const Sort = ({ onSort }) => {
   const [sortBy, setSortBy] = useState('price');
 
   const handleSortChange = (e) => {
-    setSortBy(e.target.value);
-    onSort(e.target.value);
+    const sortValue = e.target.value;
+    console.log(`Sort Value: ${sortValue}`);
+    setSortBy(sortValue);
+    if (typeof onSort === 'function') {
+      onSort(sortValue);
+    } else {
+      console.error('onSort is not a function');
+    }
   };
 
   return (
     <div className="sort-component">
-      <label>Sort By:</label>
-      <select value={sortBy} onChange={handleSortChange}>
-        <option value="price">Price</option>
-        <option value="category">Category</option>
+      <label htmlFor="sort">Sort By:</label>
+      <select id="sort" value={sortBy} onChange={handleSortChange}>
+        {/* <option value="">Popularity</option> */}
+        <option value="bestprice">Price (Lowest to Highest)</option>
+        <option value="bestprice-rev">Price (Highest to Lowest)</option>
       </select>
     </div>
   );
 };
 
-export default SortComponent;
+Sort.propTypes = {
+  onSort: PropTypes.func.isRequired,
+};
+
+export default Sort;
