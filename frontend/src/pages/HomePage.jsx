@@ -49,118 +49,53 @@ function HomePage() {
         <h3>Featured Products</h3>
         <p className="sub-text">Latest deals</p>
         <div className="product-list">
-          <ProductCard productName="Product name" price={200.00} link="/product/1" />
-          <ProductCard productName="Product name" price={200.00} link="/product/2" />
-          <ProductCard productName="Product name" price={200.00} link="/product/3" />
-          <ProductCard productName="Product name" price={200.00} link="/product/4" />
+          <ProductCard productName="iPhone 15 Pro" setLoading={setLoading} productImg="./images/products/iphone-15-pro.png"/>
+          <ProductCard productName="Samsung Galaxy Z Flip6" setLoading={setLoading} productImg="./images/products/Galaxy-zflip6.png"/>
+          <ProductCard productName="Dyson V8" setLoading={setLoading} productImg="./images/products/dysonv8.png"/>
+          <ProductCard productName="Canon EOS R5 Mark II" setLoading={setLoading} productImg="./images/products/canon-eos-r5-mark-ii.png"/>
         </div>
       </div>
 
       {/* Category Section */}
       <div className="category-section">
-        <h2>Browse our Categories</h2>
+        <h2>Browse Categories</h2>
         <p className="sub-text">Browse & compare products from your favorite categories</p>
         <div className="category-buttons">
-          <CategorySearch 
-            category="Phones" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/phones.jpg" 
-          />
-          <CategorySearch 
-            category="Computers" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/laptop.jpg" 
-          />
-          <CategorySearch 
-            category="Cameras" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/cameras.jpg" 
-          />
-          <CategorySearch 
-            category="Appliances" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/appliances.jpg" 
-          />
-          <CategorySearch 
-            category="Sound" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/sound.jpg" 
-          />
-          <CategorySearch 
-            category="Vision" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/vision.jpg" 
-          />
-          <CategorySearch 
-            category="Automotive" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/automotive.jpg" 
-          />
-          <CategorySearch 
-            category="Clothing and Fashion" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/clothingAndFasion.jpg" 
-          />
-          <CategorySearch 
-            category="Games and Consoles" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/gamesAndConsoles.jpg" 
-          />
-          <CategorySearch 
-            category="Gifts and Flowers" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/giftsAndFlowers.jpg" 
-          />
-          <CategorySearch 
-            category="Health and Beauty" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/healthAndBeauty.jpg" 
-          />
-          <CategorySearch 
-            category="Home and Garden" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/HomeAndGarden.jpg" 
-          />
-          <CategorySearch 
-            category="Small Appliances" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/smallAppliances.jpg" 
-          />
-          <CategorySearch 
-            category="Sports and Outdoors" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/sportsAndOutdoors.jpg" 
-          />
-          <CategorySearch 
-            category="Office Products" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/officeProducts.jpg" 
-          />
-          <CategorySearch 
-            category="Smart Home" 
-            setLoading={setLoading} 
-            backgroundImage="images/categorys/smartHome.jpg" 
-          />
-         
+          <CategorySearch category="Phones" setLoading={setLoading} backgroundImage="images/categorys/phones.jpg" />
+          <CategorySearch category="Computers" setLoading={setLoading} backgroundImage="images/categorys/laptop.jpg" />
+          <CategorySearch category="Cameras" setLoading={setLoading} backgroundImage="images/categorys/cameras.jpg" />
+          <CategorySearch category="Appliances" setLoading={setLoading} backgroundImage="images/categorys/appliances.jpg" />
+          <CategorySearch category="Sound" setLoading={setLoading} backgroundImage="images/categorys/sound.jpg" />
+          <CategorySearch category="Vision" setLoading={setLoading} backgroundImage="images/categorys/vision.jpg" />
+          <CategorySearch category="Automotive" setLoading={setLoading} backgroundImage="images/categorys/automotive.jpg" />
+          <CategorySearch category="Clothing and Fashion" setLoading={setLoading} backgroundImage="images/categorys/clothingAndFasion.jpg" />
+          <CategorySearch category="Games and Consoles" setLoading={setLoading} backgroundImage="images/categorys/gamesAndConsoles.jpg" />
+          <CategorySearch category="Gifts and Flowers" setLoading={setLoading} backgroundImage="images/categorys/giftsAndFlowers.jpg" />
+          <CategorySearch category="Health and Beauty" setLoading={setLoading} backgroundImage="images/categorys/healthAndBeauty.jpg" />
+          <CategorySearch category="Home and Garden" setLoading={setLoading} backgroundImage="images/categorys/HomeAndGarden.jpg" />
+          <CategorySearch category="Small Appliances" setLoading={setLoading} backgroundImage="images/categorys/smallAppliances.jpg" />
+          <CategorySearch category="Sports and Outdoors" setLoading={setLoading} backgroundImage="images/categorys/sportsAndOutdoors.jpg" />
+          <CategorySearch category="Office Products" setLoading={setLoading} backgroundImage="images/categorys/officeProducts.jpg" />
+          <CategorySearch category="Smart Home" setLoading={setLoading} backgroundImage="images/categorys/smartHome.jpg" />         
         </div>
         <a href="/categories" className="pink-button">Browse all Categories</a>
       </div>
 
       {/* Brand Section */}
       <div className="brand-section">
-        <h2>Browse our Brands</h2>
+        <h2>Browse Brands</h2>
         <p className="sub-text">Browse & compare products from your favorite Brand</p>
         <div className="brand-logos">
-          <BrandLogo src="images/apple.png" alt="Apple" link="/brands/apple" />
-          <BrandLogo src="/images/bbm.png" alt="BlackBerryMobile" />
-          <BrandLogo src="images/huawei.png" alt="huawei" />
-          <BrandLogo src="images/addidas.png" alt="Addidas" />
-          <BrandLogo src="images/hp.png" alt="hp" />
-          <BrandLogo src="images/asus.png" alt="asus" />
-          <BrandLogo src="images/logitech.png" alt="logitech" />
-          <BrandLogo src="images/msi.png" alt="msi" />
-          <BrandLogo src="images/canon.png" alt="canon" />
-          <BrandLogo src="images/pioneer.png" alt="pioneer" />
+          <BrandLogo src="images/brands/apple.png" setLoading={setLoading} alt="Apple"  />
+          <BrandLogo src="images/brands/bbm.png" setLoading={setLoading} alt="BlackBerryMobile" />
+          <BrandLogo src="images/brands/huawei.png" setLoading={setLoading} alt="Huawei" />
+          <BrandLogo src="images/brands/addidas.png" setLoading={setLoading} alt="Addidas" />
+          <BrandLogo src="images/brands/hp.png" setLoading={setLoading} alt="HP" />
+          <BrandLogo src="images/brands/asus.png" setLoading={setLoading} alt="Asus" />
+          <BrandLogo src="images/brands/logitech.png" setLoading={setLoading} alt="Logitech" />
+          <BrandLogo src="images/brands/msi.png" setLoading={setLoading} alt="MSI" />
+          <BrandLogo src="images/brands/canon.png" setLoading={setLoading} alt="Canon" />
+          <BrandLogo src="images/brands/pioneer.png" setLoading={setLoading} alt="Pioneer" />
         </div>
         <PinkButton text="Browse all Brands" />
       </div>

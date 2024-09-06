@@ -1,13 +1,31 @@
 import React from 'react';
-import '../css/ProductCard.css';
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios'; 
+import '../css/ProductCard.css'; 
 
-function ProductCard({ productName, price, link, productImg }) {
+function ProductCard({ productName, productImg, setLoading }) {
+  const navigate = useNavigate(); // Initialize navigate hook
+
+  const handleSearch = async () => {
+    setLoading(true, `Searching for ${productName}...`); // Set loading with a message
+
+    try {
+      const response = await axios.get(`http://localhost:5001/api/search?query=${productName}`);
+      setLoading(false); // Stop loading
+      navigate('/search', { state: { searchResults: response.data, query: productName } }); // Navigate with search results
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      setLoading(false); // Stop loading on error
+    }
+  };
+
   return (
-    <a href={link} className="product-card">
-      <div className="product-image"><img src={productImg}></img></div>
+    <div onClick={handleSearch} className="product-card"> {/* Call handleSearch on click */}
+      <div className="product-image">
+        <img src={productImg} alt={productName} /> {/* Dynamically set the image source */}
+      </div>
       <h3 className="product-name">{productName}</h3>
-      <p className="product-price">${price.toFixed(2)}</p>
-    </a>
+    </div>
   );
 }
 

@@ -38,7 +38,7 @@ function SearchBarBig({ onResults, sortOrder }) {
         const isSpecific = response.data.some(item => item.title && item.shopLogo);
         
         if (isSpecific) {
-          navigate('/product', { state: { searchResults: response.data } });
+          navigate('/product', { state: { searchResults: response.data, searchQuery: query } }); // Pass searchQuery along with searchResults
         } else {
           navigate('/search', { state: { searchResults: response.data, query } });
         }
@@ -66,7 +66,7 @@ function SearchBarBig({ onResults, sortOrder }) {
           <FiSearch className="search-big-icon" />
         </button>
       </div>
-      {loading && <Loading message={loadingMessage} />} {/* Show loading icon with message */}
+      {loading && <Loading message={loadingMessage} />} 
     </div>
   );
 }

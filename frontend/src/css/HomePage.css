@@ -7,7 +7,9 @@
   text-align: center;
 }
 
-/* Light background color for the search section */
+/*************************/
+/* Search Section Styles */
+/*************************/
 
 .search-section {
   padding: 40px 20px;
@@ -38,13 +40,15 @@
   text-decoration: underline;
 }
 
+/************************************/
 /* Featured Products Section Styles */
+/************************************/
 
 .featured-products {
   padding: 60px 20px;
 }
 
-.featured-products h3 {
+.featured-products {
   font-size: 28px;
   margin-bottom: 10px;
 }
@@ -58,11 +62,14 @@
 .product-list {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Space between cards */
-  flex-wrap: wrap; /* Allows wrapping if too many cards */
+  gap: 20px; 
+  flex-wrap: wrap; 
 }
 
+/***************************/
 /* Category Section Styles */
+/***************************/
+
 .category-section {
   text-align: center;
   padding: 60px 20px;
@@ -128,7 +135,9 @@
   z-index: 1;
 }
 
+/***********************/
 /* Pink buttons styles */
+/***********************/
 
 .pink-button {
   max-width: 300px; /* Centers the pink button */

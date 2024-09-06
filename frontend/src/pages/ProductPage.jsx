@@ -2,15 +2,13 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PriceComparisonSection from '../components/PriceComparisonSection'; 
-//import Loading from '../components/Loading';
 import '../css/ProductPage.css';
 import '../css/PriceComparisonCard.css';
 
 function ProductPage() {
-  
   const location = useLocation();
   const searchResults = location.state?.searchResults || [];
-  //const [loading, setLoading] = useState(false); // loading state
+  const searchQuery = location.state?.searchQuery || ''; // Extract searchQuery from location state
 
   // Check if there are any results
   if (searchResults.length === 0) {
@@ -19,13 +17,13 @@ function ProductPage() {
 
   const mainProduct = searchResults[0];
 
-  // Filter only with a direct shop link
+  // Filter results to include only those with a direct shop link
   const filteredResults = searchResults.filter(item => item.shopLink);
 
   return (
     <div className="product-page">
       <MainHeadTitle 
-        title={mainProduct.title}
+        title={searchQuery} // Use the search query for the title
         subtitle={`Found at ${filteredResults.length} retailers for as low as ${mainProduct.price}`}
       />
 
