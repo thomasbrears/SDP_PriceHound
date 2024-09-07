@@ -6,7 +6,7 @@ const LogOutButton = () => {
     const handleLogout = async () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user')
-        navigate("/home");
+        navigate("/?logout=true");
     }
     return (
         <div>

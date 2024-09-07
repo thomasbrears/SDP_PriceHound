@@ -3,6 +3,7 @@ import cors from 'cors';
 import productRoutes from './routes/products.js';
 import retailerRoutes from './routes/retailers.js';
 import userRoutes from './routes/users.js';
+import contactRoutes from './routes/contact.js';
 import dotenv from 'dotenv';
 import { db } from './firebase.js';
 
@@ -33,6 +34,7 @@ app.use((err, req, res, next) => {
 app.use('/api/products', productRoutes);
 app.use('/api/retailers', retailerRoutes);
 app.use('/api/userinfo', userRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Use environment variable PORT, or default to 8000
 const PORT = process.env.PORT || 8000;
