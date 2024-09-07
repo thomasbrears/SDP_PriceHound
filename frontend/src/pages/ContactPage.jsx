@@ -15,6 +15,13 @@ function ContactPage() {
 
   const [submitStatus, setSubmitStatus] = useState('');
 
+  // Dynamically determine the API URL based on environment
+  const contactApiUrl = process.env.NODE_ENV === 'production'
+    ? 'https://pricehound.tech/api/contact'
+    : 'http://localhost:8000/api/contact';
+
+  console.log("Contact API URL:", contactApiUrl);
+
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +37,7 @@ function ContactPage() {
 
     try {
       // Send the form data to the backend API
-      const response = await axios.post('http://localhost:8000/api/contact/submit-contact-form', formData);
+      const response = await axios.post(`${contactApiUrl}/submit-contact-form`, formData);  // Using environment variable
       if (response.data.success) {
         setSubmitStatus('Your message has been successfully sent!');
       } else {

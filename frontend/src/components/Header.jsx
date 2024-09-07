@@ -11,6 +11,11 @@ function Header() {
   const [loadingMessage, setLoadingMessage] = useState(''); 
   const navigate = useNavigate();
 
+  // Dynamically set the search API URL based on environment
+  const searchApiUrl = process.env.NODE_ENV === 'production'
+    ? 'https://pricehound.tech/api/search'
+    : 'http://localhost:5001/api/search';
+
   const handleInputChange = (e) => {
     setQuery(e.target.value);
   };
@@ -20,7 +25,9 @@ function Header() {
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`);
+      const response = await axios.get(`${searchApiUrl}`, {
+        params: { query }
+      });
       setLoading(false); // Stop loading
 
       if (response.data && response.data.length > 0) {
