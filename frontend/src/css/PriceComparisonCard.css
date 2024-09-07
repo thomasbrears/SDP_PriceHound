@@ -4,7 +4,7 @@
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 1000px; 
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -12,7 +12,7 @@
 .price-comparison h3 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #0363BB;
+  color: #0363bb;
   text-align: center;
 }
 
@@ -25,12 +25,18 @@
   display: flex;
   align-items: center;
   background-color: white;
-  padding: 20px; 
+  padding: 20px;
   border-radius: 10px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin-bottom: 10px;
+}
+
+.retailer-card-no-logo {
+  padding: 10px 20px;
+  max-width: 1000px;
+  margin-left: 10%;
 }
 
 .retailer-card:hover {
@@ -61,8 +67,17 @@
 .price {
   font-size: 2rem !important;
   font-weight: bold;
-  color: #0363BB;
-  margin-right: 20px;
+  color: #0363bb;
+  text-align: right; /* Align prices to the right */
+  min-width: 100px; /* Set a minimum width to align prices */
+  margin: 0; /* Remove any default margin */
+}
+
+.price-shipping-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 10px; /* Space between price and shipping icon */
+  margin-left: auto; /* Push container to the right */
 }
 
 .shipping-icon-container {
@@ -70,12 +85,12 @@
   align-items: center;
   gap: 15px;
   margin-top: 5px;
-  position: relative; 
+  position: relative;
 }
 
 .shipping-icon {
   font-size: 1.5rem;
-  color: #0363BB;
+  color: #0363bb;
   cursor: pointer;
   position: relative;
 }
@@ -83,11 +98,11 @@
 .shipping-tooltip {
   display: none;
   position: absolute;
-  bottom: 100%; 
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ECF4F4;
-  color: #0363BB;
+  background-color: #ecf4f4;
+  color: #0363bb;
   padding: 5px;
   border-radius: 5px;
   font-size: 0.8rem;
@@ -105,9 +120,9 @@
 }
 
 .buy-now {
-  flex: 0 0 140px; 
+  flex: 0 0 140px;
   padding: 10px;
-  background-color: #0363BB;
+  background-color: #0363bb;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -117,7 +132,7 @@
   transition: background-color 0.2s ease;
   margin-left: 20px;
   max-width: 90px;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .buy-now:hover {

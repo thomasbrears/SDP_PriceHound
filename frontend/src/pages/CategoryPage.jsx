@@ -205,7 +205,7 @@ function CategoryPage() {
     setLoading(true);
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/search?query=${query}`);
+      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`);
       setLoading(false);
       navigate('/search', { state: { searchResults: response.data, query } });
     } catch (error) {
