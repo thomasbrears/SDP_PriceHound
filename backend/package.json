@@ -21,6 +21,7 @@
     "firebase-admin": "^12.4.0",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.4",
+    "node-mailjet": "^6.0.6",
     "puppeteer": "^23.2.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
