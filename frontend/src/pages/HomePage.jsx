@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle'; 
 import SearchBarBig from '../components/SearchBarBig'; 
 import ProductCard from '../components/ProductCard'; 
@@ -6,18 +6,31 @@ import CategorySearch from '../components/CategorySearch';
 import PinkButton from '../components/PinkButton'; 
 import Loading from '../components/Loading';
 import BrandLogo from '../components/BrandLogo'; 
-import { useNavigate } from 'react-router-dom';
+import Message from '../components/Message';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/HomePage.css'; 
 
 function HomePage() {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); // Initialise navigate
+  const location = useLocation(); // Get current location
   const [loading, setLoadingState] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); 
 
   const setLoading = (state, message = '') => {
     setLoadingState(state);
     setLoadingMessage(message); // Set the loading message
   };
+
+  // Check if the user has logged out based on the query parameter
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    if (query.get('logout') === 'true') {
+      setMessageInfo({ message: 'You have successfully logged out.', type: 'success' });
+    } else if (query.get('error') === 'true') {
+      setMessageInfo({ message: 'An error occurred during logout.', type: 'error' });
+    }
+  }, [location]);
 
   // Handle search results from SearchBarBig
   const handleSearchResults = (results) => {
@@ -28,6 +41,9 @@ function HomePage() {
   return (
     <div className="home-page">
       {loading && <Loading message={loadingMessage} />}
+      {messageInfo.message && (
+        <Message message={messageInfo.message} type={messageInfo.type} duration={5000} />
+      )}
 
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"

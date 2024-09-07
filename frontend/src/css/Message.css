@@ -1,0 +1,37 @@
+.message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 500px;
+  }
+  
+  .message.success {
+    background-color: #28a745; /* Green for success */
+  }
+  
+  .message.error {
+    background-color: #dc3545; /* Red for error */
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .close-button:hover {
+    color: #ccc;
+  }
+  
