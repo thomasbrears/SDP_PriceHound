@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton'; 
+import Message from '../components/Message';
 import '../css/ContactPage.css';
 import axios from 'axios'; 
 
@@ -13,14 +14,12 @@ function ContactPage() {
     message: '',
   });
 
-  const [submitStatus, setSubmitStatus] = useState('');
+  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
 
   // Dynamically determine the API URL based on environment
   const contactApiUrl = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api/contact'
     : 'http://localhost:8000/api/contact';
-
-  console.log("Contact API URL:", contactApiUrl);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -38,13 +37,16 @@ function ContactPage() {
     try {
       // Send the form data to the backend API
       const response = await axios.post(`${contactApiUrl}/submit-contact-form`, formData);  // Using environment variable
+      
+      // If the response is successful, show success message
       if (response.data.success) {
-        setSubmitStatus('Your message has been successfully sent!');
+        setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });
       } else {
-        setSubmitStatus('Failed to send your message. Please try again.');
+        setMessageInfo({ message: 'Failed to send your message. Please try again.', type: 'error' });
       }
     } catch (error) {
-      setSubmitStatus('Error: Unable to submit your message.');
+      // If there is an error, show an error message
+      setMessageInfo({ message: 'Error: Unable to submit your message.', type: 'error' });
     }
   };
 
@@ -109,7 +111,7 @@ function ContactPage() {
           ></textarea>
           <PinkButton text="Submit" style={{ width: '250px' }} />
         </form>
-        {submitStatus && <p>{submitStatus}</p>}
+        {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
       </div>
     </div>
   );

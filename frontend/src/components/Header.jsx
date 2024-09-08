@@ -74,6 +74,7 @@ function Header() {
         </a>
         <nav className="nav">
           <a href="/about" className="nav-link">About</a>
+          <a href="/contact" className="nav-link">Contact</a>
           <a href="/brands" className="nav-link">Brands</a>
           <a href="/categories" className="nav-link">Categories</a>
         </nav>
@@ -88,8 +89,25 @@ function Header() {
             />
             <FaSearch className="search-icon" onClick={handleSearch} />
           </div>
-          {loading && <Loading message={loadingMessage} />} {/* Show loading with message */}
-          <img src="/images/profile.png" alt="Profile" className="profile-pic" />
+          {loading && <Loading message={loadingMessage} />}
+
+          {isAuthenticated ? (
+            <div className="profile-dropdown-wrapper">
+              <div className="profile-section" onClick={toggleDropdown}>
+                <img src="/images/profile.png" alt="Profile" className="profile-pic" />
+                <FaCaretDown className="dropdown-icon" />
+              </div>
+              {showDropdown && (
+                <div className="profile-dropdown">
+                  <a href="/wishlist" className="dropdown-link">Wishlist</a>
+                  <a href="/manage-account" className="dropdown-link">Manage Account</a>
+                  <LogOutButton /> {/* Use the LogOutButton component */}
+                </div>
+              )}
+            </div>
+          ) : (
+            <a href="/login" className="nav-link">Login</a>
+          )}
         </div>
       </div>
     </header>
