@@ -17,6 +17,11 @@ function ProductPage() {
 
   const mainProduct = searchResults[0];
 
+  // Check if mainProduct has required properties
+  if (!mainProduct.title || !mainProduct.price) {
+    return <div>Product information is incomplete or unavailable.</div>;
+  }
+
   // Filter results to include only those with a direct shop link
   const filteredResults = searchResults.filter(item => item.shopLink);
 
@@ -24,8 +29,31 @@ function ProductPage() {
     <div className="product-page">
       <MainHeadTitle 
         title={searchQuery} // Use the search query for the title
-        subtitle={`Found at ${filteredResults.length} retailers for as low as ${mainProduct.price}`}
+        subtitle={`Found ${filteredResults.length} options for as low as ${mainProduct.price}`}
       />
+
+      {/* Product Details Section */}
+      <div className="product-page-details">
+        {/* Main Product Image */}
+        <div className="product-page-main-image">
+          <div className="product-page-image-placeholder">
+            <img 
+              src={mainProduct.mainImage || 'path/to/placeholder.png'}  // Updated to use mainImage
+              alt={searchQuery} 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+            />
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="product-page-info">
+          <h3>{searchQuery}</h3> {/* Use search query instead of mainProduct.title */}
+          <p className="product-page-price">Lowest price found is {mainProduct.price}</p>
+          <p className="product-page-description">{mainProduct.description || ''}</p>
+          <ul className="product-page-additional-info">
+          </ul>
+        </div>
+      </div>
 
       <PriceComparisonSection retailers={filteredResults} />
     </div>

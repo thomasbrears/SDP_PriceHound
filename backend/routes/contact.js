@@ -30,12 +30,12 @@ router.post('/submit-contact-form', async (req, res) => {
         "Messages": [
           {
             "From": {
-              "Email": "contact@pricehound.tech",
+              "Email": "system@pricehound.tech",
               "Name": "PriceHound Team"
             },
             "To": [
               {
-                "Email": "contact@pricehound.tech",
+                "Email": "support@pricehound.tech",
                 "Name": "PriceHound Team"
               }
             ],

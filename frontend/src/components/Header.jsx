@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Header() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(''); 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -30,28 +30,31 @@ function Header() {
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
 
     try {
-      const response = await axios.get(`${searchApiUrl}`, {
-        params: { query }
-      });
+      const response = await axios.get(`${searchApiUrl}?query=${query}`);
       setLoading(false); // Stop loading
-    
-      // Extract searchResults and priceRanges from the response data
+
       const { searchResults, priceRanges } = response.data;
-    
+
       if (searchResults && searchResults.length > 0) {
         const isSpecific = searchResults.some(item => item.title && item.shopLogo);
-    
+
         if (isSpecific) {
-          navigate('/product', { state: { searchResults } });
+          // Navigate to product page with search results and query
+          navigate("/product", {
+            state: { searchResults, searchQuery: query },
+          });
         } else {
-          navigate('/search', { state: { searchResults, query } });
+          navigate("/search", {
+            state: { searchResults, query },
+          });
         }
       } else {
-        console.log('No results found');
+        console.log("No results found");
       }
     } catch (error) {
-      console.error('Error searching:', error);
+      console.error("Error searching:", error);
       setLoading(false); // Stop loading on error
+      setLoadingMessage("An error occurred while searching. Please try again.");
     }
   };
 
@@ -64,13 +67,17 @@ function Header() {
     <header className="header">
       <div className="header-container">
         <a href="/" className="logo-link">
-          <img src="/images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" /> 
+          <img
+            src="/images/PriceHound_Logo.png"
+            alt="PriceHound Logo"
+            className="logo"
+          />
         </a>
         <nav className="nav">
           <a href="/about" className="nav-link">About</a>
           <a href="/contact" className="nav-link">Contact</a>
-          <a href="/categories" className="nav-link">Categories</a>
           <a href="/brands" className="nav-link">Brands</a>
+          <a href="/categories" className="nav-link">Categories</a>
         </nav>
         <div className="search-profile">
           <div className="search-bar">

@@ -1,8 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
+import express from "express";
+import cors from "cors";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
 
 // Initialize Express app & packages etc.
 const app = express();
@@ -17,13 +17,13 @@ const performScraping = async (searchTerm, sortOrder) => {
   const browser = await puppeteer.launch({
     headless: true,
     args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--disable-gpu',
-      '--window-size=1920x1080',
-      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-accelerated-2d-canvas",
+      "--disable-gpu",
+      "--window-size=1920x1080",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
     ],
     defaultViewport: { width: 1920, height: 1080 },
   });
@@ -46,15 +46,16 @@ const performScraping = async (searchTerm, sortOrder) => {
     }, selector);
   };
 
+  // Navigation
   try {
-    console.log('Navigating to homepage...');
-    await page.goto('https://www.priceme.co.nz', { waitUntil: 'networkidle2' });
+    console.log("Navigating to homepage...");
+    await page.goto("https://www.priceme.co.nz", { waitUntil: "networkidle2" });
 
-    console.log('Entering search term:', searchTerm);
-    await page.type('#searchTextBox', searchTerm);
+    console.log("Entering search term:", searchTerm);
+    await page.type("#searchTextBox", searchTerm);
 
     console.log('Pressing "Enter" to search...');
-    await page.keyboard.press('Enter');
+    await page.keyboard.press("Enter");
 
     console.log('Waiting for search results to load...');
     await page.waitForSelector('.c-product, div.product-item.pdp', { timeout: 60000 });
@@ -70,8 +71,8 @@ const performScraping = async (searchTerm, sortOrder) => {
       if (sortOrder) {
         broadSearchUrl += `&sb=${encodeURIComponent(sortOrder)}`;
       }
-      console.log('Navigating to broad search URL:', broadSearchUrl);
-      await page.goto(broadSearchUrl, { waitUntil: 'networkidle2' });
+      console.log("Navigating to broad search URL:", broadSearchUrl);
+      await page.goto(broadSearchUrl, { waitUntil: "networkidle2" });
 
       console.log('Running broad search scraper...');
       searchResults = await scrapeData('div.product-item.pdp');
@@ -88,31 +89,31 @@ const performScraping = async (searchTerm, sortOrder) => {
       return { searchResults, priceRanges };
     }
 
-    console.log('Final search results:', searchResults);
+    console.log("Final search results:", searchResults);
     await browser.close();
     return { searchResults };  // Only return searchResults if specific search succeeds
 
   } catch (error) {
-    console.error('Error occurred during scraping:', error);
+    console.error("Error occurred during scraping:", error);
     await browser.close();
     throw error;
   }
 };
 
 // Express route to use scraping
-app.get('/api/search', async (req, res) => {
-  console.log('Incoming Request:', req.query); // 打印查询参数
+app.get("/api/search", async (req, res) => {
+  console.log("Incoming Request:", req.query); // 打印查询参数
   let searchTerm = req.query.query;
   let sortOrder = req.query.sort;
   if (!searchTerm) {
-    return res.status(400).json({ error: 'No search term provided' });
+    return res.status(400).json({ error: "No search term provided" });
   }
 
   try {
     const { searchResults, priceRanges } = await performScraping(searchTerm, sortOrder);
     res.json({ searchResults, priceRanges });
   } catch (error) {
-    res.status(500).json({ error: 'Error performing search' });
+    res.status(500).json({ error: "Error performing search" });
   }
 });
 
