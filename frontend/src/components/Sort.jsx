@@ -18,7 +18,7 @@ const Sort = ({ onSort }) => {
 
   return (
     <div className="sort-component">
-      <label htmlFor="sort">Sort By:</label>
+      <h4 htmlFor="sort"><span className="line"></span>  Sort By:</h4>
       <select id="sort" value={sortBy} onChange={handleSortChange}>
          <option value="">Popularity</option> 
         <option value="bestprice">Price (Lowest to Highest)</option>

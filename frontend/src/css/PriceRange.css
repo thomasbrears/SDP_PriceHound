@@ -1,13 +1,39 @@
 /* PriceRange.css */
 .price-range {
-  margin: 20px;
+  margin: 40px 0; /* Space from other elements */
+}
+
+.price-range h4 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Space between header and list items */
+}
+
+.price-range h4 .line {
+  display: inline-block;
+  width: 3px; /* Adjust width as needed */
+  height: 20px; /* Line height */
+  background-color: black; /* Line color */
+  margin-right: 15px; /* Space between line and text */
 }
 
 .price-range-list {
-  list-style-type: none; /* 去掉默认的点 */
-  padding: 0; /* 去掉内边距 */
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
 }
 
 .price-range-item {
-  margin: 5px 0; /* 添加一些间距 */
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; /* Space between list items */
+}
+
+.price-range-item::before {
+  content: '';
+  display: inline-block;
+  width: 10px; /* Cube width */
+  height: 10px; /* Cube height */
+  border: solid 1px black; /* Cube border */
+  background-color: white; /* Cube color */
+  margin-right: 10px; /* Space between cube and text */
 }
