@@ -207,7 +207,10 @@ function CategoryPage() {
     try {
       const response = await axios.get(`http://localhost:5001/api/search?query=${query}`);
       setLoading(false);
-      navigate('/search', { state: { searchResults: response.data, query } });
+      
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
+
+      navigate('/search', { state: { searchResults: searchResults, query } });
     } catch (error) {
       console.error('Error fetching category products:', error);
       setLoading(false);

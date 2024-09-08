@@ -20,10 +20,10 @@ function ComparisonCard({
       // Make API call to backend to run searchapi.js with new search term
       const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(title)}`);
     
-      const newSearchResults = response.data;
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
       
       // Navigate to product page with new search results
-      navigate('/product', { state: { searchResults: newSearchResults } });
+      navigate('/product', { state: { searchResults: searchResults } });
     } catch (error) {
       console.error('Error searching for the product:', error);
     }

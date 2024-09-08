@@ -15,7 +15,7 @@ function BrandLogo({ src, alt, setLoading }) {
         params: { query: alt } // Use the alt text as search query
       });
     
-      const searchResults = response.data;
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
       
       setLoading(false); 
 

@@ -20,7 +20,7 @@ const Sort = ({ onSort }) => {
     <div className="sort-component">
       <label htmlFor="sort">Sort By:</label>
       <select id="sort" value={sortBy} onChange={handleSortChange}>
-        {/* <option value="">Popularity</option> */}
+         <option value="">Popularity</option> 
         <option value="bestprice">Price (Lowest to Highest)</option>
         <option value="bestprice-rev">Price (Highest to Lowest)</option>
       </select>

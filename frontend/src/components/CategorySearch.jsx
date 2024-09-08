@@ -13,7 +13,9 @@ function CategorySearch({ category, setLoading, backgroundImage }) {
     try {
       const response = await axios.get(`http://localhost:5001/api/search?query=${category}`);
       setLoading(false);
-      navigate('/search', { state: { searchResults: response.data, query: category } });
+      const { searchResults, priceRanges } = response.data;
+
+      navigate('/search', { state: { searchResults: searchResults, query: category } });
     } catch (error) {
       console.error('Error fetching category products:', error);
       setLoading(false);

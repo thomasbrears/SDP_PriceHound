@@ -34,14 +34,17 @@ function Header() {
         params: { query }
       });
       setLoading(false); // Stop loading
-
-      if (response.data && response.data.length > 0) {
-        const isSpecific = response.data.some(item => item.title && item.shopLogo);
-
+    
+      // Extract searchResults and priceRanges from the response data
+      const { searchResults, priceRanges } = response.data;
+    
+      if (searchResults && searchResults.length > 0) {
+        const isSpecific = searchResults.some(item => item.title && item.shopLogo);
+    
         if (isSpecific) {
-          navigate('/product', { state: { searchResults: response.data } });
+          navigate('/product', { state: { searchResults } });
         } else {
-          navigate('/search', { state: { searchResults: response.data, query } });
+          navigate('/search', { state: { searchResults, query } });
         }
       } else {
         console.log('No results found');

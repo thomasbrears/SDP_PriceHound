@@ -12,7 +12,10 @@ function ProductCard({ productName, productImg, setLoading }) {
     try {
       const response = await axios.get(`http://localhost:5001/api/search?query=${productName}`);
       setLoading(false); // Stop loading
-      navigate('/search', { state: { searchResults: response.data, query: productName } }); // Navigate with search results
+
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
+
+      navigate('/search', { state: { searchResults: searchResults, query: productName } }); // Navigate with search results
     } catch (error) {
       console.error('Error fetching search results:', error);
       setLoading(false); // Stop loading on error

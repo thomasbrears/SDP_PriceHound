@@ -5,16 +5,15 @@ import '../css/SearchBarBig.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function SearchBarBig({ onResults, sortOrder }) {
+function SearchBarBig({ onResults, sortOrder, onPriceRangesChange }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const navigate = useNavigate();
 
-  // Dynamically set the search API URL based on environment
   const searchApiUrl = process.env.NODE_ENV === 'production'
-  ? 'https://pricehound.tech/api/search'
-  : 'http://localhost:5001/api/search'; 
+    ? 'https://pricehound.tech/api/search'
+    : 'http://localhost:5001/api/search'; 
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -27,8 +26,8 @@ function SearchBarBig({ onResults, sortOrder }) {
   }, [query, sortOrder]);
 
   const handleSearch = async () => {
-    setLoading(true); // Start loading
-    setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
+    setLoading(true);
+    setLoadingMessage(`Searching for "${query}"...`);
 
     try {
       const response = await axios.get(`${searchApiUrl}`, {
@@ -37,23 +36,30 @@ function SearchBarBig({ onResults, sortOrder }) {
           sort: sortOrder 
         }
       });
-      setLoading(false); // Stop loading
 
-      if (response.data && response.data.length > 0) {
-        const isSpecific = response.data.some(item => item.title && item.shopLogo);
+      console.log("response is:", response);
+      setLoading(false);
+
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
+
+      // Pass the priceRanges to the parent component
+      onPriceRangesChange(fetchedPriceRanges);
+
+      if (searchResults && searchResults.length > 0) {
+        const isSpecific = searchResults.some(item => item.title && item.shopLogo);
         
         if (isSpecific) {
-          navigate('/product', { state: { searchResults: response.data, searchQuery: query } }); // Pass searchQuery along with searchResults
+          navigate('/product', { state: { searchResults, searchQuery: query, priceRanges: fetchedPriceRanges } });
         } else {
-          navigate('/search', { state: { searchResults: response.data, query } });
+          navigate('/search', { state: { searchResults, query, priceRanges: fetchedPriceRanges } });
         }
       } else {
         onResults([]);
-        setLoading(false); // Stop loading if no results
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error searching:', error);
-      setLoading(false); // Stop loading on error
+      setLoading(false);
     }
   };
 
@@ -71,7 +77,7 @@ function SearchBarBig({ onResults, sortOrder }) {
           <FiSearch className="search-big-icon" />
         </button>
       </div>
-      {loading && <Loading message={loadingMessage} />} 
+      {loading && <Loading message={loadingMessage} />}
     </div>
   );
 }
