@@ -8,6 +8,17 @@ body {
     font-weight: 700; /* Bold */
  }
 
+ /* link styling */
+.link {
+   color: #6C63FF;
+   text-decoration: none;
+}
+
+.link:hover {
+   text-decoration: underline;
+   color: #dba7c5;
+}
+
  * {
     margin: 0;
     padding: 0;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import '../css/LoginPage.css';
+import '../css/AuthPages.css';
+import Message from '../components/Message';
 import { FaUser } from "react-icons/fa";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../FirebaseAuth/Firebase.js';
@@ -8,11 +9,9 @@ import { storage } from '../FirebaseAuth/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage'
 
 function LoginPage() {
-
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
 
     const navigate = useNavigate();
 
@@ -23,7 +22,7 @@ function LoginPage() {
             localStorage.setItem('icon', url);
         }
         catch (error) {
-
+            setMessageInfo({ message: 'Error', type: 'error' });
         }
 
 
@@ -39,7 +38,7 @@ function LoginPage() {
             await fetchIcon(user.uid);
             navigate("/")
         } catch (error) {
-            alert("not a valid account");
+            setMessageInfo({ message: 'Invalid account', type: 'error' });
         }
     }
     const handleGoogle = async (e) => {
@@ -53,22 +52,41 @@ function LoginPage() {
             await fetchIcon(user.uid);
             navigate("/")
         } catch (error) {
-
+            setMessageInfo({ message: 'Error with Google sign-in', type: 'error' });
         }
     }
     return (
         <div className='center'>
             <div className='loginDetails'>
                 <img src="/images/PriceHound_Logo.png" alt='profilehead' />
-                <h1>Login</h1>
-                <form onSubmit={HandleSubmit} className='loginForm'>
-                    <FaUser />
-                    <input type='email' onChange={(e) => setEmail(e.target.value)} required className="formInput" placeholder='Enter your email'></input>
-                    <input type='password' onChange={(e) => setPassword(e.target.value)} required className="formInput" placeholder='Enter your password'></input>
-                    <button type='submit' className="formButton">Login</button>
-                    <button type='button' className="gButton" onClick={handleGoogle}>Sign in with Google</button>
+                <h1>Sign in</h1>
+                <form onSubmit={HandleSubmit} className="loginForm">
+                    <div className="separator">
+                        <span className="separator-text">Sign in with email</span>
+                    </div>
+                    <input className="formInput" type="email" onChange={(e) => setEmail(e.target.value)} required placeholder="Enter your email" />
+                    <input className="formInput" type="password" onChange={(e) => setPassword(e.target.value)} required placeholder="Enter your password" />
+                    <button type="submit" className="login-btn">Sign in</button>
+                    
+                    <p className="forgot-password">
+                        <Link to="/reset-password" className="link">Forgot password?</Link>
+                    </p>
+
+                    <div className="separator">
+                        <span className="separator-text">Or sign in with Google</span>
+                    </div>
+
+                    <button type="button" className="login-with-google-btn" onClick={handleGoogle}>
+                        Sign in with Google
+                    </button>
                 </form>
-                <p><Link to="/reset-password">Forgot password?</Link></p> <p>Dont have an account?  <Link to="/signup">Create an account</Link></p>
+
+                <p className="signup-text">
+                    Don't have an account? <Link to="/signup" className="link">Sign up</Link>
+                </p>
+
+                {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
+                
             </div>
         </div>
     )

@@ -2,9 +2,9 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, se
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../FirebaseAuth/Firebase.js';
-import "../css/SignUpPage.css"
-import { FaUser } from "react-icons/fa";
+import "../css/AuthPages.css"
 import Message from '../components/Message';
+import { FaUser } from "react-icons/fa";
 import axios from 'axios';
 
 const SignUpPage = () => {
@@ -27,7 +27,7 @@ const SignUpPage = () => {
     const HandleSubmit = async (e) => {
         e.preventDefault();
         if (password.localeCompare(confirmPassword) != 0) {
-            alert('passwords do not match')
+            setMessageInfo({ message: 'Passwords do not match', type: 'error' });
             return;
         }
         else {
@@ -39,11 +39,11 @@ const SignUpPage = () => {
                 localStorage.setItem('user', JSON.stringify(user))
                 try {
                     await sendEmailVerification(user);
-                    alert("please check your inbox to verify your email")
+                    setMessageInfo({ message: 'Please check your inbox to verify your email', type: 'success' });
 
                 }
                 catch (error) {
-                    alert("error sending email")
+                    setMessageInfo({ message: 'Error during sign-up', type: 'error' });
                     return;
                 }
 
@@ -51,7 +51,7 @@ const SignUpPage = () => {
                 alert("user id is " + user.uid)
 
             } catch (error) {
-                alert("error")
+                setMessageInfo({ message: 'An error occured', type: 'error' });
                 return;
             }
             try {
@@ -87,30 +87,40 @@ const SignUpPage = () => {
             localStorage.setItem('user', JSON.stringify(user))
             navigate("/")
         } catch (error) {
-
+            setMessageInfo({ message: 'Error with Google sign-up', type: 'error' });
         }
     }
     return (
-        <div className='center'>
-            <div className='signUpDetails'>
-                <img src="/images/PriceHound_Logo.png" alt='profilehead' />
+        <div className="center">
+            <div className="signUpDetails">
+                <img src="/images/PriceHound_Logo.png" alt="profilehead" />
                 <h1>Sign Up</h1>
-                <form onSubmit={HandleSubmit} className='signUpForm'>
-                    <FaUser />
-                    <input className="formInput" type='email' placeholder='Your Email' required value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input className="formInput" type='password' placeholder='Your Password' required value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <input className="formInput" type='password' placeholder='Confirm password' required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                    <button className="formButton" type="submit"> Sign up </button>
-                    <button className="gButton" type="button" onClick={handleGoogle}>Signup with google!</button>
+                <form onSubmit={HandleSubmit} className="signUpForm">
+                    <div className="separator">
+                        <span className="separator-text">Sign up with email</span>
+                    </div>
+                    <input className="formInput" type="email" placeholder="Your Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className="formInput" type="password" placeholder="Your Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input className="formInput" type="password" placeholder="Confirm password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    <button className="login-btn">Sign up</button>
+                    
+                    <div className="separator">
+                        <span className="separator-text">Or sign up with Google</span>
+                    </div>
+                    <button className="login-with-google-btn" type="button" onClick={handleGoogle}>
+                        Sign up with Google
+                    </button>
                 </form>
-                <p>Need to Login? <Link to="/login">Login</Link></p>
+
+                <p className="signup-text">
+                    Already have an account? <Link to="/login" className="link">Sign in</Link>
+                </p>
+
+                {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
 
             </div>
-            {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
         </div>
+    );
+};
 
-    )
-}
-
-
-export default SignUpPage
+export default SignUpPage;

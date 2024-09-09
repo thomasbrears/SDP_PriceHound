@@ -3,37 +3,49 @@ import { auth } from '../FirebaseAuth/Firebase.js';
 import { useNavigate, Link} from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import { sendPasswordResetEmail } from 'firebase/auth';
+import '../css/AuthPages.css';
+import Message from '../components/Message';
 
 function ResetPasswordPage() {
   const [email, setEmail] = useState('');
+  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   const navigate = useNavigate();
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-      sendPasswordResetEmail(auth, email).then(() => {
-        alert("success, check your email for a link!")
-        navigate("/login")
-      }).catch((error) => {
-    alert("error sending email")
-  })
+    try {
+        await sendPasswordResetEmail(auth, email);
+        setMessageInfo({ message: 'If an account exists with that email, we have send a password reset email.', type: 'success' });
+        // Delay navigation to login page for 3 seconds to display success message
+        setTimeout(() => {
+          navigate("/login");
+      }, 3000); // 3 seconds
+    } catch (error) {
+        setMessageInfo({ message: 'Error sending reset email', type: 'error' });
+    }
+};
 
-}
+  return (
+    <div className="center">
+        <div className="loginDetails">
+            <img src="/images/PriceHound_Logo.png" alt="profilehead" />
+            <h1>Reset Password</h1>
+            <p>Please enter your email and we will email you a link to reset your password</p>
+            <form onSubmit={HandleSubmit} className="loginForm">
+                <input className="formInput" type="email" onChange={(e) => setEmail(e.target.value)} required placeholder="Enter your email" />
+                <button className="login-btn">Reset Password</button>
+            </form>
 
-return (
-  <div className='center'>
-    <div className='loginDetails'>
-      <img src="/images/PriceHound_Logo.png" alt='profilehead' />
-      <h1>Reset Password</h1>
-      <p>Enter your email, if an account linked to the email exists, a email with a link to reset your password will be sent</p>
-      <form onSubmit={HandleSubmit} className='loginForm'>
-        <FaUser />
-        <input type='email' onChange={(e) => setEmail(e.target.value)} required className="formInput" placeholder='Enter your email'></input>
-        <button type='submit' className="formButton">Submit</button>
-      </form>
-      <p> <Link to="/login">Login?</Link> <Link to="/signup">Create an account?</Link></p>
+            <p className="signup-text">
+                Know your password? <Link to="/login" className="link">Sign in</Link>
+            </p>
+            <p className="signup-text">
+                Need an account? <Link to="/signup" className="link">Sign up</Link>
+            </p>
+
+            {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
+        </div>
     </div>
-  </div>
-
 );
 }
 

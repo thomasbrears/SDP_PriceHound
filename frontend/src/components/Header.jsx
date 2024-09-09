@@ -106,7 +106,7 @@ function Header() {
           {isAuthenticated ? (
             <div className="profile-dropdown-wrapper">
               <div className="profile-section" onClick={toggleDropdown}>
-                <img src={pfp ? pfp : '../../public/images/default-icon.png'} alt="Profile" className="profile-pic" />
+                <img src={pfp ? pfp : 'images/profile.png'} alt="Profile" className="profile-pic" />
                 <FaCaretDown className="dropdown-icon" />
               </div>
               {showDropdown && (

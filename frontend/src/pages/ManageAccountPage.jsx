@@ -149,11 +149,7 @@ function ManageAccountPage() {
 
       <MainHeadTitle
         title="Manage Account"
-        subtitle={<span>
-
-          <img src={pfp ? pfp : 'default-icon.png'} alt="User Icon" className="subtitle-icon" />
-          <h1 >{currentUser.name}</h1>
-        </span>}
+        subtitle={<span><h1><img src={pfp ? pfp : 'images/profile.png'} alt="User Icon" className="subtitle-icon" />&nbsp;&nbsp;{currentUser.name}</h1> </span>}
       />
 
       <div className='manage-account-page-form'>
