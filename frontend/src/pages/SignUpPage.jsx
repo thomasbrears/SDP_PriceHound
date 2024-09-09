@@ -4,12 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import "../css/SignUpPage.css"
 import { FaUser } from "react-icons/fa";
+import Message from '../components/Message';
+import axios from 'axios';
 
 const SignUpPage = () => {
+    const userUrl = process.env.NODE_ENV === 'production'
+        ? 'https://pricehound.tech/api/userinfo'
+        : 'http://localhost:8000/api/userinfo';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
+    const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
     const navigate = useNavigate();
 
     const actionCodeSettings = {
@@ -35,19 +40,40 @@ const SignUpPage = () => {
                 try {
                     await sendEmailVerification(user);
                     alert("please check your inbox to verify your email")
-                    
-                } 
-                catch(error) {
+
+                }
+                catch (error) {
                     alert("error sending email")
                     return;
                 }
 
                 //database query to register user id would go here
                 alert("user id is " + user.uid)
-                navigate("/")
+
             } catch (error) {
                 alert("error")
                 return;
+            }
+            try {
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+                const formData = {
+                    uid: storedUser.uid,
+                    name: storedUser.name != null ? storedUser.name : "No name",
+                    email: storedUser.email 
+
+                };
+                // Send the form data to the backend API
+                const response = await axios.post('http://localhost:8000/api/userinfo', formData);  // Using environment variable
+                navigate("/")
+                // If the response is successful, show success message
+                if (response.data.success) {
+                    setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });
+                } else {
+                    setMessageInfo({ message: 'Failed to send your message. Please try again.', type: 'error' });
+                }
+            } catch (error) {
+                // If there is an error, show an error message
+                setMessageInfo({ message: 'Error: Unable to submit your message.', type: 'error' });
             }
         }
     }
@@ -80,7 +106,9 @@ const SignUpPage = () => {
                 <p>Need to Login? <Link to="/login">Login</Link></p>
 
             </div>
+            {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
         </div>
+
     )
 }
 

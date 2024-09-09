@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaSearch, FaCaretDown } from 'react-icons/fa';
-import Loading from '../components/Loading'; 
+import Loading from '../components/Loading';
 import LogOutButton from '../components/LogOutButton';
 import '../css/Header.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { storage } from '../FirebaseAuth/Firebase';
+import { getDownloadURL, ref } from 'firebase/storage'
+
 
 function Header() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState(''); 
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [pfp, setPfp] = useState(null);
   const navigate = useNavigate();
 
   // Check if the user is authenticated based on localStorage
@@ -62,13 +66,20 @@ function Header() {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+  const url = localStorage.getItem('icon');
+  useEffect(() => {
+    const url = localStorage.getItem('icon');
+    if (url) {
+      setPfp(url);
+    }
+  }, [url]);
 
   return (
     <header className="header">
       <div className="header-container">
         <a href="/" className="logo-link">
           <img
-            src="/images/PriceHound_Logo.png"
+            src="images/PriceHound_Logo.png"
             alt="PriceHound Logo"
             className="logo"
           />
@@ -95,7 +106,7 @@ function Header() {
           {isAuthenticated ? (
             <div className="profile-dropdown-wrapper">
               <div className="profile-section" onClick={toggleDropdown}>
-                <img src="/images/profile.png" alt="Profile" className="profile-pic" />
+                <img src={pfp ? pfp : '../../public/images/default-icon.png'} alt="Profile" className="profile-pic" />
                 <FaCaretDown className="dropdown-icon" />
               </div>
               {showDropdown && (

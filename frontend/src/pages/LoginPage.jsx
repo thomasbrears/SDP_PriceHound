@@ -4,6 +4,8 @@ import { FaUser } from "react-icons/fa";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import { Link, useNavigate } from 'react-router-dom';
+import { storage } from '../FirebaseAuth/Firebase';
+import { getDownloadURL, ref } from 'firebase/storage'
 
 function LoginPage() {
 
@@ -11,8 +13,22 @@ function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
     const navigate = useNavigate();
 
+    const fetchIcon = async (uid) => {
+        try {
+            const storageRef = ref(storage, `icons/${uid}`);
+            const url = await getDownloadURL(storageRef);
+            localStorage.setItem('icon', url);
+        }
+        catch (error) {
+
+        }
+
+
+    }
+    const storedUser = JSON.parse(localStorage.getItem('user'));
     const HandleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -20,7 +36,7 @@ function LoginPage() {
             const user = userCredential.user;
             localStorage.setItem('token', user.accessToken)
             localStorage.setItem('user', JSON.stringify(user))
-            alert("your uid is "+ user.uid)
+            await fetchIcon(user.uid);
             navigate("/")
         } catch (error) {
             alert("not a valid account");
@@ -34,10 +50,11 @@ function LoginPage() {
             const user = result.user;
             localStorage.setItem('token', user.accessToken)
             localStorage.setItem('user', JSON.stringify(user))
+            await fetchIcon(user.uid);
             navigate("/")
         } catch (error) {
 
-            }
+        }
     }
     return (
         <div className='center'>

@@ -5,7 +5,8 @@ const LogOutButton = () => {
     const navigate = useNavigate();
     const handleLogout = async () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('user')
+        localStorage.removeItem('user');
+        localStorage.removeItem('icon');
         navigate("/?logout=true");
     }
     return (
