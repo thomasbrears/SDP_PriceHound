@@ -20,10 +20,13 @@ function SearchBarBig({ onResults, sortOrder, priceRange }) {
   };
 
   useEffect(() => {
-    if (query && sortOrder && priceRange) {
+    const isTwoValid = (query && sortOrder) || (query && priceRange) || (sortOrder && priceRange);
+    const areAllValid = query && sortOrder && priceRange;
+
+    if (areAllValid || isTwoValid) {
       handleSearch();
     }
-  }, [query, sortOrder, priceRange]);
+  }, [query, sortOrder, JSON.stringify(priceRange)]);
 
   const handleSearch = async () => {
     setLoading(true);
