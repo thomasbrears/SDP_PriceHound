@@ -63,8 +63,10 @@ const SignUpPage = () => {
 
                 };
                 // Send the form data to the backend API
+
                 const response = await axios.post('http://localhost:8000/api/userinfo', formData);  // Using environment variable
-                navigate("/")
+                //navigate to home
+                navigate('/');
                 // If the response is successful, show success message
                 if (response.data.success) {
                     setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });

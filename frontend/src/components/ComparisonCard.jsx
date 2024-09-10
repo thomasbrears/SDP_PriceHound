@@ -1,46 +1,71 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import axios for API requests
-import '../css/ComparisonCard.css'; 
-
-function ComparisonCard({ 
-  logo, 
-  title, 
-  price, 
-  link, 
-  shippingInfo, 
-  deliveryTime, 
-  location 
+import '../css/ComparisonCard.css';
+import { storage } from '../FirebaseAuth/Firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+function ComparisonCard({
+  logo,
+  title,
+  price,
+  link,
+  shippingInfo,
+  deliveryTime,
+  location
 }) {
   const navigate = useNavigate(); // Initialize navigate hook
+  const userInfo = JSON.parse(localStorage.getItem('user'));
 
   // Function to handle search rerun
   const handleSearch = async () => {
     try {
       // Make API call to backend to run searchapi.js with new search term
       const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(title)}`);
-    
+
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-      
+
       // Navigate to product page with new search results
       navigate('/product', { state: { searchResults: searchResults } });
     } catch (error) {
       console.error('Error searching for the product:', error);
     }
   };
+  const addToWishlist = async (logo, name, Price) => {
+    try {
+      const response = await fetch(logo);
+      const img = await response.blob();
+      const storageRef = ref(storage, 'wishlist/' + userInfo.uid + '/' + name);
+      const upload = await uploadBytes(storageRef, img);
+    }
+    catch (error) {
+      alert('error image, still saved to wishlist')
+    }
+    try {
+      const uid = userInfo.uid;
+      const formData = {
+        uid,
+        name,
+        price
+      };
+      const response = await axios.post('http://localhost:8000/api/wishlist', formData);
+    }
+    catch (error) {
+      alert("failed to add text to wishlist")
+    }
+  }
 
   return (
     <div className="comparison-card">
       {logo && (
         <div className="comparison-card-logo">
-          <img 
-            src={logo} 
-            alt={`${title} logo`} 
-            onError={(e) => e.target.src = '/path/to/placeholder-image.jpg'} 
+          <img
+            src={logo}
+            alt={`${title} logo`}
+            onError={(e) => e.target.src = '/path/to/placeholder-image.jpg'}
           />
         </div>
       )}
-      
+
       <div className="comparison-card-info">
         <h4 className="comparison-card-title">{title}</h4>
         <p className="comparison-card-subtext">
@@ -49,11 +74,13 @@ function ComparisonCard({
           {location && <span>{location}</span>}
         </p>
       </div>
-  
+
+
+      <h3 className="comparison-card-price">{price}</h3>
+      { /* rerun search with the product name */}
       <div className="comparison-card-price-action">
-        <h3 className="comparison-card-price">{price}</h3>
-        { /* rerun search with the product name */ }
         <button onClick={handleSearch} className="comparison-card-button">Buy Now</button>
+        {userInfo !== null ? <button onClick={() => addToWishlist(logo, title, price)} className="comparison-card-wishlist-button">Add to wishlist</button> : <></>}
       </div>
     </div>
   );
