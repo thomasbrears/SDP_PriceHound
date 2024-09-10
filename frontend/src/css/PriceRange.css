@@ -1,4 +1,3 @@
-/* PriceRange.css */
 .price-range {
   margin: 40px 0; /* Space from other elements */
 }
@@ -23,17 +22,65 @@
 }
 
 .price-range-item {
+  cursor: pointer; 
   display: flex;
   align-items: center;
   margin-bottom: 5px; /* Space between list items */
+  padding: 5px; /* Add padding for better click area */
+  transition: background-color 0.3s; /* Smooth background color change */
+  outline: none; /* Remove default outline */
+  border: none; /* Remove default border */
+  box-shadow: none; /* Remove any box shadow that might be applied */
 }
 
-.price-range-item::before {
-  content: '';
+.price-range-item:hover {
+  background-color: #f0f0f0; 
+}
+
+.price-range-item.selected {
+  background-color: #d0e0ff; /* Light blue background for selected state */
+}
+
+.price-range-item .indicator {
   display: inline-block;
   width: 10px; /* Cube width */
   height: 10px; /* Cube height */
   border: solid 1px black; /* Cube border */
   background-color: white; /* Cube color */
   margin-right: 10px; /* Space between cube and text */
+}
+
+.price-range-item.selected .indicator {
+  background-color: blue; /* Color of the indicator when selected */
+}
+
+/* Ensure no outline is applied when using keyboard navigation */
+.price-range-item:focus {
+  outline: none; /* Ensure no focus outline */
+  box-shadow: none; /* Ensure no focus shadow */
+}
+
+.price-slider {
+  margin-top: 20px; /* Space above the slider */
+  display: flex;
+  flex-direction: column; /* Align slider under the inputs */
+}
+
+.price-slider-inputs {
+  display: flex; /* Align min and max inputs in one line */
+  justify-content: space-between; /* Space between inputs */
+  width: 100%; /* Take full width */
+}
+
+.price-input {
+  width: 45%; /* Input width to fit side by side */
+  padding: 5px; /* Padding inside input */
+  border: 1px solid #ccc; /* Border for input */
+  border-radius: 4px; /* Rounded corners */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.price-slider-input {
+  width: 100%; /* Ensure slider does not exceed container width */
+  margin-top: 10px; /* Space between slider and inputs */
 }

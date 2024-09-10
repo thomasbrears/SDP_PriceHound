@@ -4,7 +4,7 @@ import MainHeadTitle from '../components/MainHeadTitle';
 import SearchBarBig from '../components/SearchBarBig';
 import ComparisonCard from '../components/ComparisonCard';
 import Loading from '../components/Loading';
-import PriceRange from '../components/PriceRange'; // 导入 PriceRange 组件
+import PriceRange from '../components/PriceRange'; 
 import '../css/SearchPage.css'; 
 import Sort from '../components/Sort';
 
@@ -13,14 +13,19 @@ function SearchPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
-  const [priceRanges, setPriceRanges] = useState([]); // State to manage price ranges
+  const [priceRange, setPriceRange] = useState(''); // select one price range
+  const [priceRanges, setPriceRanges] = useState([]); // show price range
+
 
   const handleSortChange = (order) => {
     setSortOrder(order);
   };
-
-  const handlePriceRangesChange = (newPriceRanges) => {
-    setPriceRanges(newPriceRanges); // Update priceRanges state
+  
+  const onPriceRangeClick = (range) => {
+    console.log('Selected Price Range min, max:', range.min, range.max);
+    const formattedRange = `selectedMinPr=${range.min}&selectedMaxPr=${range.max === Infinity ? 'Infinity' : range.max}`;
+    setPriceRange(formattedRange);
+    console.log("Selected Price Range:",formattedRange);
   };
 
   // Use useEffect to handle location changes
@@ -44,7 +49,7 @@ function SearchPage() {
         <SearchBarBig 
           onResults={setResults} 
           sortOrder={sortOrder} 
-          onPriceRangesChange={handlePriceRangesChange} // Pass the handler to SearchBarBig
+          priceRange={priceRange}
         />
       </div>
 
@@ -55,7 +60,7 @@ function SearchPage() {
           <div className="search-page-filters-sidebar">
             <Sort onSort={handleSortChange} />
             {/* Display PriceRange component */}
-            <PriceRange priceRanges={priceRanges} />
+            <PriceRange priceRanges={priceRanges} onPriceRangeClick={onPriceRangeClick}/>
           </div>
 
           <div className="search-page-products-grid">

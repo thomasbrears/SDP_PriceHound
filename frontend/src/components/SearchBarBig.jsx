@@ -5,7 +5,7 @@ import '../css/SearchBarBig.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function SearchBarBig({ onResults, sortOrder, onPriceRangesChange }) {
+function SearchBarBig({ onResults, sortOrder, priceRange }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
@@ -20,10 +20,10 @@ function SearchBarBig({ onResults, sortOrder, onPriceRangesChange }) {
   };
 
   useEffect(() => {
-    if (query && sortOrder) {
+    if (query && sortOrder && priceRange) {
       handleSearch();
     }
-  }, [query, sortOrder]);
+  }, [query, sortOrder, priceRange]);
 
   const handleSearch = async () => {
     setLoading(true);
@@ -33,7 +33,8 @@ function SearchBarBig({ onResults, sortOrder, onPriceRangesChange }) {
       const response = await axios.get(`${searchApiUrl}`, {
         params: {
           query: query,
-          sort: sortOrder 
+          sort: sortOrder,
+          priceRange: priceRange
         }
       });
 
@@ -41,9 +42,6 @@ function SearchBarBig({ onResults, sortOrder, onPriceRangesChange }) {
       setLoading(false);
 
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-
-      // Pass the priceRanges to the parent component
-      onPriceRangesChange(fetchedPriceRanges);
 
       if (searchResults && searchResults.length > 0) {
         const isSpecific = searchResults.some(item => item.title && item.shopLogo);

@@ -12,7 +12,7 @@ puppeteer.use(StealthPlugin());
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 
 // Function to perform scraping
-const performScraping = async (searchTerm, sortOrder) => {
+const performScraping = async (searchTerm, sortOrder, priceRange) => {
   // Launch Puppeteer browser
   const browser = await puppeteer.launch({
     headless: true,
@@ -71,6 +71,9 @@ const performScraping = async (searchTerm, sortOrder) => {
       if (sortOrder) {
         broadSearchUrl += `&sb=${encodeURIComponent(sortOrder)}`;
       }
+      if(priceRange){
+        broadSearchUrl += `&${priceRange}`;
+      }
       console.log("Navigating to broad search URL:", broadSearchUrl);
       await page.goto(broadSearchUrl, { waitUntil: "networkidle2" });
 
@@ -105,12 +108,14 @@ app.get("/api/search", async (req, res) => {
   console.log("Incoming Request:", req.query); // 打印查询参数
   let searchTerm = req.query.query;
   let sortOrder = req.query.sort;
+  let priceRange = req.query.priceRange;
+
   if (!searchTerm) {
     return res.status(400).json({ error: "No search term provided" });
   }
 
   try {
-    const { searchResults, priceRanges } = await performScraping(searchTerm, sortOrder);
+    const { searchResults, priceRanges } = await performScraping(searchTerm, sortOrder, priceRange);
     res.json({ searchResults, priceRanges });
   } catch (error) {
     res.status(500).json({ error: "Error performing search" });
