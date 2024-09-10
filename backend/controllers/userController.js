@@ -14,16 +14,16 @@ export async function getUserInfo(req, res) {
 
 export async function addUser(req, res) {
   try {
-    // Destructure the relevant fields from the request body
     const { uid, name, email } = req.body;
 
     const docRef = db.collection('users').doc(uid)
     await docRef.set({
       uid,
       name,
-      email
+      email,
+      wishlist: {}
     });
-    res.status(201).json({ id: uid, name, email});
+    res.status(201).json({uid, name, email});
   } catch (err) {
     res.status(500).json({ error: 'Failed to add user' });
   }

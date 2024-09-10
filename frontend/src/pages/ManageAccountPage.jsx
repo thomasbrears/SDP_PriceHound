@@ -18,6 +18,7 @@ function ManageAccountPage() {
     email: '',
     iconUrl: ''
   });
+
   const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   // State variables for form inputs
   const [currentPassword, setCurrentPassword] = useState('');
@@ -111,8 +112,7 @@ function ManageAccountPage() {
       await uploadBytes(storageRef, icon, {
         contentType: icon.type,
       });
-      alert("pfp change successful")
-      fetchIcon(storedUser.uid)
+
     } catch (error) {
     }
   };
@@ -227,6 +227,7 @@ function ManageAccountPage() {
           <p>If you would like to permanently delete your account , please contact us.</p>
         </div>
       </div>
+      {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
     </div>
   );
 }
