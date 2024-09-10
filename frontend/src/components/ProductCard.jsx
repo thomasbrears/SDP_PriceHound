@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios'; 
 import '../css/ProductCard.css'; 
 
-function ProductCard({ productName, productImg, setLoading }) {
+function ProductCard({ productName, productImg, price, date}) {
   const navigate = useNavigate(); // Initialize navigate hook
-
+  const [loading, setLoading] = useState(false);
   const handleSearch = async () => {
     setLoading(true, `Searching for ${productName}...`); // Set loading with a message
 
@@ -15,7 +15,7 @@ function ProductCard({ productName, productImg, setLoading }) {
 
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-      navigate('/search', { state: { searchResults: searchResults, query: productName } }); // Navigate with search results
+      navigate('/product', { state: { searchResults: searchResults, query: productName } }); // Navigate with search results
     } catch (error) {
       console.error('Error fetching search results:', error);
       setLoading(false); // Stop loading on error
@@ -28,6 +28,9 @@ function ProductCard({ productName, productImg, setLoading }) {
         <img src={productImg} alt={productName} /> {/* Dynamically set the image source */}
       </div>
       <h3 className="product-name">{productName}</h3>
+      <h3 className="product-price">{price}</h3>
+      <h3 className="product-price">{date}</h3>
+      <button>Remove</button>
     </div>
   );
 }

@@ -3,19 +3,35 @@ import '../css/WishListPage.css'
 import MainHeadTitle from "../components/MainHeadTitle";
 import ProductCard from "../components/ProductCard";
 import PinkButton from "../components/PinkButton";
-
+import axios from 'axios';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../FirebaseAuth/Firebase';
 function WishlistPage() {
   const name = "John"
   const title = name + "'s Wishlist"
-
+  const firestoreURL = 'https://firebasestorage.googleapis.com/v0/b/pricehound-aut.appspot.com/o/';
   const [backendData, setBackendData] = useState({})
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/userinfo").then(response => response.json())
-      .then(data => { setBackendData(data) })
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const getItems = async () => {
+      const formData =
+      {
+        uid: storedUser.uid
+      }
+      try {
+        const response = await axios.post('http://localhost:8000/api/wishlist/get', formData);
+        console.log(response.data)
+        setBackendData(response.data)
+      }
+      catch (error) {
+        alert("unlucky")
+      }
+    }
+    getItems();
   }, [])
 
-  const wishlistItems = Object.values(backendData.wishlistitems || {});
+  const wishlistItems = Object.values(backendData || {});
 
   //code for handling how many items to show theres 7 items per line,
   // it starts by showing 1 line and if the use presses show more it adds 7
@@ -29,6 +45,7 @@ function WishlistPage() {
   function LoadLess() {
     setItemsToShow(7)
   }
+
   const displayedItems = wishlistItems.slice(0, itemsToShow);
   const count = displayedItems.length;
   const total = wishlistItems.length;
@@ -42,10 +59,11 @@ function WishlistPage() {
         {(typeof backendData === 'undefined') ? <p>Loading ....</p> : wishlistItems != 0 ?
           displayedItems.map((item, index) => (
             <ProductCard
-              productImg={item.productImg}
-              productName={item.productName}
+              productImg={item.logo}
+              productName={item.name}
               price={item.price}
               link={item.link}
+              date={item.date}
             />
           )) : <p>Your wishlist is empty ... to add items press the add to wishlist button while viewing an item you like</p>}
       </div>

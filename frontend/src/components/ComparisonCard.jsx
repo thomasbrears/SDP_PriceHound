@@ -4,6 +4,8 @@ import axios from 'axios'; // Import axios for API requests
 import '../css/ComparisonCard.css';
 import { storage } from '../FirebaseAuth/Firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { format } from 'date-fns';
+
 function ComparisonCard({
   logo,
   title,
@@ -30,22 +32,20 @@ function ComparisonCard({
       console.error('Error searching for the product:', error);
     }
   };
-  const addToWishlist = async (logo, name, Price) => {
-    try {
-      const response = await fetch(logo);
-      const img = await response.blob();
-      const storageRef = ref(storage, 'wishlist/' + userInfo.uid + '/' + name);
-      const upload = await uploadBytes(storageRef, img);
-    }
-    catch (error) {
-      alert('error image, still saved to wishlist')
-    }
+
+  //sends info on item to backend to store
+  const addToWishlist = async (logo, name, price) => {
+    //collects date as a time stamp
+    const datenow = new Date();
+    const date = format(datenow, 'eeee, MMMM d, yyyy');
     try {
       const uid = userInfo.uid;
       const formData = {
         uid,
         name,
-        price
+        price,
+        logo,
+        date,
       };
       const response = await axios.post('http://localhost:8000/api/wishlist', formData);
     }
