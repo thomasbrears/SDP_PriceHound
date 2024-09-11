@@ -42,7 +42,7 @@ const SignUpPage = () => {
                 const storageRef = ref(storage, `icons/${user.uid}`);
                 const response = await fetch('images/profile.png');
                 const blob = await response.blob();
-                await uploadBytes(storageRef, blob)
+                await uploadBytes(storageRef, blob);
                 try {
                     await sendEmailVerification(user);
                     setMessageInfo({ message: 'Please check your inbox to verify your email', type: 'success' });

@@ -24,7 +24,8 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
 
   const removeWishlist = async (name) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    const modifiedString = name.replace(/\./g, ' ');
+    const sanitizedTitle = name.replace(/\//g, '-');
+    const modifiedString = sanitizedTitle.replace(/\./g, ' ');
     const formData = {
       uid: storedUser.uid,
       itemName: modifiedString
@@ -34,7 +35,7 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
       onRemove();
       console.log(response)
     }
-    catch(error){
+    catch (error) {
       alert('err')
     }
   }
