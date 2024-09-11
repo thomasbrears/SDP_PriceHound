@@ -21,17 +21,20 @@ function ComparisonCard({
   // Function to handle search rerun
   const handleSearch = async () => {
     try {
-      // Make API call to backend to run searchapi.js with new search term
-      const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(title)}`);
-
+      
+      const sanitizedTitle = title.replace(/\//g, '-');
+  
+      // Make API call to backend to run searchapi.js with the sanitized title
+      const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(sanitizedTitle)}`);
+  
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-
+  
       // Navigate to product page with new search results
       navigate('/product', { state: { searchResults: searchResults } });
     } catch (error) {
       console.error('Error searching for the product:', error);
     }
-  };
+  };  
 
   //sends info on item to backend to store
   const addToWishlist = async (logo, name, price) => {
