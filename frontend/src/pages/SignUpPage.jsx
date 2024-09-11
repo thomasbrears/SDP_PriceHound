@@ -45,7 +45,7 @@ const SignUpPage = () => {
                 const blob = await response.blob();
                 await uploadBytes(storageRef, blob);
                 await updateProfile(user, { displayName: name });
-                await user.reload(); 
+                await user.reload();
                 localStorage.setItem('user', JSON.stringify({ ...user, name: name }));
 
                 try {
@@ -98,6 +98,11 @@ const SignUpPage = () => {
             const user = result.user;
             localStorage.setItem('token', user.accessToken)
             localStorage.setItem('user', JSON.stringify(user))
+            const storageRef = ref(storage, `icons/${user.uid}`);
+            const response = await fetch(user.photoURL);
+            alert(user.photoURL)
+            const blob = await response.blob();
+            await uploadBytes(storageRef, blob);
             navigate("/")
         } catch (error) {
             setMessageInfo({ message: 'Error with Google sign-up', type: 'error' });
