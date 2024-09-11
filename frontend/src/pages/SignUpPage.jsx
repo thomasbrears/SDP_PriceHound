@@ -100,9 +100,20 @@ const SignUpPage = () => {
             localStorage.setItem('user', JSON.stringify(user))
             const storageRef = ref(storage, `icons/${user.uid}`);
             const response = await fetch(user.photoURL);
-            alert(user.photoURL)
             const blob = await response.blob();
             await uploadBytes(storageRef, blob);
+            try {
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+                const formData = {
+                    uid: storedUser.uid,
+                    name: storedUser.name != null ? storedUser.name : "No name",
+                    email: storedUser.email
+
+                };
+                const dbresponse = await axios.post('http://localhost:8000/api/userinfo', formData);
+            }
+            catch (err) { }
+
             navigate("/")
         } catch (error) {
             setMessageInfo({ message: 'Error with Google sign-up', type: 'error' });
