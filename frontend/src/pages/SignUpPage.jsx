@@ -6,6 +6,8 @@ import "../css/AuthPages.css"
 import Message from '../components/Message';
 import { FaUser } from "react-icons/fa";
 import axios from 'axios';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { storage } from '../FirebaseAuth/Firebase';
 
 const SignUpPage = () => {
     const userUrl = process.env.NODE_ENV === 'production'
@@ -37,6 +39,10 @@ const SignUpPage = () => {
                 const user = userCredential.user;
                 localStorage.setItem('token', user.accessToken)
                 localStorage.setItem('user', JSON.stringify(user))
+                const storageRef = ref(storage, `icons/${user.uid}`);
+                const response = await fetch('images/profile.png');
+                const blob = await response.blob();
+                await uploadBytes(storageRef, blob)
                 try {
                     await sendEmailVerification(user);
                     setMessageInfo({ message: 'Please check your inbox to verify your email', type: 'success' });
@@ -59,7 +65,7 @@ const SignUpPage = () => {
                 const formData = {
                     uid: storedUser.uid,
                     name: storedUser.name != null ? storedUser.name : "No name",
-                    email: storedUser.email 
+                    email: storedUser.email
 
                 };
                 // Send the form data to the backend API
@@ -105,7 +111,7 @@ const SignUpPage = () => {
                     <input className="formInput" type="password" placeholder="Your Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                     <input className="formInput" type="password" placeholder="Confirm password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     <button className="login-btn">Sign up</button>
-                    
+
                     <div className="separator">
                         <span className="separator-text">Or sign up with Google</span>
                     </div>

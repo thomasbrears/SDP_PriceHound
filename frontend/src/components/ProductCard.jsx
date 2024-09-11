@@ -30,7 +30,6 @@ function ProductCard({ productName, productImg, price, date}) {
       <h3 className="product-name">{productName}</h3>
       <h3 className="product-price">{price}</h3>
       <h3 className="product-price">{date}</h3>
-      <button>Remove</button>
     </div>
   );
 }

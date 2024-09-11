@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../css/WishListPage.css'
 import MainHeadTitle from "../components/MainHeadTitle";
-import ProductCard from "../components/ProductCard";
+import WishlistCard from "../components/WishlistCard";
 import PinkButton from "../components/PinkButton";
 import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -45,6 +45,19 @@ function WishlistPage() {
   function LoadLess() {
     setItemsToShow(7)
   }
+  const handleRemove = () => {
+    const fetchData = async () => {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      const formData = { uid: storedUser.uid };
+      try {
+        const response = await axios.post('http://localhost:8000/api/wishlist/get', formData);
+        setBackendData(response.data);
+      } catch (error) {
+        alert("Error fetching wishlist");
+      }
+    };
+    fetchData();
+  };
 
   const displayedItems = wishlistItems.slice(0, itemsToShow);
   const count = displayedItems.length;
@@ -58,12 +71,13 @@ function WishlistPage() {
       <div className="products">
         {(typeof backendData === 'undefined') ? <p>Loading ....</p> : wishlistItems != 0 ?
           displayedItems.map((item, index) => (
-            <ProductCard
+            <WishlistCard
               productImg={item.logo}
               productName={item.name}
               price={item.price}
               link={item.link}
               date={item.date}
+              onRemove={handleRemove}
             />
           )) : <p>Your wishlist is empty ... to add items press the add to wishlist button while viewing an item you like</p>}
       </div>

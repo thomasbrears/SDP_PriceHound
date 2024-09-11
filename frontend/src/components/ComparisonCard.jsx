@@ -35,6 +35,7 @@ function ComparisonCard({
 
   //sends info on item to backend to store
   const addToWishlist = async (logo, name, price) => {
+    const modifiedString = name.replace(/\./g, ' ');
     //collects date as a time stamp
     const datenow = new Date();
     const date = format(datenow, 'eeee, MMMM d, yyyy');
@@ -42,7 +43,7 @@ function ComparisonCard({
       const uid = userInfo.uid;
       const formData = {
         uid,
-        name,
+        name: modifiedString,
         price,
         logo,
         date,
