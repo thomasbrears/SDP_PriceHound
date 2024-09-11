@@ -13,7 +13,9 @@ function ComparisonCard({
   link,
   shippingInfo,
   deliveryTime,
-  location
+  location,
+  onAdd,
+
 }) {
   const navigate = useNavigate(); // Initialize navigate hook
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -21,20 +23,20 @@ function ComparisonCard({
   // Function to handle search rerun
   const handleSearch = async () => {
     try {
-      
+
       const sanitizedTitle = title.replace(/\//g, '-');
-  
+
       // Make API call to backend to run searchapi.js with the sanitized title
       const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(sanitizedTitle)}`);
-  
+
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-  
+
       // Navigate to product page with new search results
       navigate('/product', { state: { searchResults: searchResults } });
     } catch (error) {
       console.error('Error searching for the product:', error);
     }
-  };  
+  };
 
   //sends info on item to backend to store
   const addToWishlist = async (logo, name, price) => {
@@ -53,9 +55,10 @@ function ComparisonCard({
         date,
       };
       const response = await axios.post('http://localhost:8000/api/wishlist', formData);
+      onAdd();
     }
     catch (error) {
-      alert("failed to add text to wishlist")
+      alert("errrrrrr")
     }
   }
 

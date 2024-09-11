@@ -7,7 +7,8 @@ import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../FirebaseAuth/Firebase';
 function WishlistPage() {
-  const name = "John"
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const name = storedUser.displayName;
   const title = name + "'s Wishlist"
   const firestoreURL = 'https://firebasestorage.googleapis.com/v0/b/pricehound-aut.appspot.com/o/';
   const [backendData, setBackendData] = useState({})
@@ -66,7 +67,7 @@ function WishlistPage() {
     <div className="wishlist-page">
       <MainHeadTitle
         title={title}
-        subtitle=" wishlist plsaceholder page"
+        subtitle="When viewing a product press Add to wishlist to be able to view it here"
       />
       <div className="products">
         {(typeof backendData === 'undefined') ? <p>Loading ....</p> : wishlistItems != 0 ?

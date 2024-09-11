@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth';
+import { updateProfile, getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../FirebaseAuth/Firebase.js';
@@ -17,6 +17,7 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
+    const [name, setName] = useState('');
     const navigate = useNavigate();
 
     const actionCodeSettings = {
@@ -43,6 +44,10 @@ const SignUpPage = () => {
                 const response = await fetch('images/profile.png');
                 const blob = await response.blob();
                 await uploadBytes(storageRef, blob);
+                await updateProfile(user, { displayName: name });
+                await user.reload(); 
+                localStorage.setItem('user', JSON.stringify({ ...user, name: name }));
+
                 try {
                     await sendEmailVerification(user);
                     setMessageInfo({ message: 'Please check your inbox to verify your email', type: 'success' });
@@ -108,6 +113,7 @@ const SignUpPage = () => {
                         <span className="separator-text">Sign up with email</span>
                     </div>
                     <input className="formInput" type="email" placeholder="Your Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className="formInput" type="text" placeholder="Your Name" required value={name} onChange={(e) => setName(e.target.value)} />
                     <input className="formInput" type="password" placeholder="Your Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                     <input className="formInput" type="password" placeholder="Confirm password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     <button className="login-btn">Sign up</button>
