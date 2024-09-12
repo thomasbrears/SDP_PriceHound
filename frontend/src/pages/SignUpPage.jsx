@@ -26,68 +26,59 @@ const SignUpPage = () => {
 
         handleCodeInApp: true
     };
+    
     //func to handle signups, first checks if the password is equal 
     const HandleSubmit = async (e) => {
         e.preventDefault();
-        if (password.localeCompare(confirmPassword) != 0) {
+        if (password.localeCompare(confirmPassword) !== 0) {
             setMessageInfo({ message: 'Passwords do not match', type: 'error' });
             return;
         }
-        else {
-            try {
-                //first sends a function to firebase auth to create an account, then storing the basic user info in local storage
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                console.log(userCredential)
-                const user = userCredential.user;
-                localStorage.setItem('token', user.accessToken)
-                localStorage.setItem('user', JSON.stringify(user))
-                //then upload a default pfp for the user to firebase storage, by converting it to a blob first
-                const storageRef = ref(storage, `icons/${user.uid}`);
-                const response = await fetch('images/profile.png');
-                const blob = await response.blob();
-                await uploadBytes(storageRef, blob);
-                //and then finally upload the users username based on their input to firebase
-                await updateProfile(user, { displayName: name });
-                await user.reload();
-                localStorage.setItem('user', JSON.stringify({ ...user, name: name }));
-                try {
-                    await sendEmailVerification(user);
-                    setMessageInfo({ message: 'Welcome; Account Created - Please check your inbox to verify your email', type: 'success' });
-                }
-                catch (error) {
-                    setMessageInfo({ message: 'Error during sign-up', type: 'error' });
-                    return;
-                }
-            } catch (error) {
-                setMessageInfo({ message: 'Opps, An error occured', type: 'error' });
-                return;
-            }
-            
-            try {
-                //then upload the basic user information to firestore database - this will be for the wishlist.
-                const storedUser = JSON.parse(localStorage.getItem('user'));
-                const formData = {
-                    uid: storedUser.uid,
-                    name: storedUser.name != null ? storedUser.name : "No name",
-                    email: storedUser.email
+        try {
+            // First, create the account with Firebase Auth
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            localStorage.setItem('token', user.accessToken);
+            localStorage.setItem('user', JSON.stringify(user));
+    
+            // Upload default profile picture to Firebase Storage
+            const storageRef = ref(storage, `icons/${user.uid}`);
+            const response = await fetch('images/profile.png');
+            const blob = await response.blob();
+            await uploadBytes(storageRef, blob);
+    
+            // Update the user's display name in Firebase
+            await updateProfile(user, { displayName: name });
+            await user.reload();
+            localStorage.setItem('user', JSON.stringify({ ...user, name: name }));
+    
+            // Send email verification
+            await sendEmailVerification(user);
+            setMessageInfo({ message: 'Account Created - Please check your email to verify your account', type: 'success' });
+    
+            // Redirect to Check/verify Email page
+            navigate('/verify-email');
 
-                };
-                // Send the form data to the backend API
-                const response = await axios.post('http://localhost:8000/api/userinfo', formData);  // Using environment variable
-                //navigate to home
-                navigate('/');
-                // If the response is successful, show success message
-                if (response.data.success) {
-                    setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });
-                } else {
-                    setMessageInfo({ message: 'Failed to send your message. Please try again.', type: 'error' });
-                }
-            } catch (error) {
-                // If there is an error, show an error message
-                setMessageInfo({ message: 'Error: Unable to submit your message.', type: 'error' });
-            }
+        } catch (error) {
+            setMessageInfo({ message: 'Oops, an error occurred during signup', type: 'error' });
         }
-    }
+    
+        try {
+            // Store user data in Firestore for wishlist, etc.
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            const formData = {
+                uid: storedUser.uid,
+                name: storedUser.name != null ? storedUser.name : "No name",
+                email: storedUser.email,
+            };
+    
+            // Send the form data to the backend API
+            await axios.post(userUrl, formData);
+        } catch (error) {
+            setMessageInfo({ message: 'Error: Unable to submit your information', type: 'error' });
+        }
+    };
+    
     const handleGoogle = async (e) => {
         e.preventDefault();
         try {
@@ -115,7 +106,6 @@ const SignUpPage = () => {
             }
             catch (err) { }
 
-            navigate("/")
         } catch (error) {
             setMessageInfo({ message: 'Error with Google sign-up', type: 'error' });
         }

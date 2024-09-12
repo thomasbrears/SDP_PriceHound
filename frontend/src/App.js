@@ -18,6 +18,7 @@ import AddProductRetailerPage from './pages/AddProductRetailerPage';
 import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import VerifyCheck from './components/VerifyCheck';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
@@ -58,6 +59,7 @@ function App() {
           </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
         <Footer />
