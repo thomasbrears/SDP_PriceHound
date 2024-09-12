@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton'; 
 import Message from '../components/Message';
@@ -11,6 +11,7 @@ function ContactPage() {
     email: '',
     reason: '',
     productUrl: '',
+    subject: '',
     message: '',
   });
 
@@ -20,6 +21,18 @@ function ContactPage() {
   const contactApiUrl = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api/contact'
     : 'http://localhost:8000/api/contact';
+
+  // Populate form fields from localStorage if user is logged in
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setFormData((prevData) => ({
+        ...prevData,
+        name: storedUser.displayName || '',  // Prepopulate name if available
+        email: storedUser.email || '',       // Prepopulate email if available
+      }));
+    }
+  }, []); // Runs once on page load
 
   // Handle input changes
   const handleChange = (e) => {
@@ -91,6 +104,7 @@ function ContactPage() {
               <option value="question">General Question</option>
               <option value="support">Support</option>
               <option value="feedback">Feedback</option>
+              <option value="other">Other</option>
             </select>
             <input 
               type="text" 
@@ -99,6 +113,17 @@ function ContactPage() {
               value={formData.productUrl}
               onChange={handleChange}
               placeholder="Product URL (if applicable)" 
+            />
+          </div>
+          <div className="contact-form-group">
+            <input 
+              type="text" 
+              className="contact-input" 
+              name="subject"
+              value={formData.subject} // New subject field
+              onChange={handleChange}
+              placeholder="Subject" 
+              required 
             />
           </div>
           <textarea 
