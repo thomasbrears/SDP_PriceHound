@@ -41,9 +41,8 @@ function HomePage() {
   return (
     <div className="home-page">
       {loading && <Loading message={loadingMessage} />}
-      {messageInfo.message && (
-        <Message message={messageInfo.message} type={messageInfo.type} duration={5000} />
-      )}
+      {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
+
 
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"

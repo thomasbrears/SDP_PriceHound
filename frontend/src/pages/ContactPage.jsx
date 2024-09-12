@@ -111,7 +111,7 @@ function ContactPage() {
           ></textarea>
           <PinkButton text="Submit" style={{ width: '250px' }} />
         </form>
-        {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
+        {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
       </div>
     </div>
   );

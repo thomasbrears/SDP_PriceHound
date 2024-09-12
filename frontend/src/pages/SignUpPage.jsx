@@ -50,23 +50,19 @@ const SignUpPage = () => {
                 await updateProfile(user, { displayName: name });
                 await user.reload();
                 localStorage.setItem('user', JSON.stringify({ ...user, name: name }));
-
                 try {
                     await sendEmailVerification(user);
-                    setMessageInfo({ message: 'Please check your inbox to verify your email', type: 'success' });
-
+                    setMessageInfo({ message: 'Welcome; Account Created - Please check your inbox to verify your email', type: 'success' });
                 }
                 catch (error) {
                     setMessageInfo({ message: 'Error during sign-up', type: 'error' });
                     return;
                 }
-
-                alert("user id is " + user.uid)
-
             } catch (error) {
-                setMessageInfo({ message: 'An error occured', type: 'error' });
+                setMessageInfo({ message: 'Opps, An error occured', type: 'error' });
                 return;
             }
+            
             try {
                 //then upload the basic user information to firestore database - this will be for the wishlist.
                 const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -151,7 +147,7 @@ const SignUpPage = () => {
                     Already have an account? <Link to="/login" className="link">Sign in</Link>
                 </p>
 
-                {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
+                {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
 
             </div>
         </div>

@@ -13,7 +13,6 @@ function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
-
     const navigate = useNavigate();
 
     //fetches an existing icon from firebase storage
@@ -26,9 +25,8 @@ function LoginPage() {
         catch (error) {
             setMessageInfo({ message: 'Error', type: 'error' });
         }
-
-
     }
+
     const storedUser = JSON.parse(localStorage.getItem('user'));
     //function for logging in, sends request to firebase auth with relevant info and then calls the fetch icon to store in local storage based on the uid before redirecting to home
     const HandleSubmit = async (e) => {
@@ -41,7 +39,25 @@ function LoginPage() {
             await fetchIcon(user.uid);
             navigate("/")
         } catch (error) {
-            setMessageInfo({ message: 'Invalid account', type: 'error' });
+            console.error("Error during sign-in:", error);  // Log the error for debugging
+            // Handle specific Firebase authentication errors
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    setMessageInfo({ message: 'No user found with this email.', type: 'error' });
+                    break;
+                case 'auth/invalid-password':
+                    setMessageInfo({ message: 'Incorrect password. Please try again.', type: 'error' });
+                    break;
+                case 'auth/invalid-email':
+                    setMessageInfo({ message: 'Invalid email format. Please enter a valid email address.', type: 'error' });
+                    break;
+                case 'auth/invalid-credential':
+                    setMessageInfo({ message: 'Invalid credentials. Please try again.', type: 'error' });
+                    break;
+                default:
+                    setMessageInfo({ message: 'Login failed. Please try again.', type: 'error' });
+                    break;
+            }
         }
     }
     //simular thing to normal login just through google popup, fetches the user icon from firebase storage and sets it to local storage
@@ -57,7 +73,17 @@ function LoginPage() {
             navigate("/")
             //message based on the success
         } catch (error) {
-            setMessageInfo({ message: 'Error with Google sign-in', type: 'error' });
+            switch (error.code) {
+                case 'auth/popup-closed-by-user':
+                    setMessageInfo({ message: 'Google sign-in was canceled. Please try again.', type: 'error' });
+                    break;
+                case 'auth/network-request-failed':
+                    setMessageInfo({ message: 'Network error. Please check your connection and try again.', type: 'error' });
+                    break;
+                default:
+                    setMessageInfo({ message: 'Error with Google sign-in. Please try again.', type: 'error' });
+                    break;
+            }
         }
     }
     return (
@@ -90,8 +116,7 @@ function LoginPage() {
                     Don't have an account? <Link to="/signup" className="link">Sign up</Link>
                 </p>
 
-                {messageInfo.message && <Message message={messageInfo.message} type={messageInfo.type} />}
-                
+                {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
             </div>
         </div>
     )

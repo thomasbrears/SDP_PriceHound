@@ -3,6 +3,7 @@
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -16,13 +17,26 @@
   }
   
   .message.success {
-    background-color: #28a745; /* Green for success */
+    background-color: #28a745; /* Green */
   }
   
   .message.error {
-    background-color: #dc3545; /* Red for error */
+    background-color: #dc3545; /* Red */
   }
   
+  .message.warning {
+    background-color: #856404; /* Orange */
+  }
+  
+  .message.info {
+    background-color: #0c5460; /* Light Blue */
+  }
+
+  .message-icon {
+    margin-right: 10px;
+    font-size: 24px;
+  }
+
   .close-button {
     background: none;
     border: none;
