@@ -6,6 +6,7 @@ import PinkButton from "../components/PinkButton";
 import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../FirebaseAuth/Firebase';
+
 function WishlistPage() {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const name = storedUser.displayName;
@@ -13,9 +14,12 @@ function WishlistPage() {
   const firestoreURL = 'https://firebasestorage.googleapis.com/v0/b/pricehound-aut.appspot.com/o/';
   const [backendData, setBackendData] = useState({})
 
+
+  //runs a use effect when the page is loaded, this useeffect retrieves the wishlist information based on the uid stored in the local storage
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const getItems = async () => {
+      //sends an object as the request body
       const formData =
       {
         uid: storedUser.uid
@@ -23,6 +27,7 @@ function WishlistPage() {
       try {
         const response = await axios.post('http://localhost:8000/api/wishlist/get', formData);
         console.log(response.data)
+        //set the usestate variable to the repsonse
         setBackendData(response.data)
       }
       catch (error) {
@@ -46,6 +51,9 @@ function WishlistPage() {
   function LoadLess() {
     setItemsToShow(7)
   }
+
+  //function for removing item from wishlist, sends the uid and the item name to the backend
+  //and updates with the new data everytime one is removed
   const handleRemove = () => {
     const fetchData = async () => {
       const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -78,6 +86,7 @@ function WishlistPage() {
               price={item.price}
               link={item.link}
               date={item.date}
+              //calls remove item function with onRemove is called in the comparision card
               onRemove={handleRemove}
             />
           )) : <p>Your wishlist is empty ... to add items press the add to wishlist button while viewing an item you like</p>}

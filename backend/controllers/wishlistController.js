@@ -1,10 +1,14 @@
 import { admin, db } from '../firebase.js';
 
+
+//adds an item to wishlist and stores some important info
 export async function addToWishlist(req, res) {
   try {
     const { uid, name, price, logo, date } = req.body;
+    //get the db reference based on the uid
     const docRef = db.collection('users').doc(uid)
     console.log(name);
+    //updates the wishlist object to contain another object that holds all the field values
     docRef.update({
       [`wishlist.${name}`]: {
         name: name,
@@ -20,10 +24,12 @@ export async function addToWishlist(req, res) {
   }
 }
 
+//func for retreiving all the wishlist information
 export async function getWishlist(req, res) {
   const { uid } = req.body;
   console.log("this is working")
   try {
+    //gets wishlist items based on uid
     const userDoc = await db.collection('users').doc(uid).get();
     const user = userDoc.data();
     const wishlistItems = user.wishlist;
@@ -35,9 +41,11 @@ export async function getWishlist(req, res) {
 
 }
 
+//function for removing wishlist items
 export async function removeFromWishlist(req, res) {
   const { uid, itemName } = req.body;
   try {
+    //removes items based on the items name
     const docRef = await db.collection('users').doc(uid);
     await docRef.update({
       [`wishlist.${itemName}`]: admin.firestore.FieldValue.delete()

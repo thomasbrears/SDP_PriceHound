@@ -9,12 +9,14 @@ import { storage } from '../FirebaseAuth/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage'
 
 function LoginPage() {
+    //variables that are used throughout this page
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
 
     const navigate = useNavigate();
 
+    //fetches an existing icon from firebase storage
     const fetchIcon = async (uid) => {
         try {
             const storageRef = ref(storage, `icons/${uid}`);
@@ -28,6 +30,7 @@ function LoginPage() {
 
     }
     const storedUser = JSON.parse(localStorage.getItem('user'));
+    //function for logging in, sends request to firebase auth with relevant info and then calls the fetch icon to store in local storage based on the uid before redirecting to home
     const HandleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -41,6 +44,7 @@ function LoginPage() {
             setMessageInfo({ message: 'Invalid account', type: 'error' });
         }
     }
+    //simular thing to normal login just through google popup, fetches the user icon from firebase storage and sets it to local storage
     const handleGoogle = async (e) => {
         e.preventDefault();
         try {
@@ -51,6 +55,7 @@ function LoginPage() {
             localStorage.setItem('user', JSON.stringify(user))
             await fetchIcon(user.uid);
             navigate("/")
+            //message based on the success
         } catch (error) {
             setMessageInfo({ message: 'Error with Google sign-in', type: 'error' });
         }

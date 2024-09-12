@@ -40,6 +40,7 @@ function ComparisonCard({
 
   //sends info on item to backend to store
   const addToWishlist = async (logo, name, price) => {
+    //replace annoying characters that cause issues with spaces or - to then be sent off to firestore to store
     const sanitizedTitle = name.replace(/\//g, '-');
     const modifiedString = sanitizedTitle.replace(/\./g, ' ');
     //collects date as a time stamp
@@ -54,6 +55,7 @@ function ComparisonCard({
         logo,
         date,
       };
+      //sends a post request with all the relevant information to the backend to then be stored in the firestore databased based on the uid
       const response = await axios.post('http://localhost:8000/api/wishlist', formData);
       onAdd();
     }

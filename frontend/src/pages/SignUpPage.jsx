@@ -26,7 +26,7 @@ const SignUpPage = () => {
 
         handleCodeInApp: true
     };
-
+    //func to handle signups, first checks if the password is equal 
     const HandleSubmit = async (e) => {
         e.preventDefault();
         if (password.localeCompare(confirmPassword) != 0) {
@@ -35,15 +35,18 @@ const SignUpPage = () => {
         }
         else {
             try {
+                //first sends a function to firebase auth to create an account, then storing the basic user info in local storage
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 console.log(userCredential)
                 const user = userCredential.user;
                 localStorage.setItem('token', user.accessToken)
                 localStorage.setItem('user', JSON.stringify(user))
+                //then upload a default pfp for the user to firebase storage, by converting it to a blob first
                 const storageRef = ref(storage, `icons/${user.uid}`);
                 const response = await fetch('images/profile.png');
                 const blob = await response.blob();
                 await uploadBytes(storageRef, blob);
+                //and then finally upload the users username based on their input to firebase
                 await updateProfile(user, { displayName: name });
                 await user.reload();
                 localStorage.setItem('user', JSON.stringify({ ...user, name: name }));
@@ -58,7 +61,6 @@ const SignUpPage = () => {
                     return;
                 }
 
-                //database query to register user id would go here
                 alert("user id is " + user.uid)
 
             } catch (error) {
@@ -66,6 +68,7 @@ const SignUpPage = () => {
                 return;
             }
             try {
+                //then upload the basic user information to firestore database - this will be for the wishlist.
                 const storedUser = JSON.parse(localStorage.getItem('user'));
                 const formData = {
                     uid: storedUser.uid,
@@ -74,7 +77,6 @@ const SignUpPage = () => {
 
                 };
                 // Send the form data to the backend API
-
                 const response = await axios.post('http://localhost:8000/api/userinfo', formData);  // Using environment variable
                 //navigate to home
                 navigate('/');
@@ -93,16 +95,19 @@ const SignUpPage = () => {
     const handleGoogle = async (e) => {
         e.preventDefault();
         try {
+            //simular to the regular sign up but for when users sign up with google, does all the same relevant steps just a bit simpler due to google sign in
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             localStorage.setItem('token', user.accessToken)
             localStorage.setItem('user', JSON.stringify(user))
+            //same thing but uses the google profile picture this time
             const storageRef = ref(storage, `icons/${user.uid}`);
             const response = await fetch(user.photoURL);
             const blob = await response.blob();
             await uploadBytes(storageRef, blob);
             try {
+                //and registering the user in our database for their wishlist
                 const storedUser = JSON.parse(localStorage.getItem('user'));
                 const formData = {
                     uid: storedUser.uid,

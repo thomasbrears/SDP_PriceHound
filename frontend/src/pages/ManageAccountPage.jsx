@@ -126,7 +126,7 @@ function ManageAccountPage() {
     setIcon(file); // Set the selected file to the state
   };
   
-
+//function for fetching the icon based on the uid from firebase
   const fetchIcon = async (uid) => {
     try {
       const storageRef = ref(storage, `icons/${uid}`);
@@ -137,18 +137,20 @@ function ManageAccountPage() {
     catch (error) {
     }
   }
-
+  //function for handling the icon change, gets the file inputed by the user then uploads it to firebase and changes the link in local storage
   const handleChangeIcon = async (e) => {
     if (!icon) {
       setMessageInfo({ message: 'Please select an image file!', type: 'error' });
       return;
     }
     try {
+      //here it is uploaded and changes
       const storedUser = JSON.parse(localStorage.getItem('user'));
       const storageRef = ref(storage, `icons/${storedUser.uid}`);
       await uploadBytes(storageRef, icon, {
         contentType: icon.type,
       });
+      //returns message based on success
       setMessageInfo({ message: 'Icon updated successfully', type: 'success' });
     } catch (error) {
       console.error('Error updating icon:', error);

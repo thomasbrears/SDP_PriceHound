@@ -8,7 +8,7 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
   const [loading, setLoading] = useState(false);
   const handleSearch = async () => {
     setLoading(true, `Searching for ${productName}...`); // Set loading with a message
-
+    
     try {
       const response = await axios.get(`http://localhost:5001/api/search?query=${productName}`);
       setLoading(false); // Stop loading
@@ -21,17 +21,19 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
       setLoading(false); // Stop loading on error
     }
   };
-
+  //function for removing items from the wishlist, sends info back to the wishlist page to then update using onRemove();
   const removeWishlist = async (name) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const sanitizedTitle = name.replace(/\//g, '-');
     const modifiedString = sanitizedTitle.replace(/\./g, ' ');
+    //replace characters like . and / due to errors caused by them then sending this info off to the backend to be removed from the database
     const formData = {
       uid: storedUser.uid,
       itemName: modifiedString
     };
     try {
       const response = await axios.post('http://localhost:8000/api/wishlist/remove', formData);
+      //onremove function to tell wishlist to update
       onRemove();
       console.log(response)
     }

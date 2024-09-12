@@ -38,11 +38,9 @@ function SearchPage() {
       setLoading(false);
     }
   }, [location]);
-
+//function to display a relevant message when an item is added to the wishlist
   const displayMessage = (messageText, type = 'success') => {
     setMessage({ message: messageText, type });
-
-
     setTimeout(() => {
       setMessage({ message: '', type: '' });
     }, 3000);
@@ -83,7 +81,7 @@ function SearchPage() {
                   price={item.price}
                   link={item.compareLink}
                   shippingInfo={item.shippingAvailable}
-                  onAdd={() => {displayMessage('This item has been successfully added to your wishlist!')}}
+                  onAdd={() => { displayMessage('This item has been successfully added to your wishlist!') }}
                 />
               ))
             ) : (

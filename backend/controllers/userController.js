@@ -1,5 +1,7 @@
 import { db } from '../firebase.js';
 
+
+//retreives the user information from firebase (was used for testing)
 export async function getUserInfo(req, res) {
   try {
     const userDoc = await db.collection('users').get();
@@ -12,6 +14,7 @@ export async function getUserInfo(req, res) {
   }
 }
 
+//is used when a new user signs up, make a document in the users collection based on their uid
 export async function addUser(req, res) {
   try {
     const { uid, name, email } = req.body;
@@ -23,6 +26,7 @@ export async function addUser(req, res) {
       email,
       wishlist: {}
     });
+    //and stores some basic information and opens an empty wishlist object
     res.status(201).json({uid, name, email});
   } catch (err) {
     res.status(500).json({ error: 'Failed to add user' });

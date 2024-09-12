@@ -11,6 +11,8 @@ function ResetPasswordPage() {
   const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   const navigate = useNavigate();
 
+  //function that takes an email and a firebase auth object and sends an email if the user has forgot their password 
+  // the link sent will the redirect to the login page
   const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
