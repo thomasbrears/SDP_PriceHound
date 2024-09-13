@@ -29,6 +29,7 @@ function Header() {
     setQuery(e.target.value);
   };
 
+  // Handle a product search
   const handleSearch = async () => {
     setLoading(true); // Start loading
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
@@ -42,8 +43,8 @@ function Header() {
       if (searchResults && searchResults.length > 0) {
         const isSpecific = searchResults.some(item => item.title && item.shopLogo);
 
+        // Navigate to product or search page with search results and query
         if (isSpecific) {
-          // Navigate to product page with search results and query
           navigate("/product", {
             state: { searchResults, searchQuery: query },
           });
@@ -62,10 +63,18 @@ function Header() {
     }
   };
 
+  // Handle "Enter" key press to trigger search
+  const handleEnterKeySearch = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(); // Search when Enter key is pressed
+    }
+  };
+
   // Toggle profile dropdown visibility
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+  // Profile picture from cookie
   const url = localStorage.getItem('icon');
   useEffect(() => {
     const url = localStorage.getItem('icon');
@@ -77,13 +86,10 @@ function Header() {
   return (
     <header className="header">
       <div className="header-container">
-        <a href="/" className="logo-link">
-          <img
-            src="images/PriceHound_Logo.png"
-            alt="PriceHound Logo"
-            className="logo"
-          />
-        </a>
+        {/* Logo with link back to home page */}
+        <a href="/" className="logo-link"><img src="images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" /></a>
+        
+        {/* Page navigation links */}
         <nav className="nav">
           <a href="/about" className="nav-link">About</a>
           <a href="/contact" className="nav-link">Contact</a>
@@ -91,18 +97,22 @@ function Header() {
           <a href="/categories" className="nav-link">Categories</a>
         </nav>
         <div className="search-profile">
+          {/* Nav Search bar */}
           <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="search-input"
-              value={query}
-              onChange={handleInputChange}
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className="search-input" 
+              value={query} 
+              onChange={handleInputChange} 
+              onKeyDown={handleEnterKeySearch} // Search when Enter key is pressed
             />
             <FaSearch className="search-icon" onClick={handleSearch} />
           </div>
-          {loading && <Loading message={loadingMessage} />}
 
+          {loading && <Loading message={loadingMessage} />}
+ 
+          {/* Profile dropdown and links for authenticated users */}
           {isAuthenticated ? (
             <div className="profile-dropdown-wrapper">
               <div className="profile-section" onClick={toggleDropdown}>
@@ -110,15 +120,21 @@ function Header() {
                 <FaCaretDown className="dropdown-icon" />
               </div>
               {showDropdown && (
-                <div className="profile-dropdown">
+                <div className="profile-dropdown"> {/* Dropdown menu links */}
                   <a href="/wishlist" className="dropdown-link">Wishlist</a>
                   <a href="/manage-account" className="dropdown-link">Manage Account</a>
-                  <LogOutButton /> {/* Use the LogOutButton component */}
+                  <LogOutButton /> {/* Use LogOutButton component */}
                 </div>
               )}
             </div>
           ) : (
-            <a href="/login" className="nav-link">Login</a>
+            <>
+              {/* Signin link for unauthenticated users */}
+              <a href="/login" className="nav-link">Sign in</a>
+
+              {/* Signup link for unauthenticated users */}
+              <a href="/signup" className="nav-link">Sign up</a>
+            </>
           )}
         </div>
       </div>
