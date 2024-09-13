@@ -103,6 +103,7 @@ const SignUpPage = () => {
 
                 };
                 const dbresponse = await axios.post('http://localhost:8000/api/userinfo', formData);
+                navigate('/manage-account');
             }
             catch (err) { }
 
