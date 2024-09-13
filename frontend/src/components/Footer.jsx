@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Footer.css';
+import LogOutButton from '../components/LogOutButton';
 
 
 const Footer = () => {
@@ -22,13 +23,19 @@ const Footer = () => {
               <li><Link to="/contact " className="footer-link">Contact Us </Link></li>
               <li><Link to="/categories" className="footer-link">Browse Categories </Link></li>
               <li><Link to="/brands" className="footer-link">Browse Brand</Link></li>
+
                {/* Links shown only when the user is authenticated */}
              {isAuthenticated && (
                      <>
                         <li><Link to="/wishlist" className="footer-link">My Wishlist </Link></li>
                         <li><Link to="/manage-account" className="footer-link">Manage My Account </Link></li>
+                        {/* Render LogOutButton for authenticated users */}
+                        <Link to="#" onClick={(e) => e.preventDefault()} style={{ textDecoration: 'none' }}>
+                <LogOutButton />
+            </Link>
                     </>
              )}
+
                {/* Links shown only when the user is authenticated */}
              {!isAuthenticated && (
                     <>
@@ -40,6 +47,7 @@ const Footer = () => {
           
         </div>
         <div>
+          {/* Footer bottom section with copyright text */}
             <p className="footer-text">© 2024 PriceHound. All Rights Reserved.V1.0</p>
         </div>
       </div>

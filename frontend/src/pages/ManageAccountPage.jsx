@@ -59,10 +59,10 @@ function ManageAccountPage() {
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [navigate]); // 'navigate' as a dependency  
-
+// Handle password change
   const handleChangePassword = async (e) => {
     e.preventDefault();
-
+// Check if new passwords match and meet length requirement
     if (newPassword !== confirmNewPassword) {
       setMessageInfo({ message: 'New passwords do not match!', type: 'error' });
       return;
@@ -84,10 +84,10 @@ function ManageAccountPage() {
       setMessageInfo({ message: 'Error updating password', type: 'error' });
     }
   };
-
+// Handle name change
   const handleChangeName = async (e) => {
     e.preventDefault();
-
+ // Ensure new name is not empty
     if (newName.length < 1) {
       setMessageInfo({ message: 'Please enter a name!', type: 'error' });
       return;
@@ -108,7 +108,7 @@ function ManageAccountPage() {
     }
   };
 
-
+// Handle file(icon image)input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     
@@ -230,9 +230,9 @@ function ManageAccountPage() {
         title="Manage Account"
         subtitle={<span><h1><img src={pfp ? pfp : 'images/profile.png'} alt="User Icon" className="subtitle-icon" />&nbsp;&nbsp;{currentUser.name}</h1> </span>}
       />
-
+   {/* Main content section with different forms */}
       <div className='manage-account-page-form'>
-
+       {/* Change Password Form */}
         <div className='change-password'>
           <h1>Change Password</h1>
           <form onSubmit={handleChangePassword} className='change-Form'>
@@ -265,6 +265,7 @@ function ManageAccountPage() {
 
           </form>
         </div>
+        {/* Change Name Form */}
         <div className='change-name'>
           <h1>Change Name </h1>
           <p>Currently your name is set to, {currentUser.name}</p>
@@ -280,9 +281,9 @@ function ManageAccountPage() {
             />
 
             <PinkButton text="Change Name" />
-
           </form>
         </div>
+        {/* Change Profile Picture Form */}
         <div className='change-icon'>
           <h1>Change Profile Picture</h1>
           <form onSubmit={handleChangeIcon} className='change-Form'>
@@ -297,7 +298,7 @@ function ManageAccountPage() {
             <PinkButton text="Change Picture" />
           </form>
         </div>
-
+        {/* Change Email Section */}
         <div className='change-email'>
           <h1>Change Email</h1>
           <h4>Your current email address is {currentUser.email} </h4>
@@ -305,7 +306,7 @@ function ManageAccountPage() {
           <br />
           <PinkButton text="Contact us" to="/contact" />
         </div>
-
+        {/* Delete Account Section */}
         <div className='delete-account'>
           <h1>Delete Account</h1>
           <p>To permanently delete your account, please authenticate by entering your password below. <br /> <b>This action is irreversible</b></p>

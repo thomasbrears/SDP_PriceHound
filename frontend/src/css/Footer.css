@@ -5,7 +5,7 @@
     font-size: 16px;
     margin-top: 80px;
   }
-
+/* Footer categories list styling */
 .footer-categories {
     list-style: none; 
     padding: 0;
@@ -16,21 +16,21 @@
     gap: 20px; 
     flex-wrap: wrap; 
   }
-
+/* List item styling within footer categories */
 .footer-categories li {
     text-align: center; 
     margin: 0;
   }
-  
+  /* Link styling within footer categories */
 .footer-categories a {
     text-decoration: none; 
     color: #000; 
   }  
-
+/* Hover effect for .footer-link class */
 .footer-link:hover {
     text-decoration: underline;
   }
-  
+  /* Footer text styling */
 .footer-text{
     margin-top: 30px;
     color:#0363BB;
