@@ -38,20 +38,15 @@ function Header() {
       const response = await axios.get(`${searchApiUrl}?query=${query}`);
       setLoading(false); // Stop loading
 
-      const { searchResults, priceRanges } = response.data;
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
       if (searchResults && searchResults.length > 0) {
         const isSpecific = searchResults.some(item => item.title && item.shopLogo);
-
-        // Navigate to product or search page with search results and query
+        
         if (isSpecific) {
-          navigate("/product", {
-            state: { searchResults, searchQuery: query },
-          });
+          navigate('/product', { state: { searchResults, searchQuery: query, priceRanges: fetchedPriceRanges } });
         } else {
-          navigate("/search", {
-            state: { searchResults, query },
-          });
+          navigate('/search', { state: { searchResults, query, priceRanges: fetchedPriceRanges } });
         }
       } else {
         console.log("No results found");

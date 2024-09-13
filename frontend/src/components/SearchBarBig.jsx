@@ -5,8 +5,8 @@ import '../css/SearchBarBig.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function SearchBarBig({ onResults, sortOrder, priceRange }) {
-  const [query, setQuery] = useState('');
+function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
+  const [localQuery, setLocalQuery] = useState(query || ''); // Initialize with query prop
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const navigate = useNavigate();
@@ -16,26 +16,28 @@ function SearchBarBig({ onResults, sortOrder, priceRange }) {
     : 'http://localhost:5001/api/search'; 
 
   const handleInputChange = (e) => {
-    setQuery(e.target.value);
+    setLocalQuery(e.target.value);
   };
 
   useEffect(() => {
-    const isTwoValid = (query && sortOrder) || (query && priceRange) || (sortOrder && priceRange);
-    const areAllValid = query && sortOrder && priceRange;
+    setLocalQuery(query); // Update localQuery when query prop changes
+
+    const isTwoValid = (localQuery && sortOrder) || (localQuery && priceRange) || (sortOrder && priceRange);
+    const areAllValid = localQuery && sortOrder && priceRange;
 
     if (areAllValid || isTwoValid) {
       handleSearch();
     }
-  }, [query, sortOrder, JSON.stringify(priceRange)]);
+  }, [localQuery, sortOrder, JSON.stringify(priceRange), query]);
 
   const handleSearch = async () => {
     setLoading(true);
-    setLoadingMessage(`Searching for "${query}"...`);
+    setLoadingMessage(`Searching for "${localQuery}"...`);
 
     try {
       const response = await axios.get(`${searchApiUrl}`, {
         params: {
-          query: query,
+          query: localQuery,
           sort: sortOrder,
           priceRange: priceRange
         }
@@ -50,9 +52,9 @@ function SearchBarBig({ onResults, sortOrder, priceRange }) {
         const isSpecific = searchResults.some(item => item.title && item.shopLogo);
         
         if (isSpecific) {
-          navigate('/product', { state: { searchResults, searchQuery: query, priceRanges: fetchedPriceRanges } });
+          navigate('/product', { state: { searchResults, searchQuery: localQuery, priceRanges: fetchedPriceRanges } });
         } else {
-          navigate('/search', { state: { searchResults, query, priceRanges: fetchedPriceRanges } });
+          navigate('/search', { state: { searchResults, query: localQuery, priceRanges: fetchedPriceRanges } });
         }
       } else {
         onResults([]);
@@ -69,7 +71,7 @@ function SearchBarBig({ onResults, sortOrder, priceRange }) {
       <div className="search-big-input-wrapper">
         <input
           type="text"
-          value={query}
+          value={localQuery}
           onChange={handleInputChange}
           placeholder="Search for a product to compare ..."
           className="search-big-input"

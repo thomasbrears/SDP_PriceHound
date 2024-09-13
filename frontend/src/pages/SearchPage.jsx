@@ -16,6 +16,7 @@ function SearchPage() {
   const [sortOrder, setSortOrder] = useState('');
   const [priceRange, setPriceRange] = useState(''); // select one price range
   const [priceRanges, setPriceRanges] = useState([]); // show price range
+  const [query, setQuery] = useState(''); // header query state
   const [message, setMessage] = useState({ message: '', type: '' });
 
   const handleSortChange = (order) => {
@@ -35,6 +36,7 @@ function SearchPage() {
       setLoading(true);
       setResults(location.state.searchResults);
       setPriceRanges(location.state.priceRanges || []); // Set priceRanges if available
+      setQuery(location.state.query || ''); // Set query if available
       setLoading(false);
     }
   }, [location]);
@@ -57,6 +59,7 @@ function SearchPage() {
           onResults={setResults}
           sortOrder={sortOrder}
           priceRange={priceRange}
+          query={query} // Pass query to SearchBarBig
         />
       </div>
 
