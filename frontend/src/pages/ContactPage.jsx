@@ -6,6 +6,7 @@ import '../css/ContactPage.css';
 import axios from 'axios'; 
 
 function ContactPage() {
+  // Manage form data state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,15 +27,16 @@ function ContactPage() {
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) {
+      // Pre-fill with users name and email from localStorage if available once on page load
       setFormData((prevData) => ({
         ...prevData,
-        name: storedUser.displayName || '',  // Prepopulate name if available
-        email: storedUser.email || '',       // Prepopulate email if available
+        name: storedUser.displayName || '',
+        email: storedUser.email || '',
       }));
     }
-  }, []); // Runs once on page load
+  }, []);
 
-  // Handle input changes
+  // Handle input changes and update state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -49,16 +51,17 @@ function ContactPage() {
 
     try {
       // Send the form data to the backend API
-      const response = await axios.post(`${contactApiUrl}/submit-contact-form`, formData);  // Using environment variable
+      const response = await axios.post(`${contactApiUrl}/submit-contact-form`, formData);
       
       // If the response is successful, show success message
       if (response.data.success) {
         setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });
       } else {
+        // If the response is error/fail, show error message
         setMessageInfo({ message: 'Failed to send your message. Please try again.', type: 'error' });
       }
     } catch (error) {
-      // If there is an error, show an error message
+      // If there is an error, show error message
       setMessageInfo({ message: 'Error: Unable to submit your message.', type: 'error' });
     }
   };
@@ -71,7 +74,10 @@ function ContactPage() {
       />
       <div className="contact-form-container">
         <p>If you would like to contact the PriceHound Team, please use the contact form below. We aim to reply to all messages within 48 working hours.</p>
+        
+        {/* Contact form */}
         <form className="contact-form" onSubmit={handleSubmit}>
+          {/* Name and Email fields */}
           <div className="contact-form-group">
             <input 
               type="text" 
@@ -92,6 +98,7 @@ function ContactPage() {
               required 
             />
           </div>
+          {/* Reason and Product URL fields */}
           <div className="contact-form-group">
             <select 
               className="contact-select" 
@@ -104,6 +111,9 @@ function ContactPage() {
               <option value="question">General Question</option>
               <option value="support">Support</option>
               <option value="feedback">Feedback</option>
+              <option value="account-issues">Account Issues</option>
+              <option value="bug">Report a Bug</option>
+              <option value="media">Media</option>
               <option value="other">Other</option>
             </select>
             <input 
@@ -115,6 +125,7 @@ function ContactPage() {
               placeholder="Product URL (if applicable)" 
             />
           </div>
+          {/* Subject fields */}
           <div className="contact-form-group">
             <input 
               type="text" 
@@ -126,6 +137,7 @@ function ContactPage() {
               required 
             />
           </div>
+          {/* Message field */}
           <textarea 
             className="contact-textarea" 
             name="message"
@@ -134,9 +146,11 @@ function ContactPage() {
             placeholder="Please Type your message here" 
             required
           ></textarea>
+
+          {/* Submit button */}
           <PinkButton text="Submit" style={{ width: '250px' }} />
         </form>
-        {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
+        {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)} {/* Display success/error message */}                
       </div>
     </div>
   );

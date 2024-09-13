@@ -7,16 +7,17 @@ import Loading from '../components/Loading';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function CategoryPage() {
+  // State variables for selected category, subcategories, and loading status
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const navigate = useNavigate();
 
-  // Subcategory data
+  // Object containing all top-level, second-level, and third-level category data
   const categoriesData = {
-    "Phones": [
-      { secondLevel: "Phones", thirdLevel: ["Android Phones", "iPhones", "Samsung Phones", "Oppo Phones", "Budget Phones", "Foldable Phones", "Home Phones", "VOIP Phones"] },
+    "Phones": [ // Top level category
+      { secondLevel: "Phones", thirdLevel: ["Android Phones", "iPhones", "Samsung Phones", "Oppo Phones", "Budget Phones", "Foldable Phones", "Home Phones", "VOIP Phones"] }, // Second then third level categories
       { secondLevel: "Accessories", thirdLevel: ["Phone Cases", "Screen Protectors", "Handsfree Kits", "Sim Cards", "Power Banks"] },
       { secondLevel: "Smart Watches", thirdLevel: ["Apple Watch", "Samsung Watch", "Ultra Smart Watch", "Fitbit"] },
       { secondLevel: "Chargers", thirdLevel: ["USB-C Charger", "Lighting Charger", "Micro USB Charger", "Wireless Charger", "Magsafe Charger"] }
@@ -47,8 +48,8 @@ function CategoryPage() {
       { secondLevel: "Commercial Kitchen Appliances", thirdLevel: ["Food Preparation Equipment", "Commercial Dishwashers and Glasswashers", "Cooking Equipment", "Refrigeration & Ice Machines"] },
       { secondLevel: "Appliances Cooking", thirdLevel: ["Ovens & Cooktops", "Rangehoods", "Microwave Ovens", "Splashbacks"] },
       { secondLevel: "Fridges & Freezers", thirdLevel: ["Fridge Freezers", "Fridges", "Wine Storage", "Chest Freezers", "Freezers", "Mini Fridges", "Ice Maker"] },
-      { secondLevel: "Heating & Cooling", thirdLevel: ["Heat Pumps & Air Conditioners", "Dehumidifiers", "Air Purifiers", "Oil Heaters", "Ceramic Heaters", "Electric Blankets", "Electric Fans", "Electric Heaters", "Panel Heater", "Convection Heaters", "Electric Fire Heater", "Radiant/Bar Heaters", "Fan Heaters", "Air Coolers", "Humidifiers", "Gas Heaters", "Wood Fires"] },
       { secondLevel: "Kitchen", thirdLevel: ["Cookware", "Waste Disposals", "Food Storage", "Kitchen Knives", "Kitchen Equipment", "Water Bottles", "Food Storage & Sealers", "Bottles & Jugs", "Food Steamers", "Meat Mincers", "Cookie Cutters", "Kitchen Timers", "Spoons", "Tea Pots"] },
+      { secondLevel: "Heating & Cooling", thirdLevel: ["Heat Pumps & Air Conditioners", "Dehumidifiers", "Air Purifiers", "Oil Heaters", "Ceramic Heaters", "Electric Blankets", "Electric Fans", "Electric Heaters", "Panel Heater", "Convection Heaters", "Electric Fire Heater", "Radiant/Bar Heaters", "Fan Heaters", "Air Coolers", "Humidifiers", "Gas Heaters", "Wood Fires"] },    
     ],
     "Sound": [
       { secondLevel: "Portable Audio", thirdLevel: ["Earphones", "Headphones", "Headsets", "Portable Radios", "Bluetooth Headsets", "DACs", "Turntables"] },
@@ -195,32 +196,35 @@ function CategoryPage() {
     ],
   };
 
+  // Function to handle a top level category click and display its subcategories
   const handleCategoryClick = (categoryName) => {
     setSelectedCategory(categoryName);
     setSubcategories(categoriesData[categoryName] || []);
   };
 
+  // Function to handle a search for the selected category / subcategory
   const handleSearch = async (query, type) => {
-    setLoadingMessage(`Searching ${type === 'subcategory' ? query : selectedCategory}...`);
-    setLoading(true);
+    setLoadingMessage(`Searching ${type === 'subcategory' ? query : selectedCategory}...`); // Set the loading message
+    setLoading(true); // Show the loading animation
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`);
-      setLoading(false);
+      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`); // Make an API request to search for the selected category or subcategory
+      setLoading(false); // Stop the loading animation
       
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-      navigate('/search', { state: { searchResults: searchResults, query } });
+      navigate('/search', { state: { searchResults: searchResults, query } }); // Navigate to the search page with the search results
     } catch (error) {
-      console.error('Error fetching category products:', error);
-      setLoading(false);
+      console.error('Error fetching category products:', error); // Log any errors
+      setLoading(false); // Stop the loading animation
     }
   };
 
   return (
     <div className="category-page">
-      {loading && <Loading message={loadingMessage} />}
+      {loading && <Loading message={loadingMessage} />} {/* Show loading spinner and message if loading */}
       
+      {/* Page title and subtitle */}
       <MainHeadTitle 
         title="Browse your favorite Categories"
         subtitle="Browse & compare products from your favorite categories"
@@ -228,6 +232,7 @@ function CategoryPage() {
       
       {/* Top-Level Categories Section */}
       <div className="top-level-categories">
+        {/* Each category has an icon and a click handler to load its subcategories */}
         <div className="top-level-category" onClick={() => handleCategoryClick("Phones")}>
           <i className="fas fa-mobile-alt category-icon"></i>
           <span className="category-name">Phones</span>
@@ -301,14 +306,17 @@ function CategoryPage() {
       {/* Subcategories Section - Only display if a top-level category is selected */}
       {selectedCategory && (
         <div className="subcategories-section">
+          {/* Subcategory header */}
           <div className="subcategories-header">
-            <h2><a href="#" className="subcategory-link" onClick={() => handleSearch(selectedCategory, 'category')}>{selectedCategory}</a></h2>
+            <h2><a href="#" className="subcategory-link" onClick={() => handleSearch(selectedCategory, 'category')} style={{ textDecoration: 'none', color: 'black' }} >{selectedCategory}</a></h2>
             <a href="#" className="view-all-link" onClick={() => handleSearch(selectedCategory, 'category')}>View All &rarr;</a>
           </div>
+
+          {/* Subcategory columns */}
           <div className="subcategories-columns">
             {subcategories.map((subcategory, index) => (
               <div className="subcategories-column" key={index}>
-                <h3>{subcategory.secondLevel}</h3>
+              <h3><a href="#" className="subcategory-link" onClick={() => handleSearch(subcategory.secondLevel, 'subcategory')} style={{ textDecoration: 'none', color: 'black' }} >{subcategory.secondLevel}</a></h3>
                 <ul>
                   {subcategory.thirdLevel.map((thirdLevelCategory, i) => (
                     <li key={i}><a href="#" onClick={() => handleSearch(thirdLevelCategory, 'subcategory')}>{thirdLevelCategory}</a></li>

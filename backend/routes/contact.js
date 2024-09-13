@@ -5,7 +5,7 @@ import mailjet from 'node-mailjet';
 const router = express.Router();
 const db = admin.firestore();
 
-// Initialize Mailjet with API Key and Secret Key
+// Initialise Mailjet with API Key and Secret Key from .env
 const mailjetClient = mailjet.apiConnect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
 // Handle contact form submission
@@ -13,7 +13,7 @@ router.post('/submit-contact-form', async (req, res) => {
   const { name, email, reason, productUrl, subject, message } = req.body;
 
   try {
-    // Save contact form data to Firestore
+    // Save contact form data to Firestore DB
     await db.collection('website_contact_form').add({
       name,
       email,
@@ -21,10 +21,10 @@ router.post('/submit-contact-form', async (req, res) => {
       reason,
       productUrl,
       message,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: admin.firestore.FieldValue.serverTimestamp(), // Timestamp when the form was submitted
     });
 
-    const logoUrl = 'https://i.ibb.co/9pCMS5w/Price-Hound-Logo.png';
+    const logoUrl = 'https://i.ibb.co/9pCMS5w/Price-Hound-Logo.png'; // Logo URL for in email
 
     // Send email to the PriceHound team
     const teamRequest = mailjetClient
@@ -43,7 +43,7 @@ router.post('/submit-contact-form', async (req, res) => {
               }
             ],
             "ReplyTo": {
-              "Email": email,
+              "Email": email, // Sets the Reply-To address as the submitters email
               "Name": name
             },
             "Subject": `New Contact Form Submission: ${subject}`,
@@ -57,7 +57,7 @@ router.post('/submit-contact-form', async (req, res) => {
                 <p><b>Product URL:</b> ${productUrl}</p>
                 <p><b>Message:</b> ${message}</p>
                 <p><b>Email:</b> ${email}</p>
-              </div>`          
+              </div>` // HTML version of the email                  
             }
         ]
       });
@@ -74,7 +74,7 @@ router.post('/submit-contact-form', async (req, res) => {
             },
             "To": [
               {
-                "Email": email,
+                "Email": email, // The submitters email and name
                 "Name": name
               }
             ],
@@ -89,25 +89,26 @@ router.post('/submit-contact-form', async (req, res) => {
                 <p><b>Product URL:</b> ${productUrl}</p>
                 <p><b>Message:</b> ${message}</p>
                 <p>Best regards,<br>PriceHound Team</p>
-              </div>`        
+              </div>` // HTML version of the email          
             }
         ]
       });
 
-    // Send both emails concurrently using Promise.all
+    // Send both emails to PriceHound Team and Submiter concurrently
     Promise.all([teamRequest, userRequest])
       .then((results) => {
         console.log(results[0].body);  // Log the result from the first request
         console.log(results[1].body);  // Log the result from the second request
-        // Send success response
-        res.status(200).send({ success: true, message: 'Your message has been successfully sent!' });
+        res.status(200).send({ success: true, message: 'Your message has been successfully sent!' }); // Send success response
       })
       .catch((err) => {
+        // Handle errors related to sending the emails
         console.error('Error sending email:', err.statusCode);
         res.status(500).send({ success: false, message: 'Failed to send email', error: err });
       });
 
   } catch (error) {
+    // Handle any other errors during the contact form submission
     console.error('Error submitting contact form:', error);
     res.status(500).send({ success: false, message: 'Failed to submit the contact form', error });
   }
