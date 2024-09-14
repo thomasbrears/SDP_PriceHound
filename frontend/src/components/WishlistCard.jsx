@@ -50,7 +50,7 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
         </div>
         <h3 className="product-name">{productName}</h3>
         <h3 className="product-price">{price}</h3>
-        <h3 className="product-price">{date}</h3>
+        <h3 className="product-date"> as of {date}</h3>
 
       </div>
       <button className="remove-button" onClick={() => removeWishlist(productName)}>Remove</button>
