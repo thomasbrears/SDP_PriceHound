@@ -44,3 +44,14 @@
     border-color: #0363BB; 
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
+
+/* Smaller screens styling */
+@media (max-width: 768px) {
+    .contact-form-group {
+        flex-direction: column; /* Stack vertically on smaller screens */
+    }
+
+    .contact-form-container p {
+        font-size: 14px;
+    }
+}
