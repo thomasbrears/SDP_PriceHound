@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch, FaCaretDown } from 'react-icons/fa';
+import { FaSearch, FaCaretDown, FaBars, FaTimes } from 'react-icons/fa';
 import Loading from '../components/Loading';
 import LogOutButton from '../components/LogOutButton';
 import '../css/Header.css';
@@ -18,6 +18,7 @@ function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu visibility
   const navigate = useNavigate();
 
   // Check if the user is authenticated based on localStorage
@@ -73,6 +74,10 @@ function Header() {
     setShowDropdown(!showDropdown);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen); // Open/close mobile menu
+  };
+
   // Profile picture from cookie
   const url = localStorage.getItem('icon');
   // Handle scroll behavior for sticky and hidden header
@@ -97,33 +102,37 @@ function Header() {
   return (
     <header className={`header ${isSticky ? 'sticky' : ''} ${isHidden ? 'hidden' : ''}`}>
       <div className="header-container">
-        {/* Logo with link back to home page */}
-        <a href="/" className="logo-link"><img src="images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" /></a>
-        
-        {/* Page navigation links */}
+        {/* Logo */}
+        <a href="/" className="logo-link">
+          <img src="images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" />
+        </a>
+
+        {/* Desktop Navigation */}
         <nav className="nav">
           <a href="/about" className="nav-link">About</a>
           <a href="/contact" className="nav-link">Contact</a>
           <a href="/brands" className="nav-link">Brands</a>
           <a href="/categories" className="nav-link">Categories</a>
         </nav>
+
+        {/* Search Bar and Profile Section for Desktop */}
         <div className="search-profile">
-          {/* Nav Search bar */}
+          {/* Search bar */}
           <div className="search-bar">
-            <input 
-              type="text" 
-              placeholder="Search..." 
-              className="search-input" 
-              value={query} 
-              onChange={handleInputChange} 
-              onKeyDown={handleEnterKeySearch} // Search when Enter key is pressed
+            <input
+              type="text"
+              placeholder="Search..."
+              className="search-input"
+              value={query}
+              onChange={handleInputChange}
+              onKeyDown={handleEnterKeySearch}
             />
             <FaSearch className="search-icon" onClick={handleSearch} />
           </div>
 
           {loading && <Loading message={loadingMessage} />}
- 
-          {/* Profile dropdown and links for authenticated users */}
+
+          {/* Profile dropdown and links */}
           {isAuthenticated ? (
             <div className="profile-dropdown-wrapper">
               <div className="profile-section" onClick={toggleDropdown}>
@@ -131,23 +140,64 @@ function Header() {
                 <FaCaretDown className="dropdown-icon" />
               </div>
               {showDropdown && (
-                <div className="profile-dropdown"> {/* Dropdown menu links */}
-                  <a href="/wishlist" className="dropdown-link">Wishlist</a>
-                  <a href="/manage-account" className="dropdown-link">Manage Account</a>
-                  <LogOutButton /> {/* Use LogOutButton component */}
+                <div className="profile-dropdown">
+                  <a href="/wishlist" className="dropdown-link">My Wishlist</a>
+                  <a href="/manage-account" className="dropdown-link">Manage My Account</a>
+                  <LogOutButton />
                 </div>
               )}
             </div>
           ) : (
             <>
-              {/* Signin link for unauthenticated users */}
               <a href="/login" className="nav-link">Sign in</a>
-
-              {/* Signup link for unauthenticated users */}
               <a href="/signup" className="nav-link">Sign up</a>
             </>
           )}
         </div>
+
+        {/* Mobile Menu Icon */}
+        <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
+          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <nav className={`nav ${isMobileMenuOpen ? 'open' : ''}`}>
+            {/* Search Bar inside mobile menu */}
+            <div className="search-bar-mobile">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="search-input"
+                value={query}
+                onChange={handleInputChange}
+                onKeyDown={handleEnterKeySearch}
+              />
+              <FaSearch className="search-icon" onClick={handleSearch} />
+            </div>
+
+            {/* Mobile nav links */}
+            <a href="/about" className="nav-link">About</a>
+            <a href="/contact" className="nav-link">Contact</a>
+            <a href="/brands" className="nav-link">Brands</a>
+            <a href="/categories" className="nav-link">Categories</a>
+
+            {/* Mobile account links or sign-in/up links */}
+            {isAuthenticated ? (
+              <div className="profile-section">
+                <img src={pfp ? pfp : 'images/profile.png'} alt="Profile" className="profile-pic" />
+                <a href="/wishlist" className="nav-link">My Wishlist</a>
+                <a href="/manage-account" className="nav-link">Manage My Account</a>
+                <LogOutButton />
+              </div>
+            ) : (
+              <div className="mobile-auth-links">
+                <a href="/login" className="nav-link">Sign in</a>
+                <a href="/signup" className="nav-link">Sign up</a>
+              </div>
+            )}
+          </nav>
+        )}
       </div>
     </header>
   );
