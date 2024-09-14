@@ -15,6 +15,9 @@ function Header() {
   const [loadingMessage, setLoadingMessage] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [pfp, setPfp] = useState(null);
+  const [isSticky, setIsSticky] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const navigate = useNavigate();
 
   // Check if the user is authenticated based on localStorage
@@ -69,17 +72,30 @@ function Header() {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+
   // Profile picture from cookie
   const url = localStorage.getItem('icon');
+  // Handle scroll behavior for sticky and hidden header
   useEffect(() => {
     const url = localStorage.getItem('icon');
     if (url) {
       setPfp(url);
     }
-  }, [url]);
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsSticky(currentScrollY > 50);
+      setIsHidden(currentScrollY > lastScrollY && currentScrollY > 100);
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <header className="header">
+    <header className={`header ${isSticky ? 'sticky' : ''} ${isHidden ? 'hidden' : ''}`}>
       <div className="header-container">
         {/* Logo with link back to home page */}
         <a href="/" className="logo-link"><img src="images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" /></a>

@@ -1,12 +1,23 @@
 .header {
-    position: absolute; /* Position header over main content */
-    top: 0;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0); /* Transparent */
-    z-index: 1000; /* Ensure header on top content */
-    margin: 0 auto; 
-  }
-  
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for background and hiding */
+  background-color: rgba(255, 255, 255, 0);
+  z-index: 1000; /* Ensure header on top content */
+  margin: 0 auto;
+  box-shadow: none;
+}
+
+.header.sticky {
+  background-color: white; /* Solid background when sticky */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow when sticky */
+}
+
+.header.hidden {
+  transform: translateY(-100%); /* Move header off the screen */
+}
+
   .header-container {
     display: flex;
     justify-content: space-between;
