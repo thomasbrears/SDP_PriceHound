@@ -3,6 +3,7 @@ import '../css/WishListPage.css'
 import MainHeadTitle from "../components/MainHeadTitle";
 import WishlistCard from "../components/WishlistCard";
 import PinkButton from "../components/PinkButton";
+import Message from "../components/Message";
 import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../FirebaseAuth/Firebase';
@@ -13,7 +14,12 @@ function WishlistPage() {
   const title = name + "'s Wishlist"
   const firestoreURL = 'https://firebasestorage.googleapis.com/v0/b/pricehound-aut.appspot.com/o/';
   const [backendData, setBackendData] = useState({})
+  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
 
+  // Dynamically determine the API URL based on environment
+  const wishlistApiUrl = process.env.NODE_ENV === 'production'
+    ? 'https://pricehound.tech/api/wishlist'
+    : 'http://localhost:8000/api/wishlist';
 
   //runs a use effect when the page is loaded, this useeffect retrieves the wishlist information based on the uid stored in the local storage
   useEffect(() => {
@@ -25,13 +31,14 @@ function WishlistPage() {
         uid: storedUser.uid
       }
       try {
-        const response = await axios.post('http://localhost:8000/api/wishlist/get', formData);
+        const response = await axios.post(`${wishlistApiUrl}/get`, formData);
         console.log(response.data)
         //set the usestate variable to the repsonse
         setBackendData(response.data)
       }
       catch (error) {
-        alert("unlucky")
+        setMessageInfo({ message: 'Sorry, we ran into an error retrieving your wishlist', type: 'error' });
+        console.error('Error retrieving wishlist:', error);
       }
     }
     getItems();
@@ -59,10 +66,11 @@ function WishlistPage() {
       const storedUser = JSON.parse(localStorage.getItem('user'));
       const formData = { uid: storedUser.uid };
       try {
-        const response = await axios.post('http://localhost:8000/api/wishlist/get', formData);
+        const response = await axios.post(`${wishlistApiUrl}/get`, formData);
         setBackendData(response.data);
       } catch (error) {
-        alert("Error fetching wishlist");
+        setMessageInfo({ message: 'Sorry, we ran into an error retrieving your wishlist', type: 'error' });
+        console.error('Error fetching wishlist:', error);
       }
     };
     fetchData();
@@ -94,7 +102,7 @@ function WishlistPage() {
 
       <div className="buttonCenter">
 
-        <p>Displaying {count} of a total of {total} items</p>
+        <p>Displaying {count} of {total} products</p>
         {count != total ? <PinkButton
           text="Load More"
           onClick={LoadMore}
@@ -104,6 +112,7 @@ function WishlistPage() {
         />
         }
       </div>
+      {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)} {/* Display success/error message */}                
     </div>
   );
 }
