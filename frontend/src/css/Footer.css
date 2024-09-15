@@ -22,12 +22,17 @@
     margin: 0;
   }
   /* Link styling within footer categories */
-.footer-categories a {
+.footer-categories a, .footer-categories button {
     text-decoration: none; 
     color: #000; 
-  }  
+    font-size: 16px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}  
+
 /* Hover effect for .footer-link class */
-.footer-link:hover {
+.footer-link:hover, .footer-categories button:hover {
     text-decoration: underline;
   }
   /* Footer text styling */
@@ -35,4 +40,16 @@
     margin-top: 30px;
     color:#0363BB;
     font-size: 12px;
+}
+
+.footer-logo {
+  width: 300px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .footer-logo {
+      width: 180px;
+      height: auto;
+  }
 }

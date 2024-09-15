@@ -19,6 +19,7 @@ import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import VerifyCheck from './components/VerifyCheck';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
@@ -62,6 +63,7 @@ function App() {
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
+        <ScrollToTopButton />
         <Footer />
       </div>
     </BrowserRouter>
