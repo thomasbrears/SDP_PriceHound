@@ -46,7 +46,7 @@ function HomePage() {
 
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"
-        subtitle="Always double check prices before buying, we collect our prices from a variety of sources and can't guarantee their accuracy. We are not responsible for any issues that may arise from using this site."
+        subtitle=""
       />
 
       <div className="search-section">
@@ -56,7 +56,7 @@ function HomePage() {
           <span>Suggested Searches:</span>
           <a href="#">Apple Macbook Pro, 2024</a>
           <a href="#">Samsung S23 256gb</a>
-          <a href="#">GeForce RTX whatever its called</a>
+          <a href="#">GeForce RTX</a>
         </div>
       </div>
 

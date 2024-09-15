@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FaSearch, FaCaretDown, FaBars, FaTimes } from 'react-icons/fa';
 import Loading from '../components/Loading';
 import LogOutButton from '../components/LogOutButton';
@@ -103,18 +104,18 @@ function Header() {
     <header className={`header ${isSticky ? 'sticky' : ''} ${isHidden ? 'hidden' : ''}`}>
       <div className="header-container">
         {/* Logo */}
-        <a href="/" className="logo-link">
+        <Link to="/" className="logo-link">
           <img src="images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" />
-        </a>
-
+        </Link>
+      
         {/* Desktop Navigation */}
         <nav className="nav">
-          <a href="/about" className="nav-link">About</a>
-          <a href="/contact" className="nav-link">Contact</a>
-          <a href="/brands" className="nav-link">Brands</a>
-          <a href="/categories" className="nav-link">Categories</a>
+          <Link to="/about" className="nav-link">About</Link>
+          <Link to="/contact" className="nav-link">Contact</Link>
+          <Link to="/brands" className="nav-link">Brands</Link>
+          <Link to="/categories" className="nav-link">Categories</Link>
         </nav>
-
+  
         {/* Search Bar and Profile Section for Desktop */}
         <div className="search-profile">
           {/* Search bar */}
@@ -129,9 +130,9 @@ function Header() {
             />
             <FaSearch className="search-icon" onClick={handleSearch} />
           </div>
-
+  
           {loading && <Loading message={loadingMessage} />}
-
+  
           {/* Profile dropdown and links */}
           {isAuthenticated ? (
             <div className="profile-dropdown-wrapper">
@@ -141,25 +142,25 @@ function Header() {
               </div>
               {showDropdown && (
                 <div className="profile-dropdown">
-                  <a href="/wishlist" className="dropdown-link">My Wishlist</a>
-                  <a href="/manage-account" className="dropdown-link">Manage My Account</a>
+                  <Link to="/wishlist" className="dropdown-link">My Wishlist</Link> 
+                  <Link to="/manage-account" className="dropdown-link">Manage My Account</Link> 
                   <LogOutButton />
                 </div>
               )}
             </div>
           ) : (
             <>
-              <a href="/login" className="nav-link">Sign in</a>
-              <a href="/signup" className="nav-link">Sign up</a>
+              <Link to="/login" className="nav-link">Sign in</Link>
+              <Link to="/signup" className="nav-link">Sign up</Link>
             </>
           )}
         </div>
-
+  
         {/* Mobile Menu Icon */}
         <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
-
+  
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <nav className={`nav ${isMobileMenuOpen ? 'open' : ''}`}>
@@ -175,25 +176,25 @@ function Header() {
               />
               <FaSearch className="search-icon" onClick={handleSearch} />
             </div>
-
+  
             {/* Mobile nav links */}
-            <a href="/about" className="nav-link">About</a>
-            <a href="/contact" className="nav-link">Contact</a>
-            <a href="/brands" className="nav-link">Brands</a>
-            <a href="/categories" className="nav-link">Categories</a>
-
+            <Link to="/about" className="nav-link">About</Link>
+            <Link to="/contact" className="nav-link">Contact</Link>
+            <Link to="/brands" className="nav-link">Brands</Link>
+            <Link to="/categories" className="nav-link">Categories</Link>
+  
             {/* Mobile account links or sign-in/up links */}
             {isAuthenticated ? (
               <div className="profile-section">
                 <img src={pfp ? pfp : 'images/profile.png'} alt="Profile" className="profile-pic" />
-                <a href="/wishlist" className="nav-link">My Wishlist</a>
-                <a href="/manage-account" className="nav-link">Manage My Account</a>
+                <Link to="/wishlist" className="nav-link">My Wishlist</Link>
+                <Link to="/manage-account" className="nav-link">Manage My Account</Link>
                 <LogOutButton />
               </div>
             ) : (
               <div className="mobile-auth-links">
-                <a href="/login" className="nav-link">Sign in</a>
-                <a href="/signup" className="nav-link">Sign up</a>
+                <Link to="/login" className="nav-link">Sign in</Link> 
+                <Link to="/signup" className="nav-link">Sign up</Link>
               </div>
             )}
           </nav>
@@ -201,6 +202,6 @@ function Header() {
       </div>
     </header>
   );
-}
+}  
 
 export default Header;

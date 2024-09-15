@@ -19,14 +19,41 @@ body {
    color: #dba7c5;
 }
 
- * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
   
-  html, body {
-    height: 100%;
-    font-size: 16px;
-    line-height: 1.5;
-  }
+html, body {
+   height: 100%;
+   font-size: 16px;
+   line-height: 1.5;
+}
+
+/* Scroll to top button styling */
+.scroll-to-top {
+   position: fixed;
+   bottom: 20px;
+   right: 20px;
+   z-index: 1000; /* Ensure above other elements */
+}  
+
+.scroll-button {
+   background-color: rgba(3, 99, 187, 0.8);
+   color: white;
+   border: none;
+   border-radius: 50%;
+   padding: 10px 15px;
+   font-size: 20px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+    
+.scroll-button:hover {
+   background-color: rgba(2, 71, 133, 1);
+}
+    
+.scroll-button:focus {
+   outline: none;
+}
