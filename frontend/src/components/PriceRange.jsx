@@ -8,25 +8,25 @@ function PriceRange({ priceRanges, onPriceRangeClick }) {
     let min = 0;
     let max = Infinity;
 
-    const rangeParts = range.match(/(\d{1,3}(,\d{3})*)/g);
+    // 使用正则表达式提取价格范围
+    const rangeParts = range.match(/\d+(?:,\d{3})*/g);
 
     if (rangeParts) {
-      const numbers = rangeParts.map(part => parseInt(part.replace(/,/g, ''), 10));
+        const numbers = rangeParts.map(part => parseInt(part.replace(/,/g, ''), 10));
 
-      if (range.includes("Over")) {
-        min = numbers[0];
-        max = Infinity;
-      } else if (range.includes("—")) {
-        min = numbers[0];
-        max = numbers[1];
-      } else if (range.includes("Up to")) {
-        max = numbers[0];
-      }
+        if (numbers.length === 2) {
+            // 范围格式：$min — $max
+            min = numbers[0];
+            max = numbers[1];
+        } else if (numbers.length === 1) {
+            // 单一价格值的情况（例如没有上限的情况）
+            max = numbers[0];
+        }
     }
 
-    setSelectedRange(range); // Update selected range state
-    onPriceRangeClick({ min, max });
-  };
+    setSelectedRange(range); // 更新选中的范围状态
+    onPriceRangeClick({ min, max }); // 调用回调函数
+};
 
   return (
     <div className="price-range">

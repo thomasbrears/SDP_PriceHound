@@ -199,11 +199,48 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
       });
     }
 
-    const priceRanges = await page.evaluate(() => {
-      return Array.from(document.querySelectorAll('.default-radio p')).map((element) => element.innerText.trim());
-    });
+    // const priceRanges = await page.evaluate(() => {
+    //   return Array.from(document.querySelectorAll('.default-radio p')).map((element) => element.innerText.trim());
+    // });
 
-    console.log("Final search results:", searchResults);
+    const priceRanges = await page.evaluate(() => {
+      // 创建一个对象来存储价格范围
+      const ranges = {};
+    
+      // 获取所有的隐藏输入元素
+      const inputs = document.querySelectorAll('input[type="hidden"]');
+      
+      inputs.forEach(input => {
+          const name = input.name;
+          const value = parseFloat(input.value);
+    
+          // 使用正则表达式解析输入的名称
+          const match = name.match(/^pri-(\d+)-(min|max)$/);
+          if (match) {
+              const index = match[1];
+              const type = match[2];
+    
+              if (!ranges[index]) {
+                  ranges[index] = {};
+              }
+    
+              ranges[index][type] = value;
+          }
+      });
+    
+      // 将解析的价格范围格式化为字符串
+      const formattedRanges = Object.keys(ranges).map(index => {
+          const range = ranges[index];
+          if (range.min != null && range.max != null) {
+              return `$${range.min} — $${range.max}`;
+          }
+          return '';
+      });
+    
+      return formattedRanges;
+  });
+    
+    console.log("Final search results:", searchResults, priceRanges);
     await browser.close();
     return { searchResults, priceRanges }; 
   } catch (error) {
