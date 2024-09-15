@@ -38,13 +38,13 @@ function Header() {
   const handleSearch = async () => {
     setLoading(true); // Start loading
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
-
+  
     try {
       const response = await axios.get(`${searchApiUrl}?query=${query}`);
       setLoading(false); // Stop loading
-
+  
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-
+  
       if (searchResults && searchResults.length > 0) {
         const isSpecific = searchResults.some(item => item.title && item.shopLogo);
         
@@ -61,6 +61,8 @@ function Header() {
       setLoading(false); // Stop loading on error
       setLoadingMessage("An error occurred while searching. Please try again.");
     }
+     // // Clear the query value after navigation
+      setQuery('');
   };
 
   // Handle "Enter" key press to trigger search

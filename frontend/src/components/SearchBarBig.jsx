@@ -20,15 +20,20 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
   };
 
   useEffect(() => {
-    setLocalQuery(query); // Update localQuery when query prop changes
+    // Only update localQuery when query prop changes and is not an empty string
+    if (query !== localQuery && query !== '') {
+      setLocalQuery(query);
+    }
+  }, [query]);
 
+  useEffect(() => {
     const isTwoValid = (localQuery && sortOrder) || (localQuery && priceRange) || (sortOrder && priceRange);
     const areAllValid = localQuery && sortOrder && priceRange;
 
     if (areAllValid || isTwoValid) {
       handleSearch();
     }
-  }, [localQuery, sortOrder, JSON.stringify(priceRange), query]);
+  }, [localQuery, sortOrder, JSON.stringify(priceRange)]);
 
   const handleSearch = async () => {
     setLoading(true);
