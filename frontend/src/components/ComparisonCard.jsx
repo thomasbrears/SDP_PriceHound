@@ -20,23 +20,23 @@ function ComparisonCard({
   const navigate = useNavigate(); // Initialize navigate hook
   const userInfo = JSON.parse(localStorage.getItem('user'));
 
-  // Function to handle search rerun
-  const handleSearch = async () => {
-    try {
+// Function to handle search rerun
+const handleSearch = async () => {
+  try {
+    // Replace any "/" with "-" in the title
+    const sanitizedTitle = title.replace(/\//g, '-');
 
-      const sanitizedTitle = title.replace(/\//g, '-');
+    // Make API call to backend to run searchapi.js with the sanitized title
+    const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(sanitizedTitle)}`);
 
-      // Make API call to backend to run searchapi.js with the sanitized title
-      const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(sanitizedTitle)}`);
+    const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-
-      // Navigate to product page with new search results
-      navigate('/product', { state: { searchResults: searchResults } });
-    } catch (error) {
-      console.error('Error searching for the product:', error);
-    }
-  };
+    // Navigate to product page with new search results and include search query (title)
+    navigate('/product', { state: { searchResults: searchResults, searchQuery: title } });
+  } catch (error) {
+    console.error('Error searching for the product:', error);
+  }
+};
 
   //sends info on item to backend to store
   const addToWishlist = async (logo, name, price) => {
@@ -60,7 +60,7 @@ function ComparisonCard({
       onAdd();
     }
     catch (error) {
-      alert("errrrrrr")
+      alert("error adding to wishlist");
     }
   }
 
