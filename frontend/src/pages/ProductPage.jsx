@@ -17,8 +17,9 @@ function ProductPage() {
 
   const mainProduct = searchResults[0];
 
-  // Check if mainProduct has required properties
-  if (!mainProduct.title || !mainProduct.price) {
+  // Safeguard against missing properties
+  if (!mainProduct || !mainProduct.title || !mainProduct.price) {
+    console.error('Incomplete product data:', mainProduct); // Log incomplete data for debugging
     return <div>Product information is incomplete or unavailable.</div>;
   }
 

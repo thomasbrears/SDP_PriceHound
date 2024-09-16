@@ -3,24 +3,41 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import '../css/ProductCard.css'; 
 
-function ProductCard({ productName, productImg, price, date}) {
-  const navigate = useNavigate(); // Initialize navigate hook
-  const [loading, setLoading] = useState(false);
-  const handleSearch = async () => {
-    setLoading(true, `Searching for ${productName}...`); // Set loading with a message
+function ProductCard({ productName, productImg, price, date, setLoading }) {
+  const navigate = useNavigate(); 
 
-    try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${productName}`);
-      setLoading(false); // Stop loading
+const handleSearch = async () => {
+  setLoading(true, `Searching for ${productName}...`); // Set loading with a message
 
-      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
+  try {
+    const response = await axios.get(`http://localhost:5001/api/search`, {
+      params: {
+        query: productName, 
+      }
+    });
 
-      navigate('/product', { state: { searchResults: searchResults, query: productName } }); // Navigate with search results
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-      setLoading(false); // Stop loading on error
+    setLoading(false); 
+
+    const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
+
+    if (searchResults && searchResults.length > 0) {
+
+      const isSpecific = searchResults.some(item => item.title && item.shopLogo);
+
+      if (isSpecific) {
+        navigate('/product', { state: { searchResults, searchQuery: productName, priceRanges: fetchedPriceRanges } });
+      } else {
+        navigate('/search', { state: { searchResults, query: productName, priceRanges: fetchedPriceRanges } });
+      }
+    } else {
+      console.log("No results found");
+      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Error searching for the product:', error);
+    setLoading(false); 
+  }
+};
 
   return (
     <div onClick={handleSearch} className="product-card"> {/* Call handleSearch on click */}

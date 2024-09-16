@@ -64,7 +64,7 @@ function HomePage() {
         <h3>Featured Products</h3>
         <p className="sub-text">Latest deals</p>
         <div className="product-list">
-          <ProductCard productName="iPhone 15 Pro" setLoading={setLoading} productImg="./images/products/iphone-15-pro.png"/>
+          <ProductCard productName="iPhone 15 Pro 128GB" setLoading={setLoading} productImg="./images/products/iphone-15-pro.png"/>
           <ProductCard productName="Samsung Galaxy Z Flip6" setLoading={setLoading} productImg="./images/products/Galaxy-zflip6.png"/>
           <ProductCard productName="Dyson V8" setLoading={setLoading} productImg="./images/products/dysonv8.png"/>
           <ProductCard productName="Canon EOS R5 Mark II" setLoading={setLoading} productImg="./images/products/canon-eos-r5-mark-ii.png"/>
