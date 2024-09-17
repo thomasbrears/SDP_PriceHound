@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../css/AuthPages.css';
 import Message from '../components/Message';
 import { FaUser } from "react-icons/fa";
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { storage } from '../FirebaseAuth/Firebase';
@@ -86,6 +86,26 @@ function LoginPage() {
             }
         }
     }
+
+    // function for passwordless sign in using email link
+    const handlePasswordlessSignIn = async (e) => {
+        e.preventDefault();
+        const actionCodeSettings = {
+            url: 'http://localhost:3000/email-signin',
+            handleCodeInApp: true,
+        };
+    
+        try {
+            await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+            // Store the email locally to complete sign-in later
+            window.localStorage.setItem('emailForSignIn', email);
+            setMessageInfo({ message: 'Sign-in link sent! Check your email.', type: 'success' });
+        } catch (error) {
+            setMessageInfo({ message: `Error sending sign-in link: ${error.message}`, type: 'error' });
+        }
+    };
+
+    
     return (
         <div className='center'>
             <div className='loginDetails'>
@@ -97,11 +117,13 @@ function LoginPage() {
                     </div>
                     <input className="formInput" type="email" onChange={(e) => setEmail(e.target.value)} required placeholder="Enter your email" />
                     <input className="formInput" type="password" onChange={(e) => setPassword(e.target.value)} required placeholder="Enter your password" />
-                    <button type="submit" className="login-btn">Sign in</button>
                     
-                    <p className="forgot-password">
-                        <Link to="/reset-password" className="link">Forgot password?</Link>
-                    </p>
+                    <p className="forgot-password"> <Link to="/reset-password" className="link">Forgot password?</Link></p>
+
+                    <button type="submit" className="login-btn">Sign in</button>
+                    <br />
+                    {/* Button for passwordless sign-in */}
+                    <button type="button" className="login-btn" onClick={handlePasswordlessSignIn}>Email me a Sign-in Link</button>
 
                     <div className="separator">
                         <span className="separator-text">Or sign in with Google</span>

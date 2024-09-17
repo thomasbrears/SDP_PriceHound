@@ -19,6 +19,7 @@ import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import VerifyCheck from './components/VerifyCheck';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import CompleteSignInPage from './pages/CompleteSignInPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
 
 import NotFoundPage from './pages/error/NotFoundPage';
@@ -62,6 +63,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/email-signin" element={<CompleteSignInPage />} />
         </Routes>
         <ScrollToTopButton />
         <Footer />
