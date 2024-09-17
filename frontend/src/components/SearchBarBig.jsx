@@ -25,16 +25,16 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
       setLocalQuery(query);
     }
   }, [query]);
-
+   // Check if any of the search parameters are valid
   useEffect(() => {
     const isTwoValid = (localQuery && sortOrder) || (localQuery && priceRange) || (sortOrder && priceRange);
     const areAllValid = localQuery && sortOrder && priceRange;
-
+  // If any of the search parameters are valid, perform search
     if (areAllValid || isTwoValid) {
       handleSearch();
     }
   }, [localQuery, sortOrder, JSON.stringify(priceRange)]);
-
+ // Search for products
   const handleSearch = async () => {
     setLoading(true);
     setLoadingMessage(`Searching for "${localQuery}"...`);
