@@ -204,17 +204,17 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
     // });
 
     const priceRanges = await page.evaluate(() => {
-      // 创建一个对象来存储价格范围
+      // creat one object to store all the price ranges
       const ranges = {};
     
-      // 获取所有的隐藏输入元素
+      // address all the hidden inputs
       const inputs = document.querySelectorAll('input[type="hidden"]');
       
       inputs.forEach(input => {
           const name = input.name;
           const value = parseFloat(input.value);
     
-          // 使用正则表达式解析输入的名称
+          // check if the input is a price range
           const match = name.match(/^pri-(\d+)-(min|max)$/);
           if (match) {
               const index = match[1];
@@ -228,7 +228,7 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
           }
       });
     
-      // 将解析的价格范围格式化为字符串
+      // format the ranges
       const formattedRanges = Object.keys(ranges).map(index => {
           const range = ranges[index];
           if (range.min != null && range.max != null) {
@@ -252,7 +252,7 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
 
 // Express route to use scraping
 app.get("/api/search", async (req, res) => {
-  console.log("Incoming Request:", req.query); // 打印查询参数
+  console.log("Incoming Request:", req.query); // print the incoming request query
   let searchTerm = req.query.query;
   let sortOrder = req.query.sort;
   let priceRange = req.query.priceRange;
