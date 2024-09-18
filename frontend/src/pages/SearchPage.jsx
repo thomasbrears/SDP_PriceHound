@@ -19,6 +19,9 @@ function SearchPage() {
   const [query, setQuery] = useState(''); // header query state
   const [message, setMessage] = useState({ message: '', type: '' });
 
+   // New state for handling mobile modal
+   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
   const handleSortChange = (order) => {
     setSortOrder(order);
   };
@@ -40,6 +43,7 @@ function SearchPage() {
       setLoading(false);
     }
   }, [location]);
+
 //function to display a relevant message when an item is added to the wishlist
   const displayMessage = (messageText, type = 'success') => {
     setMessage({ message: messageText, type });
@@ -47,6 +51,17 @@ function SearchPage() {
       setMessage({ message: '', type: '' });
     }, 3000);
   };
+
+  // Function to toggle the mobile filter modal
+  const toggleSidebar = () => {
+    setIsSidebarVisible(!isSidebarVisible);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
+
   return (
     <div className="search-page">
       <MainHeadTitle
@@ -67,14 +82,25 @@ function SearchPage() {
         <Loading />
       ) : (
         <div className="search-page-content">
-          <div className="search-page-filters-sidebar">
+          {/* Sidebar */}
+      <div className={`search-page-filters-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
+        {/* Close button for small screens */}
+        <button className="close-button" onClick={closeSidebar}>×</button>
             <Sort onSort={handleSortChange} />
             {/* Display PriceRange component */}
             <PriceRange priceRanges={priceRanges} onPriceRangeClick={onPriceRangeClick} />
           </div>
-
-          <div className="search-page-products-grid">
-            <h3>Results</h3>
+           {/* Main content */}
+          < div className="search-page-products-grid">
+             {/* Results header with button only on small screens */}
+            <div className="results-header">
+              <h4>Results</h4>
+             {/* Filter button only for small screens */}
+             <button className="filter-button" onClick={toggleSidebar}>
+                Filters
+              </button>
+            </div>
+            {/* Product listing */}
             {results.length > 0 ? (
               results.map((item, index) => (
                 <ComparisonCard
@@ -90,9 +116,11 @@ function SearchPage() {
             ) : (
               <p>No results found</p>
             )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+  
+        
       {message.message && <Message message={message.message} type={message.type} />}
     </div>
   );

@@ -12,13 +12,23 @@
   gap: 20px;
 }
 
+/* Sidebar initially hidden for small screens */
 .search-page-filters-sidebar {
-  flex: 1;
-  max-width: 250px;
-  border: 1px solid #ccc;
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 300px;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 100;
   padding: 20px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+/* Show sidebar when button is clicked */
+.search-page-filters-sidebar.visible {
+  display: block;
 }
 .sort, .price-range {
   margin-bottom: 20px; 
@@ -45,6 +55,7 @@
   gap: 20px;
   padding: 20px;
   width: 100%; 
+  position: relative;
 }
 
 .search-page-products-grid h3 {
@@ -88,4 +99,103 @@
 
 .search-page-bar-container .search-button:hover {
   background-color: #024f94;
+}
+
+/* Close button styling */
+.close-button {
+  background: none;
+  border: solid 1px black;
+  font-size: 50px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  opacity: 1; 
+}
+/* Filter button only visible on small screens */
+.filter-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none; /* Hide by default */
+  font-size: 20px;
+}
+
+/* For screens wider than 768px */
+@media (min-width: 768px) {
+  /* Sidebar is visible by default */
+  .search-page-filters-sidebar {
+    display: block;
+    flex-direction: column;
+    position: relative;
+    width: 20%;  /* Adjust width as needed */
+    height: auto;
+    box-shadow: none;
+  }
+  /* Make sure results-header only takes up one line */
+  .results-header {
+    grid-column: 1 / -1; /* Span the full width of the grid */
+    width: auto; /* Make sure it only takes necessary space */
+    margin-bottom: 20px; /* Space below the header */
+  }
+
+
+  /* Hide filter button */
+  .filter-button {
+    display: none;
+  }
+
+}
+.results-header {
+  display: block;
+  font-size: 1.5rem;
+}
+
+/* For screens smaller than 768px */
+@media (max-width: 768px) {
+  /* Show filter button */
+  .filter-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Sidebar hidden by default */
+  .search-page-filters-sidebar {
+    display: none;
+  }
+
+  /* Sidebar appears as floating window */
+  .search-page-filters-sidebar.visible {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #fff;
+    z-index: 100;
+    box-shadow: -3px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+  }
+
+  /* Results and filter button on the same row */
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  /* Adjust product grid layout for small screens */
+  .search-page-products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }

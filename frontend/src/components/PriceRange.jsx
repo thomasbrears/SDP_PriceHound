@@ -96,7 +96,7 @@ const handleMaxChange = (e) => {
             onChange={handleMinChange}  
             placeholder="$Min " 
           />
-          <span>—</span>  
+          <span >-</span>
           <input 
             type="number" 
             value={customMax} 

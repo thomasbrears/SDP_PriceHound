@@ -91,11 +91,22 @@
 .custom-inputs {
   display: flex; /* Aligns the input fields in a row */
   align-items: center; /* Vertically centers the inputs within the flex container */
-  justify-content: space-around; /* Adds space between the input fields */
+  justify-content:space-between; /* Space between the inputs */
+  gap: 10px; /* Space between the input fields */
+  flex-wrap: wrap;
 }
 
 .custom-inputs input {
-  width: 70px; /* Sets a fixed width for the input fields to maintain consistency */
-  padding: 5px; /* Adds internal spacing to the input fields for better readability */
+  flex: 1; /* Allows inputs to grow and shrink with the container */
+  max-width: 70px; /* Maximum width of input fields */
+  padding: 5px; /* Internal spacing for better readability */
+  box-sizing: border-box; /* Ensures padding is included in width */
 }
+
+
+
+
+
+
+
 
