@@ -1,0 +1,66 @@
+.message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    color: #fff; /* White */
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 500px;
+  }
+  
+  .message.success {
+    background-color: #28a745; /* Green */
+  }
+  
+  .message.error {
+    background-color: #dc3545; /* Red */
+  }
+  
+  .message.warning {
+    background-color: #856404; /* Orange */
+  }
+  
+  .message.info {
+    background-color: #0c5460; /* Light Blue */
+  }
+
+  .message-icon {
+    margin-right: 10px;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .message p {
+    flex-grow: 1; 
+    margin: 0;
+    padding: 0 10px; 
+    text-align: center; 
+  }
+
+  .close-button {
+    right: 10px; 
+    top: 50%; 
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 15px;
+    flex-shrink: 0;
+    text-align: right;
+}
+  
+  .close-button:hover {
+    color: #ccc;
+  }
+  

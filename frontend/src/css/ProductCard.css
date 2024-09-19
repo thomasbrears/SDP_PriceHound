@@ -6,7 +6,7 @@
   background-color: white; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
   text-align: center; 
-  padding: 10px; /* Padding inside card */
+  padding: 10px; 
   margin: 10px;
   text-decoration: none; /* Remove underline from link */
   color: inherit; /* Inherit text color */
@@ -21,21 +21,42 @@
 
 .product-image {
   width: 100%;
-  height: 250px; /* Fixed height image placeholder */
-  background-color: #d8d8d8; /* Background color temp */
+  height: 200px; 
+  background-color: #d8d8d8; 
   border-radius: 10px; 
-  margin-bottom: -10px; 
+  overflow: hidden; 
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down; 
 }
 
 .product-name {
   font-size: 16px; 
   font-weight: normal;
   color: #555; 
-  margin-bottom: 5px; 
+  margin: 10px 0; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  max-width: 90%; 
 }
-
-.product-price {
-  font-size: 14px; 
-  color: #888; 
-  margin: 0; /* Remove default margin */
+.product-date{
+  font-size: 16px; 
+  font-weight: normal;
+  color: #555; 
+}
+.remove-button{
+  height: 30px;
+  margin: 5px;
+  width: 80%;
+  border: none;
+  background-color: #dba7c5;
+  border-radius: 15px;
+  transition: 0.3s ease;
+}
+.remove-button:hover{
+  background-color: #c48fb1;
 }

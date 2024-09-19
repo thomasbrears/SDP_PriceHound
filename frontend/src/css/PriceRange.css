@@ -1,0 +1,112 @@
+.price-range {
+  margin: 40px 0; /* Space from other elements */
+}
+
+.price-range h4 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Space between header and list items */
+}
+
+.price-range h4 .line {
+  display: inline-block;
+  width: 3px; /* Adjust width as needed */
+  height: 20px; /* Line height */
+  background-color: black; /* Line color */
+  margin-right: 15px; /* Space between line and text */
+}
+
+.price-range-list {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+}
+
+.price-range-item {
+  cursor: pointer; 
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; /* Space between list items */
+  padding: 5px; /* Add padding for better click area */
+  transition: background-color 0.3s; /* Smooth background color change */
+  outline: none; /* Remove default outline */
+  border: none; /* Remove default border */
+  box-shadow: none; /* Remove any box shadow that might be applied */
+}
+
+.price-range-item:hover {
+  background-color: #f0f0f0; 
+}
+
+.price-range-item.selected {
+  background-color: #d0e0ff; /* Light blue background for selected state */
+}
+
+.price-range-item .indicator {
+  display: inline-block;
+  width: 10px; /* Cube width */
+  height: 10px; /* Cube height */
+  border: solid 1px black; /* Cube border */
+  background-color: white; /* Cube color */
+  margin-right: 10px; /* Space between cube and text */
+}
+
+.price-range-item.selected .indicator {
+  background-color: blue; /* Color of the indicator when selected */
+}
+
+/* Ensure no outline is applied when using keyboard navigation */
+.price-range-item:focus {
+  outline: none; /* Ensure no focus outline */
+  box-shadow: none; /* Ensure no focus shadow */
+}
+
+.price-slider {
+  margin-top: 20px; /* Space above the slider */
+  display: flex;
+  flex-direction: column; /* Align slider under the inputs */
+}
+
+.price-slider-inputs {
+  display: flex; /* Align min and max inputs in one line */
+  justify-content: space-between; /* Space between inputs */
+  width: 100%; /* Take full width */
+}
+
+.price-input {
+  width: 45%; /* Input width to fit side by side */
+  padding: 5px; /* Padding inside input */
+  border: 1px solid #ccc; /* Border for input */
+  border-radius: 4px; /* Rounded corners */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.price-slider-input {
+  width: 100%; /* Ensure slider does not exceed container width */
+  margin-top: 10px; /* Space between slider and inputs */
+}
+.custom-price-range {
+  margin-top: 20px; /* Adds some space above the custom price range section to visually separate it from the price range list */
+}
+
+.custom-inputs {
+  display: flex; /* Aligns the input fields in a row */
+  align-items: center; /* Vertically centers the inputs within the flex container */
+  justify-content:space-between; /* Space between the inputs */
+  gap: 10px; /* Space between the input fields */
+  flex-wrap: wrap;
+}
+
+.custom-inputs input {
+  flex: 1; /* Allows inputs to grow and shrink with the container */
+  max-width: 70px; /* Maximum width of input fields */
+  padding: 5px; /* Internal spacing for better readability */
+  box-sizing: border-box; /* Ensures padding is included in width */
+}
+
+
+
+
+
+
+
+

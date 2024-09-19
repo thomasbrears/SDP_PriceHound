@@ -1,20 +1,21 @@
 .pink-button {
-    background-color: #DEC4E2; 
-    color: black; 
-    border: none; 
-    border-radius: 50px; /* rounded corners */
-    padding: 10px 20px; /* Padding inside button */
-    font-size: 16px; 
-    cursor: pointer; /* Pointer cursor on hover */
-    text-align: center; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle shadow for a lifted effect */
-    outline: none; /* Remove default outline */
-    transition: background-color 0.3s ease; /* Smooth background color transition */
-    max-width: 500px;
-    margin: 0 auto;
-  }
+  border: none; 
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+  padding: 10px 20px;
+  background-color: #dba7c5;
+  color: black;
+  border-radius: 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
   
-  .pink-button:hover {
-    background-color: #c9b2c8; /* Slightly darker pink on hover */
-  }
-  
+.pink-button:hover {
+  background-color: #c48fb1;
+}

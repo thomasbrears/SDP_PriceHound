@@ -7,7 +7,9 @@
   text-align: center;
 }
 
-/* Light background color for the search section */
+/*************************/
+/* Search Section Styles */
+/*************************/
 
 .search-section {
   padding: 40px 20px;
@@ -38,13 +40,15 @@
   text-decoration: underline;
 }
 
+/************************************/
 /* Featured Products Section Styles */
+/************************************/
 
 .featured-products {
   padding: 60px 20px;
 }
 
-.featured-products h3 {
+.featured-products {
   font-size: 28px;
   margin-bottom: 10px;
 }
@@ -58,16 +62,18 @@
 .product-list {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Space between cards */
-  flex-wrap: wrap; /* Allows wrapping if too many cards */
+  gap: 20px; 
+  flex-wrap: wrap; 
 }
 
+/***************************/
 /* Category Section Styles */
+/***************************/
 
 .category-section {
   text-align: center;
   padding: 60px 20px;
-  background-color: #f9f9f9; /* Light background color */
+  background-color: #f9f9f9;
 }
 
 .category-section h2 {
@@ -82,18 +88,59 @@
 }
 
 .category-buttons {
-  display: flex;
-  flex-wrap: wrap; /* Allows wrapping of buttons */
-  justify-content: center; /* Centers the buttons */
-  gap: 20px; /* Space between the buttons */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 3 cards per row */
+  gap: 20px; 
+  justify-content: center;
   margin-bottom: 40px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+.category-card {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  overflow: hidden;
+  height: 75px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.category-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+.category-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+/***********************/
 /* Pink buttons styles */
+/***********************/
 
 .pink-button {
   max-width: 300px; /* Centers the pink button */
   margin: 0 auto;
 }
-
-

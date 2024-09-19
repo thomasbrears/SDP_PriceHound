@@ -1,0 +1,39 @@
+.sort-component {
+    margin-bottom: 20px; /* Space from other elements */
+    
+  }
+  
+  .sort-component h4 {
+    margin-right: 10px;
+    margin-bottom: 20px;/* Space between label and dropdown */
+  }
+  
+  .sort-component select {
+    padding: 5px; /* Padding inside the dropdown */
+    border-radius: 4px; /* Rounded corners */
+    width: 100%; /* Make dropdown fill available width */
+    box-sizing: border-box; /* Ensure padding is included in width */
+ }
+ 
+ .line {
+  display: inline-block;
+  width: 3px; /* Adjust width as needed */
+  height: 20px; /* Line height */
+  background-color: black; /* Black line color */
+  margin-right: 10px;
+  margin-top: 3px; /* Space between line and text */
+}
+ /* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .sort-component {
+    margin-bottom: 15px; /* Reduce margin for small screens */
+  }
+
+  .sort-component select {
+    width: 100%; /* Ensure dropdown fits container width */
+  }
+  
+}
+
+  
+  

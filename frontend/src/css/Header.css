@@ -1,0 +1,274 @@
+/* Base header styles */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: rgba(255, 255, 255, 0);
+  z-index: 1000;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
+.header.sticky {
+  background-color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header.hidden {
+  transform: translateY(-100%);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.logo {
+  max-width: 300px;
+  height: auto;
+  display: flex;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+}
+
+.search-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-bar {
+  position: relative;
+  max-width: 250px;
+  width: 200px;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  cursor: pointer;
+}
+
+/* Profile Picture */
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Profile Dropdown Styling */
+.profile-dropdown-wrapper {
+  position: relative;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  margin-left: 8px;
+  color: #666;
+}
+
+/* Dropdown Container */
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+/* Dropdown Links */
+.dropdown-link {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+/* Additional Hover Styling for Log Out */
+.profile-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #000;
+}
+
+.profile-dropdown button:hover {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+/* Mobile Menu Icon (only visible on small screens) */
+.mobile-menu-icon {
+  display: none; /* Hide on larger screens */
+}
+
+/* Smaller screen Menu */
+@media (max-width: 900px) {
+  .nav {
+    display: none;
+  }
+
+  .nav.open {
+    display: flex;
+    position: absolute;
+    top: 100%; /* Below the logo */
+    left: 0;
+    background-color: white;
+    width: 100%;
+    flex-direction: column; /* Stack items vertically */
+    padding: 5px;
+    gap: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  }
+
+  .nav-link {
+    padding: 8px 0;
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    color: #000;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    gap: 5px;
+  }
+
+  /* Mobile Search Bar */
+  .search-bar-mobile {
+    position: relative; 
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 15px; 
+    top: 50%; 
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+  }
+
+  /* Account links for mobile */
+  .profile-section {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .profile-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+  }
+
+  /* Sign in/up links */
+  .mobile-auth-links {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Target the button inside the LogOutButton component */
+  .profile-section button {
+    background: none;
+    border: none;
+    padding: 5px 0;
+    text-align: center;
+    width: 100%;
+    color: #000; 
+    font-size: 16px; 
+    cursor: pointer;
+  }
+
+  .mobile-menu-icon {
+    display: block;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+
+  .logo {
+    display: flex;
+    max-width: 200px;
+    height: auto;
+    gap: 5px;
+  }
+
+  .header-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .search-profile {
+    display: none;
+  }
+}

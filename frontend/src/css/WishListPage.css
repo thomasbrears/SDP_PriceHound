@@ -1,0 +1,46 @@
+.products {
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.buttonCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.product-date {
+    font-size: 11px;
+}
+
+/* Styling for the view and Remove buttons */
+.viewProduct,.removeButton {
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    width: 95%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.viewProduct{
+    background-color: #0363BB;
+}
+
+.viewProduct:hover{
+    background-color: #024785;
+}
+
+.removeButton {
+    background-color: #FF3B3F; 
+}
+
+.removeButton:hover {
+    background-color: #CC3033; 
+}

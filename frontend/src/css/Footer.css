@@ -1,0 +1,55 @@
+.footer {
+    background-color:rgb(237, 244, 244);
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 80px;
+  }
+/* Footer categories list styling */
+.footer-categories {
+    list-style: none; 
+    padding: 0;
+    margin: 20px auto;
+    text-align: center;
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+  }
+/* List item styling within footer categories */
+.footer-categories li {
+    text-align: center; 
+    margin: 0;
+  }
+  /* Link styling within footer categories */
+.footer-categories a, .footer-categories button {
+    text-decoration: none; 
+    color: #000; 
+    font-size: 16px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}  
+
+/* Hover effect for .footer-link class */
+.footer-link:hover, .footer-categories button:hover {
+    text-decoration: underline;
+  }
+  /* Footer text styling */
+.footer-text{
+    margin-top: 30px;
+    color:#0363BB;
+    font-size: 12px;
+}
+
+.footer-logo {
+  width: 300px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .footer-logo {
+      width: 180px;
+      height: auto;
+  }
+}
