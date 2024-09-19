@@ -41,25 +41,32 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
     console.log("Navigating to homepage...");
     await page.goto("https://www.priceme.co.nz", { waitUntil: "networkidle2" });
 
+    // Enter search term
     console.log("Entering search term:", searchTerm);
     await page.type("#searchTextBox", searchTerm);
 
+    // simulate search button my pressing "enter"
     console.log('Pressing "Enter" to search...');
     await page.keyboard.press("Enter");
 
+    // Console log for debugging
     console.log("Waiting for search results to load...");
     await page.waitForSelector(".c-product, div.product-item.pdp", {
       timeout: 60000,
     });
 
+    // Console log for debugging
     console.log("Running specific search scraper...");
 
+    // **********************
+    // Get Product Image
+    // **********************
+
+    // Get the main image of the first product, make it an async function as it can take time for image to load.
     const mainImage = await page.evaluate(async () => {
       const imgSelector =
         "amp-carousel amp-img > img.i-amphtml-fill-content.i-amphtml-replaced-content";
-      const TIMEOUT_MS = 5000; // Set your desired timeout in milliseconds (e.g., 5000ms = 5 seconds)
-
-      // Create a function to wait for the image element to be loaded
+      const TIMEOUT_MS = 5000; // Timeout of 5 seconds
       const waitForImage = () =>
         new Promise((resolve) => {
           const checkImgLoaded = () => {
@@ -89,10 +96,14 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
         const imgElement = await Promise.race([waitForImage(), timeoutPromise]);
         return imgElement ? imgElement.src : null; // Return the image src or null if not found
       } catch (error) {
-        console.error(error); // Handle the timeout error
-        return null; // Return null if an error occurs
+        console.error(error);
+        return null;
       }
     });
+
+    // ****************************************************
+    // Get Search Results (image, title, price, link, etc.)
+    // ****************************************************
 
     let searchResults = await page.evaluate(() => {
       const productItems = Array.from(document.querySelectorAll(".c-product"));
@@ -168,7 +179,7 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
       if (sortOrder) {
         broadSearchUrl += `&sb=${encodeURIComponent(sortOrder)}`;
       }
-      if(priceRange){
+      if (priceRange) {
         broadSearchUrl += `&${priceRange}`;
       }
       console.log("Navigating to broad search URL:", broadSearchUrl);
@@ -206,49 +217,53 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
     const priceRanges = await page.evaluate(() => {
       // creat one object to store all the price ranges
       const ranges = {};
-    
+
       // address all the hidden inputs
       const inputs = document.querySelectorAll('input[type="hidden"]');
-      
-      inputs.forEach(input => {
-          const name = input.name;
-          const value = parseFloat(input.value);
-    
-          // check if the input is a price range
-          const match = name.match(/^pri-(\d+)-(min|max)$/);
-          if (match) {
-              const index = match[1];
-              const type = match[2];
-    
-              if (!ranges[index]) {
-                  ranges[index] = {};
-              }
-    
-              ranges[index][type] = value;
+
+      inputs.forEach((input) => {
+        const name = input.name;
+        const value = parseFloat(input.value);
+
+        // check if the input is a price range
+        const match = name.match(/^pri-(\d+)-(min|max)$/);
+        if (match) {
+          const index = match[1];
+          const type = match[2];
+
+          if (!ranges[index]) {
+            ranges[index] = {};
           }
+
+          ranges[index][type] = value;
+        }
       });
-    
+
       // format the ranges
-      const formattedRanges = Object.keys(ranges).map(index => {
-          const range = ranges[index];
-          if (range.min != null && range.max != null) {
-              return `$${range.min} — $${range.max}`;
-          }
-          return '';
+      const formattedRanges = Object.keys(ranges).map((index) => {
+        const range = ranges[index];
+        if (range.min != null && range.max != null) {
+          return `$${range.min} — $${range.max}`;
+        }
+        return "";
       });
-    
+
       return formattedRanges;
-  });
-    
+    });
+
     console.log("Final search results:", searchResults, priceRanges);
     await browser.close();
-    return { searchResults, priceRanges }; 
+    return { searchResults, priceRanges };
   } catch (error) {
     console.error("Error occurred during scraping:", error);
     await browser.close();
     throw error;
   }
-}; // END OF SCRAPING FUNCTION
+};
+
+// ************************
+// END OF SCRAPING FUNCTION
+// ************************
 
 // Express route to use scraping
 app.get("/api/search", async (req, res) => {
