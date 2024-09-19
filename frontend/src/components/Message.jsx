@@ -60,7 +60,7 @@ const Message = ({ message, type = 'success', duration = 5000 }) => {
       <p>{message}</p>
       <button className="close-button" onClick={handleClose}>X</button>
     </div>
-  );
+  );  
 };
 
 export default Message;
