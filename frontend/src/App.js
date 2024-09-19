@@ -5,7 +5,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import SearchPage from './pages/SearchPage';
 import HomePage from './pages/HomePage';
-import TestPage from './pages/TestPage';
 import AboutPage from './pages/AboutPage';
 import SignUpPage from './pages/SignUpPage';
 import ContactPage from './pages/ContactPage';
@@ -40,7 +39,6 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/brands" element={<BrandPage />} />
           <Route path="/categories" element={<CategoryPage />} />
-          <Route path="/test" element={<TestPage />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />

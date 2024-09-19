@@ -22,8 +22,9 @@
 }
 
 .product-page-image-placeholder {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  max-width: 300px; 
+  height: auto;
   background-color: #eee;
   border-radius: 10px;
 }
