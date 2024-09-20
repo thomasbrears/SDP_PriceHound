@@ -3,3 +3,4 @@
 build
 credentials.json
 node_modules
+prod-env.yaml
