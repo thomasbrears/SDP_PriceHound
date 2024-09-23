@@ -45,6 +45,7 @@ function App() {
 
           {/* Error pages */}
           <Route path="*" element={<NotFoundPage />} />  {/* 404 Error */}
+          <Route path="/404" element={<NotFoundPage />} />  {/* 404 Error */}
           <Route path="/500" element={<InternalServerErrorPage />} /> {/* 500 Error */}
           <Route path="/403" element={<ForbiddenPage />} /> {/* 403 Error */}
           <Route path="/401" element={<UnauthorisedPage />} /> {/* 401 Error */}
