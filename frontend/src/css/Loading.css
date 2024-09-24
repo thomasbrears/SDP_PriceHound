@@ -14,7 +14,7 @@
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #0363BB;
+  border-left-color: var(--link-color);;
   border-radius: 50%;
   width: 60px; 
   height: 60px;
@@ -32,7 +32,7 @@
 .loading-message {
   margin-top: 10px; /* Space between the spinner and message */
   font-size: 1rem;
-  color: #0363BB; /* Same color as the spinner border */
+  color: var(--link-color);; /* Same color as the spinner border */
 }
 
 @keyframes spin {

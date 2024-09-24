@@ -80,7 +80,7 @@ function WishlistPage() {
   const count = displayedItems.length;
   const total = wishlistItems.length;
   return (
-    <div className="wishlist-page">
+    <div className="wishlist-page" style={{ backgroundColor: 'var(--secondary-bg-color)' }}>
       <MainHeadTitle
         title={title}
         subtitle="When viewing a product press Add to wishlist to be able to view it here"

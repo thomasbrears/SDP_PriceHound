@@ -1,0 +1,29 @@
+runtime: nodejs20
+instance_class: F2
+
+env_variables:
+  NODE_ENV: 'production'
+  
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  target_throughput_utilization: 0.75
+  min_instances: 1
+  max_instances: 5
+
+# Serve static assets from the build directory
+handlers:
+  - url: /static
+    static_dir: build/static
+
+  - url: /images  # Serve images from the images folder
+    static_dir: build/images
+
+  # Catch-all handler to serve index.html for all other routes
+  - url: /(.+)
+    static_files: build/index.html
+    upload: build/index.html
+
+  # Default handler for root
+  - url: /
+    static_files: build/index.html
+    upload: build/index.html

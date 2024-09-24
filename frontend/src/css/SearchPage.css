@@ -1,3 +1,7 @@
+.search-page {
+  background-color: var(--secondary-bg-color);
+}
+
 .search-page-bar-container {
   width: 100%;
   margin: 20px 0;
@@ -20,8 +24,8 @@
   right: 0;
   height: 100%;
   width: 300px;
-  background-color: white;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  background-color: var(--secondary-bg-color);
+  box-shadow: -2px 0 5px var(--shadow-color);
   z-index: 100;
   padding: 20px;
   overflow-y: auto;
@@ -41,6 +45,7 @@
   margin-bottom: 10px;
   font-size: 16px;
   font-weight: bold;
+  color: var(--text-color) !important;
 }
 
 .search-page-filter-section ul {
@@ -62,6 +67,7 @@
   grid-column: 1 / -1; 
   margin-bottom: 20px;
   font-size: 24px;
+  color: var(--text-color);
 }
 
 .search-page-pagination {
@@ -79,11 +85,15 @@
   margin-top: 10px;
 }
 
+.search-page-load-more-button:hover {
+  background-color: #023768;
+}
+
 .search-page-bar-container .search-input {
   width: 100%;
   max-width: 600px;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
 }
 
@@ -104,7 +114,7 @@
 /* Close button styling */
 .close-button {
   background: none;
-  border: solid 1px black;
+  border: solid 1px var(--text-color);
   font-size: 50px;
   position: absolute;
   bottom: 10px;
@@ -130,7 +140,7 @@
     display: block;
     flex-direction: column;
     position: relative;
-    width: 20%;  /* Adjust width as needed */
+    width: 20%; 
     height: auto;
     box-shadow: none;
   }
@@ -139,6 +149,7 @@
     grid-column: 1 / -1; /* Span the full width of the grid */
     width: auto; /* Make sure it only takes necessary space */
     margin-bottom: 20px; /* Space below the header */
+    color: var(--text-color);
   }
 
 
@@ -179,9 +190,9 @@
     right: 0;
     width: 250px;
     height: 100%;
-    background-color: #fff;
+    background-color: var(--background-color);
     z-index: 100;
-    box-shadow: -3px 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: -3px 0 5px var(--shadow-color);
     padding: 10px;
   }
 

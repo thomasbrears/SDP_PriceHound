@@ -4,15 +4,17 @@
   top: 0;
   width: 100%;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: var(--header-bg-color);
+  color: #000; /* always black text when at top of page */
   z-index: 1000;
   margin: 0 auto;
   box-shadow: none;
 }
 
 .header.sticky {
-  background-color: white;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--header-sticky-bg-color);
+  box-shadow: 0px 4px 10px var(--header-shadow-color);
+  color: var(--text-color);
 }
 
 .header.hidden {
@@ -43,8 +45,12 @@
 
 .nav-link {
   text-decoration: none;
-  color: #000;
+  color: inherit;
   font-size: 16px;
+}
+
+.nav-link:hover {
+  color: var(--primary-blue-color);
 }
 
 .search-profile {
@@ -61,9 +67,13 @@
 
 .search-input {
   padding: 8px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color); 
   border-radius: 10px;
   outline: none;
+}
+
+.search-bar:focus {
+  color: var(--focus-color);
 }
 
 .search-icon {
@@ -71,15 +81,19 @@
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  color: #666;
+  color: #000; /* Black search icon */
   cursor: pointer;
+}
+
+.search-icon:hover {
+  color: var(--primary-blue-color);
 }
 
 /* Profile Picture */
 .profile-pic {
   width: 40px;
   height: 40px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color); 
   border-radius: 50%;
   object-fit: cover;
 }
@@ -97,7 +111,11 @@
 
 .dropdown-icon {
   margin-left: 8px;
-  color: #666;
+  color: inherit;
+}
+
+.dropdown-icon:hover {
+  color: var(--primary-blue-color);
 }
 
 /* Dropdown Container */
@@ -105,10 +123,10 @@
   position: absolute;
   top: 50px;
   right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: var(--header-sticky-bg-color);
+  border: 1px solid var(--border-color); 
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px var(--header-shadow-color);
   width: 180px;
   z-index: 1000;
   padding: 10px 0;
@@ -119,13 +137,13 @@
   display: block;
   padding: 10px 15px;
   text-decoration: none;
-  color: #000;
+  color: var(--text-color);
   font-size: 14px;
   transition: background-color 0.3s ease;
 }
 
 .dropdown-link:hover {
-  background-color: #f1f1f1;
+  background-color: var(--dropdown-hover-bg-color);
   border-radius: 5px;
 }
 
@@ -139,12 +157,29 @@
   text-align: left;
   cursor: pointer;
   font-size: 14px;
-  color: #000;
+  color: var(--dropdown-text-color);
 }
 
 .profile-dropdown button:hover {
-  background-color: #f1f1f1;
+  background-color: var(--dropdown-hover-bg-color);
   border-radius: 5px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  font-size: 20px; 
+  color: inherit; 
+  margin-left: 20px; 
+  padding: 10px; 
+  transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.theme-toggle:hover {
+  border-radius: 5px;
+  color: var(--primary-blue-color); 
 }
 
 /* Mobile Menu Icon (only visible on small screens) */
@@ -158,17 +193,21 @@
     display: none;
   }
 
+  .theme-toggle {
+    margin-left: auto; 
+  }
+
   .nav.open {
     display: flex;
     position: absolute;
     top: 100%; /* Below the logo */
     left: 0;
-    background-color: white;
+    background-color: var(--mobile-menu-bg-color);
     width: 100%;
     flex-direction: column; /* Stack items vertically */
     padding: 5px;
     gap: 5px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 8px var(--header-shadow-color);
     z-index: 999;
   }
 
@@ -177,7 +216,7 @@
     text-align: center;
     width: 100%;
     font-size: 16px;
-    color: #000;
+    color: var(--nav-link-color);
     text-decoration: none;
     transition: background-color 0.3s ease;
     gap: 5px;
@@ -185,7 +224,7 @@
 
   /* Mobile Search Bar */
   .search-bar-mobile {
-    position: relative; 
+    position: relative;
     margin-bottom: 10px;
     display: flex;
     justify-content: center;
@@ -197,16 +236,16 @@
   .search-input {
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color); 
     border-radius: 10px;
   }
 
   .search-icon {
     position: absolute;
-    right: 15px; 
-    top: 50%; 
+    right: 15px;
+    top: 50%;
     transform: translateY(-50%);
-    color: #666;
+    color: var(--icon-color); 
     cursor: pointer;
   }
 
@@ -242,8 +281,8 @@
     padding: 5px 0;
     text-align: center;
     width: 100%;
-    color: #000; 
-    font-size: 16px; 
+    color: var(--dropdown-text-color);
+    font-size: 16px;
     cursor: pointer;
   }
 

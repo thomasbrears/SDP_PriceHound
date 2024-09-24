@@ -21,6 +21,8 @@ import VerifyEmailPage from './pages/VerifyEmailPage';
 import CompleteSignInPage from './pages/CompleteSignInPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
 
+import AppLayout from './components/AppLayout';
+
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
 import InternalServerErrorPage from './pages/error/InternalServerErrorPage';
@@ -31,7 +33,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header />
+      <AppLayout>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -45,6 +47,7 @@ function App() {
 
           {/* Error pages */}
           <Route path="*" element={<NotFoundPage />} />  {/* 404 Error */}
+          <Route path="/404" element={<NotFoundPage />} />  {/* 404 Error */}
           <Route path="/500" element={<InternalServerErrorPage />} /> {/* 500 Error */}
           <Route path="/403" element={<ForbiddenPage />} /> {/* 403 Error */}
           <Route path="/401" element={<UnauthorisedPage />} /> {/* 401 Error */}
@@ -64,7 +67,7 @@ function App() {
           <Route path="/email-signin" element={<CompleteSignInPage />} />
         </Routes>
         <ScrollToTopButton />
-        <Footer />
+        </AppLayout>
       </div>
     </BrowserRouter>
   );

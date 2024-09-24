@@ -4,18 +4,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid solid var(--border-color);
   border-radius: 10px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  background-color: var(--background-color);
   text-align: center; 
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .comparison-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-hover-color);
 }
 
 .comparison-card-logo {
@@ -28,8 +28,8 @@
 }
 
 .comparison-card-logo img {
-  max-width: 100%;
-  max-height: 100px;
+  width: 80%;
+  height: auto;
   object-fit: contain; 
   border-radius: 8px;
 }
@@ -38,24 +38,26 @@
   padding: 10px 0;
   font-size: 14px;
   width: 100%;
+  color: var(--text-color);
 }
 
 .comparison-card-title {
   font-size: 16px;
   font-weight: bold;
   margin: 5px 0;
+  color: var(--text-color);
 }
 
 .comparison-card-subtext {
   font-size: 12px;
-  color: #777;
+  color: var(--subtext-color);
   margin: 5px 0;
 }
 
 .comparison-card-price {
   font-size: 18px;
   font-weight: bold;
-  color: #0363BB;
+  color: var(--link-color);
   margin: 5px 0;
 }
 .comparison-card-price-action {
@@ -65,7 +67,7 @@
 }
 .comparison-card-button,.comparison-card-wishlist-button {
   flex: 0 0 140px;
-  width: 140px;
+  width: 150px;
   height: 55px; 
   padding: 0px;
   background-color: #0363BB;
@@ -80,19 +82,10 @@
   max-width: 90px;
   text-decoration: none; 
 }
-.comparison-card-wishlist-button {
-  background-color: #dba7c5;
- 
-}
-.comparison-card-wishlist-button:hover{
-background-color: #c48fb1;
-}
-
 
 .comparison-card-button:hover {
   background-color: #023785;
 }
-
 
 .comparison-card-button a {
   color: inherit; /* Inherit button text color */
@@ -102,4 +95,43 @@ background-color: #c48fb1;
   height: 100%;
   line-height: normal;
   cursor: pointer;
+}
+
+.comparison-card-wishlist-button {
+  background-color: #dba7c5;
+ 
+}
+.comparison-card-wishlist-button:hover{
+background-color: #c48fb1;
+}
+
+@media (max-width: 600px) {
+  .comparison-card-logo img {
+    width: auto;
+    max-height: 100px;
+  }
+
+  .comparison-card-info {
+    padding: 5px 0;
+    font-size: 14px;
+    width: 100%;
+    color: var(--text-color);
+  }
+  
+  .comparison-card-title {
+    font-size: 16px;
+    margin: 3px 0;
+    padding-bottom: 0px;
+  }
+  
+  .comparison-card-subtext {
+    font-size: 11px;
+    margin: 3px 0;
+  }
+  
+  .comparison-card-price {
+    font-size: 17px;
+    margin: 3px 0;
+    padding-top: 0px;
+  }
 }

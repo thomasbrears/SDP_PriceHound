@@ -20,11 +20,13 @@
   font-size: 36px; 
   font-weight: bold; 
   margin-bottom: 30px; 
+  color: #fff; /* always white */
 }
 
 .main-head-title p {
   font-size: 16px; 
   line-height: 1.5; 
+  color: #fff; /* always white */
 }
 
 /* Smaller screen styling */

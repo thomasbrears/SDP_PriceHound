@@ -3,10 +3,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: #f5f7fa;
-    min-height: 100vh;
+    background-color: var(--secondary-bg-color);;
+    min-height: 100vm;
 }
 
 /* Detail containers */
@@ -17,18 +15,24 @@
     align-items: center;
     width: 100%;
     max-width: 400px;
-    background-color: white;
+    background-color: var(--background-color);;
     border-radius: 12px;
     padding: 40px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px var(--header-shadow-color);
     box-sizing: border-box;
-    margin-top: 50px;
+    margin: 100px;
 }
 
 /* PriceHound Logo size */
 .loginDetails img, .signUpDetails img, .verifyEmailDetails img{
     width: 150px;
     margin-bottom: 20px;
+}
+
+.loginDetails h1, .signUpDetails h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--text-color);
 }
 
 /* Form layout */
@@ -50,8 +54,10 @@
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    box-shadow: 0px 2px 4px var(--header-shadow-color);
     transition: border-color 0.2s ease-in-out;
     text-align: left; 
 }
@@ -59,13 +65,13 @@
 /* Left align placeholder */
 .formInput::placeholder {
     font-size: 14px;
-    color: #999;
+    color: var(--icon-color);
     text-align: left;
 }
 
 /* Focus state for input fields */
 .formInput:focus {
-    border-color: #4285F4;
+    border-color: var(--focus-color);
     outline: none;
 }
 
@@ -83,6 +89,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    cursor: pointer;
 }
 
 /* Login button */
@@ -116,6 +123,7 @@
 
 .login-with-google-btn:hover {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+    background-color: #e7add1;
 }
 
 .login-with-google-btn:active {
@@ -142,7 +150,7 @@
 .separator::before, .separator::after {
     content: "";
     flex: 1;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .separator::before {
@@ -155,19 +163,21 @@
 
 .separator-text {
     font-size: 14px;
-    color: #999;
+    color: var(--icon-color);
 }
 
 /* Paragraph */
 p {
     margin-top: 5px;
     font-size: 16px;
+    color: var(--text-color);
 }
 
 /* Auth links container */
 .auth-links-container {
     display: flex;
     justify-content: space-between;
+    color: var(--icon-color);
     width: 100%;
     margin-top: 20px;
 }
@@ -175,13 +185,13 @@ p {
 /* sign-up/login text */
 .signup-text {
     font-size: 16px;
-    color: #333;
+    color: var(--icon-color);
     text-align: center;
     margin-top: 20px;
 }
 
 .signup-text a {
-    color: #6C63FF;
+    color: var(--link-color);
     font-weight: bold;
 }
 
@@ -192,10 +202,11 @@ p {
 .verifyEmailDetails h1 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: var(--text-color);
 }
 
 .login-btn:disabled {
-    background-color: #e0e0e0;
+    background-color: var(--secondary-bg-color);
     cursor: not-allowed;
 }
 
@@ -206,10 +217,11 @@ p {
 /* Small left-aligned text for forgot password */
 .forgot-password {
     font-size: 12px;
-    color: #666;
+    color: var(--icon-color);
     text-align: left;
     width: 100%;
-    margin-top: 5px;
+    margin-top: 0px !important;
+    padding-bottom: 20px;
 }
 
 /* Back button at the top left */
@@ -218,9 +230,9 @@ p {
     max-width: 400px;
     width: 100%;
     padding: 40px;
-    background-color: white;
+    background-color: var(--background-color);
     border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px var(--header-shadow-color);
     text-align: center;
   }
   
@@ -231,7 +243,7 @@ p {
     left: 10px;
     background: none;
     border: none;
-    color: black;
+    color: var(--text-color);
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;

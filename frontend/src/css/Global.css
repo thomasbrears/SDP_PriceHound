@@ -1,3 +1,74 @@
+/* Default Light Theme */
+:root {
+   /* General Colors */
+   --background-color: #ffffff;
+   --text-color: #000000;
+   --shadow-color: rgba(121, 120, 120, 0.1);
+   --secondary-bg-color: #f1f1f1; 
+   --primary-blue-color: #0363BB;
+   --light-blue-color: #54B4EA;
+   --dark-blue-color: #023785;
+   --primary-pink-color: #DEC4E2;
+   --dark-pink-color: #a65eb1;
+ 
+   /* Header and Navigation */
+   --header-bg-color: rgba(255, 255, 255, 0);
+   --header-sticky-bg-color: var(--background-color);
+   --header-text-color: var(--text-color); 
+   --header-shadow-color: rgba(0, 0, 0, 0.1);
+ 
+   /* Dropdown and Menus */
+   --dropdown-bg-color: var(--background-color); 
+   --dropdown-text-color: var(--text-color); 
+   --dropdown-hover-bg-color: var(--secondary-bg-color); 
+   --nav-link-color: var(--text-color); 
+   --mobile-menu-bg-color: var(--background-color); 
+ 
+   /* Borders and Icons */
+   --border-color: #ccc; 
+   --icon-color: #484545; 
+
+
+   /* other */
+   --link-color: var(--primary-blue-color);
+   --focus-color: var(--dark-blue-color);
+ }
+ 
+ /* Dark Theme */
+ [data-theme='dark'] {
+   /* General Colors */
+   --background-color: #121212;
+   --text-color: #ffffff;
+   --shadow-color: rgba(255, 255, 255, 0.1);
+   --secondary-bg-color: #242424; 
+   --primary-blue-color: #1179d9;
+   --light-blue-color: #67bdee;
+   --dark-blue-color: #0c4baa;
+   --primary-pink-color: #d5acdc;
+   --dark-pink-color: #9b4ca7;
+ 
+   /* Header and Navigation */
+   --header-bg-color: rgba(18, 18, 18, 0);
+   --header-sticky-bg-color: var(--background-color);
+   --header-text-color: var(--text-color); 
+   --header-shadow-color: rgba(255, 255, 255, 0.1);
+ 
+   /* Dropdown and Menus */
+   --dropdown-bg-color: #333333; 
+   --dropdown-text-color: var(--text-color); 
+   --dropdown-hover-bg-color: var(--secondary-bg-color); 
+   --nav-link-color: var(--text-color);
+   --mobile-menu-bg-color: #1c1c1c;
+ 
+   /* Borders and Icons */
+   --border-color: #555; 
+   --icon-color: #bbb; 
+
+   /* other */
+   --link-color: var(--primary-blue-color);
+   --focus-color: var(--dark-blue-color);
+ }
+ 
 body {
     font-family: 'Lato', sans-serif;
     font-weight: 400; /* Regular */

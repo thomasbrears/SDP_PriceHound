@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useContext } from 'react';
 import '../css/AuthPages.css';
 import Message from '../components/Message';
 import { FaUser } from "react-icons/fa";
@@ -7,6 +8,7 @@ import { auth } from '../FirebaseAuth/Firebase.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { storage } from '../FirebaseAuth/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage'
+import { ThemeContext } from '../ThemeContext';
 
 function LoginPage() {
     //variables that are used throughout this page
@@ -105,11 +107,13 @@ function LoginPage() {
         }
     };
 
+    const { theme } = useContext(ThemeContext);
+    const logoSrc = theme === 'light' ? 'images/PH-logo-blacktext.png' : 'images/PH-logo-whitetext.png';
     
     return (
         <div className='center'>
             <div className='loginDetails'>
-                <img src="/images/PriceHound_Logo.png" alt='profilehead' />
+                <img src={logoSrc} alt='PriceHound logo' />
                 <h1>Sign in</h1>
                 <form onSubmit={HandleSubmit} className="loginForm">
                     <div className="separator">

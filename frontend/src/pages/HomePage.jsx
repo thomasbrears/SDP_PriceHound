@@ -61,7 +61,7 @@ function HomePage() {
       </div>
 
       <div className="featured-products">
-        <h3>Featured Products</h3>
+        <h2>Featured Products</h2>
         <p className="sub-text">Latest deals</p>
         <div className="product-list">
           <ProductCard productName="iPhone 15 Pro 128GB" setLoading={setLoading} productImg="./images/products/iphone-15-pro.png"/>
@@ -112,7 +112,7 @@ function HomePage() {
           <BrandLogo src="images/brands/canon.png" setLoading={setLoading} alt="Canon" />
           <BrandLogo src="images/brands/pioneer.png" setLoading={setLoading} alt="Pioneer" />
         </div>
-        <PinkButton text="Browse all Brands" />
+        <a href="/brands" className="pink-button">Browse all Brands</a>
       </div>
     </div>
   );

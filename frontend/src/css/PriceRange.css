@@ -6,13 +6,14 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px; /* Space between header and list items */
+  color: var(--text-color);
 }
 
 .price-range h4 .line {
   display: inline-block;
   width: 3px; /* Adjust width as needed */
   height: 20px; /* Line height */
-  background-color: black; /* Line color */
+  background-color: var(--text-color); /* Line color */
   margin-right: 15px; /* Space between line and text */
 }
 
@@ -25,39 +26,42 @@
   cursor: pointer; 
   display: flex;
   align-items: center;
-  margin-bottom: 5px; /* Space between list items */
-  padding: 5px; /* Add padding for better click area */
-  transition: background-color 0.3s; /* Smooth background color change */
-  outline: none; /* Remove default outline */
-  border: none; /* Remove default border */
-  box-shadow: none; /* Remove any box shadow that might be applied */
+  margin-bottom: 5px; 
+  padding: 5px; 
+  background-color: var(--secondary-bg-color);
+  transition: background-color 0.3s; 
+  outline: none; 
+  border: none; 
+  box-shadow: none; 
+  color: var(--text-color);
 }
 
 .price-range-item:hover {
-  background-color: #f0f0f0; 
+  background-color: var(--link-color); 
 }
 
 .price-range-item.selected {
-  background-color: #d0e0ff; /* Light blue background for selected state */
+  background-color: var(--link-color); 
+  border-color: var(--link-color);
 }
 
 .price-range-item .indicator {
   display: inline-block;
   width: 10px; /* Cube width */
   height: 10px; /* Cube height */
-  border: solid 1px black; /* Cube border */
-  background-color: white; /* Cube color */
-  margin-right: 10px; /* Space between cube and text */
+  border: solid 1px var(--border-color); 
+  background-color: var(--icon-color); 
+  margin-right: 10px; 
 }
 
 .price-range-item.selected .indicator {
-  background-color: blue; /* Color of the indicator when selected */
+  background-color: var(--background-color); /* Color of the indicator when selected */
 }
 
 /* Ensure no outline is applied when using keyboard navigation */
 .price-range-item:focus {
-  outline: none; /* Ensure no focus outline */
-  box-shadow: none; /* Ensure no focus shadow */
+  outline: var(--link-color);
+  box-shadow: none; 
 }
 
 .price-slider {
@@ -75,7 +79,7 @@
 .price-input {
   width: 45%; /* Input width to fit side by side */
   padding: 5px; /* Padding inside input */
-  border: 1px solid #ccc; /* Border for input */
+  border: 1px solid var(--border-color);; /* Border for input */
   border-radius: 4px; /* Rounded corners */
   box-sizing: border-box; /* Include padding in width calculation */
 }
@@ -84,6 +88,7 @@
   width: 100%; /* Ensure slider does not exceed container width */
   margin-top: 10px; /* Space between slider and inputs */
 }
+
 .custom-price-range {
   margin-top: 20px; /* Adds some space above the custom price range section to visually separate it from the price range list */
 }
@@ -101,12 +106,11 @@
   max-width: 70px; /* Maximum width of input fields */
   padding: 5px; /* Internal spacing for better readability */
   box-sizing: border-box; /* Ensures padding is included in width */
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
-
-
-
-
-
-
-
+.custom-inputs input::placeholder {
+  color: var(--icon-color);
+}

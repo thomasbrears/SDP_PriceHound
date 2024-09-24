@@ -1,3 +1,7 @@
+.product-page {
+  background-color: var(--secondary-bg-color);
+}
+
 .product-page-details {
   display: flex;
   align-items: flex-start;
@@ -6,14 +10,14 @@
 
 .product-page-details {
   max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  margin-top: 40px;
   display: flex;
   align-items: flex-start;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--header-shadow-color);
 }
 
 .product-page-main-image {
@@ -25,7 +29,7 @@
   width: 100%;
   max-width: 300px; 
   height: auto;
-  background-color: #eee;
+  background-color: var(--secondary-bg-color);;
   border-radius: 10px;
 }
 
@@ -36,21 +40,25 @@
 .product-page-info h3 {
   font-size: 24px;
   margin-bottom: 10px;
+  color: var(--text-color);
 }
 
 .product-page-price {
   font-size: 20px;
   font-weight: bold;
   margin: 10px 0;
+  color: var(--link-color);
 }
 
 .product-page-description {
   margin-bottom: 20px;
+  color: var(--text-color);
 }
 
 .product-page-additional-info {
   list-style-type: disc;
   padding-left: 20px;
+  color: var(--text-color);
 }
 
 .product-page-thumbnails {
@@ -62,16 +70,16 @@
 .product-page-thumbnail {
   width: 80px;
   height: 80px;
-  background-color: #ddd;
+  background-color: var(--border-color);
   border-radius: 5px;
 }
 
 .product-page-comparison-section {
   margin-top: 40px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--header-shadow-color);
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -81,7 +89,7 @@
 .product-page-comparison-section h2 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #0363bb;
+  color: var(--link-color);
 }
 
 .retailers {
@@ -99,6 +107,7 @@
 .product-page-rating-section h3 {
   font-size: 22px;
   margin-bottom: 10px;
+  color: var(--text-color);
 }
 
 .product-page-cta-feedback {
@@ -108,8 +117,8 @@
 .product-page-submit-rating {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #0363bb;
-  color: white;
+  background-color: var(--primary-blue-color);
+  color: var(--text-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaCaretDown, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaCaretDown, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 import Loading from '../components/Loading';
 import LogOutButton from '../components/LogOutButton';
 import '../css/Header.css';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { storage } from '../FirebaseAuth/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage'
+import { ThemeContext } from '../ThemeContext';
 
 
 function Header() {
@@ -20,6 +21,7 @@ function Header() {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu visibility
+  const { theme, toggleTheme } = useContext(ThemeContext); 
   const navigate = useNavigate();
 
   // Check if the user is authenticated based on localStorage
@@ -102,12 +104,14 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  const logoSrc = theme === 'light' ? 'images/PH-logo-blacktext.png' : 'images/PH-logo-whitetext.png';
+
   return (
     <header className={`header ${isSticky ? 'sticky' : ''} ${isHidden ? 'hidden' : ''}`}>
       <div className="header-container">
         {/* Logo */}
         <Link to="/" className="logo-link">
-          <img src="images/PriceHound_Logo.png" alt="PriceHound Logo" className="logo" />
+          <img src={logoSrc} alt="PriceHound Logo" className="logo" />
         </Link>
       
         {/* Desktop Navigation */}
@@ -156,6 +160,8 @@ function Header() {
               <Link to="/signup" className="nav-link">Sign up</Link>
             </>
           )}
+
+          <button onClick={toggleTheme} className="theme-toggle">{theme === 'light' ? <FaMoon /> : <FaSun />} </button>
         </div>
   
         {/* Mobile Menu Icon */}
@@ -199,6 +205,8 @@ function Header() {
                 <Link to="/signup" className="nav-link">Sign up</Link>
               </div>
             )}
+
+            <button onClick={toggleTheme} className="theme-toggle">{theme === 'light' ? <FaMoon /> : <FaSun />} </button>
           </nav>
         )}
       </div>

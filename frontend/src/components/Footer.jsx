@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Footer.css';
 import LogOutButton from '../components/LogOutButton';
-
+import { ThemeContext } from '../ThemeContext';
 
 const Footer = () => {
   // Check if the user is authenticated by checking local storage
   const isAuthenticated = localStorage.getItem('user') !== null;
 
+  const { theme } = useContext(ThemeContext);
+  const logoSrc = theme === 'light' ? 'images/PH-logo-blacktext.png' : 'images/PH-logo-whitetext.png';
+
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-top">
-          <img src="images/PriceHound_Logo.png"  alt="PriceHound Logo" className="footer-logo" />
+          <img src={logoSrc}  alt="PriceHound Logo" className="footer-logo" />
         </div>
         {/* Footer category section with navigation links */}
         <div className="footer-category">
