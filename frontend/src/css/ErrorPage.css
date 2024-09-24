@@ -1,5 +1,8 @@
 .error-page {
     text-align: center;
+    color: var(--text-color);
+    background-color: var(--secondary-bg-color);
+    padding-bottom: 50px;
 }
 
 .error-page .error-content {
@@ -8,6 +11,6 @@
 
 .error-page .error-content p {
     font-size: 18px;
-    color: #555;
+    color: var(--icon-color);
     margin-bottom: 30px;
 }

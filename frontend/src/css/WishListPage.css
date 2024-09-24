@@ -1,3 +1,8 @@
+.wishlist-page {
+    background-color: var(background-color) !important;
+    min-height: 700px;
+}
+
 .products {
     margin-top: 5vh;
     display: flex;
@@ -19,7 +24,7 @@
 
 /* Styling for the view and Remove buttons */
 .viewProduct,.removeButton {
-    color: white;
+    color: #fff; /* always white color */
     border: none;
     padding: 10px;
     border-radius: 20px;
@@ -30,17 +35,17 @@
 }
 
 .viewProduct{
-    background-color: #0363BB;
+    background-color: var(--primary-blue-color);
 }
 
 .viewProduct:hover{
-    background-color: #024785;
+    background-color: var(--dark-blue-color);
 }
 
 .removeButton {
-    background-color: #FF3B3F; 
+    background-color: #FF3B3F; /* red */
 }
 
 .removeButton:hover {
-    background-color: #CC3033; 
+    background-color: #CC3033; /* dark red */
 }

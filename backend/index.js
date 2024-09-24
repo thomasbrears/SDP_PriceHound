@@ -5,7 +5,7 @@ import retailerRoutes from './routes/retailers.js';
 import userRoutes from './routes/users.js';
 import contactRoutes from './routes/contact.js';
 import wishlistRoutes from './routes/wishlist.js'
-import searchApiRoutes from './searchapi.js';
+//import searchApiRoutes from '/searchapi.js';
 import dotenv from 'dotenv';
 import { db } from './firebase.js';
 import path from 'path';
@@ -35,9 +35,9 @@ app.use(express.json());
 
 // Cores middleware to allow cross-origin requests
 app.use(cors({
-  origin: 'https://pricehound.tech',
-  methods: 'GET,POST,PUT,DELETE,OPTIONS',
-  credentials: true
+  //origin: 'https://pricehound.tech',
+  //methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  //credentials: true
 }));
 
 // Use the routes
@@ -47,7 +47,7 @@ app.use('/api/retailers', retailerRoutes);
 app.use('/api/userinfo', userRoutes);
 app.use('/api/contact', contactRoutes);
 
-app.use('/api/search', searchApiRoutes); // Search API
+//app.use('/api/search', searchApiRoutes); // Search API
 
 // Serve static files from the build directory
 app.use(express.static(path.join(__dirname, '../build')));

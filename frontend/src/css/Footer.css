@@ -1,10 +1,11 @@
 .footer {
-    background-color:rgb(237, 244, 244);
+    background-color:var(--background-color);
+    color: var(--text-color);
     padding: 10px;
     text-align: center;
     font-size: 16px;
-    margin-top: 80px;
   }
+
 /* Footer categories list styling */
 .footer-categories {
     list-style: none; 
@@ -16,15 +17,17 @@
     gap: 20px; 
     flex-wrap: wrap; 
   }
+
 /* List item styling within footer categories */
 .footer-categories li {
     text-align: center; 
     margin: 0;
-  }
+}
+
   /* Link styling within footer categories */
 .footer-categories a, .footer-categories button {
     text-decoration: none; 
-    color: #000; 
+    color: var(--nav-link-color); 
     font-size: 16px;
     cursor: pointer;
     background: none;
@@ -35,10 +38,11 @@
 .footer-link:hover, .footer-categories button:hover {
     text-decoration: underline;
   }
-  /* Footer text styling */
+
+/* Footer text styling */
 .footer-text{
     margin-top: 30px;
-    color:#0363BB;
+    color: var(--icon-color);
     font-size: 12px;
 }
 

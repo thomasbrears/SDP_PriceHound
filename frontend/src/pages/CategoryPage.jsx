@@ -221,9 +221,10 @@ function CategoryPage() {
   };
 
   return (
-    <div className="category-page">
+    <div className="category-page-wrapper">
       {loading && <Loading message={loadingMessage} />} {/* Show loading spinner and message if loading */}
       
+      <div className="category-page"></div>
       {/* Page title and subtitle */}
       <MainHeadTitle 
         title="Browse your favorite Categories"
@@ -308,7 +309,7 @@ function CategoryPage() {
         <div className="subcategories-section">
           {/* Subcategory header */}
           <div className="subcategories-header">
-            <h2><a href="#" className="subcategory-link" onClick={() => handleSearch(selectedCategory, 'category')} style={{ textDecoration: 'none', color: 'black' }} >{selectedCategory}</a></h2>
+            <h2><a href="#" className="subcategory-link-heading" onClick={() => handleSearch(selectedCategory, 'category')} style={{ textDecoration: 'none', color: 'black' }} >{selectedCategory}</a></h2>
             <a href="#" className="view-all-link" onClick={() => handleSearch(selectedCategory, 'category')}>View All &rarr;</a>
           </div>
 
@@ -316,7 +317,7 @@ function CategoryPage() {
           <div className="subcategories-columns">
             {subcategories.map((subcategory, index) => (
               <div className="subcategories-column" key={index}>
-              <h3><a href="#" className="subcategory-link" onClick={() => handleSearch(subcategory.secondLevel, 'subcategory')} style={{ textDecoration: 'none', color: 'black' }} >{subcategory.secondLevel}</a></h3>
+              <h3><a href="#" className="third-level-category-link-heading" onClick={() => handleSearch(subcategory.secondLevel, 'subcategory')} >{subcategory.secondLevel}</a></h3>
                 <ul>
                   {subcategory.thirdLevel.map((thirdLevelCategory, i) => (
                     <li key={i}><a href="#" onClick={() => handleSearch(thirdLevelCategory, 'subcategory')}>{thirdLevelCategory}</a></li>

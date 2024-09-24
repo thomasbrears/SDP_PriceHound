@@ -1,9 +1,9 @@
 .price-comparison {
   margin-top: 40px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--header-shadow-color);
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -12,7 +12,7 @@
 .price-comparison h3 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #0363bb;
+  color: var(--primary-blue-color);
   text-align: center;
 }
 
@@ -24,11 +24,11 @@
 .retailer-card {
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: var(--secondary-bg-color);
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--header-shadow-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin-bottom: 10px;
 }
@@ -41,7 +41,7 @@
 
 .retailer-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--header-shadow-color);;
 }
 
 .retailer-logo {
@@ -61,13 +61,13 @@
 .retailer-info p {
   margin: 3px 0;
   font-size: 0.9rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 .price {
   font-size: 2rem !important;
   font-weight: bold;
-  color: #0363bb;
+  color: var(--primary-blue-color);
   text-align: right; /* Align prices to the right */
   min-width: 100px; /* Set a minimum width to align prices */
   margin: 0; /* Remove any default margin */
@@ -90,7 +90,7 @@
 
 .shipping-icon {
   font-size: 1.5rem;
-  color: #0363bb;
+  color: var(--primary-blue-color);
   cursor: pointer;
   position: relative;
 }
@@ -101,14 +101,14 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ecf4f4;
-  color: #0363bb;
+  background-color: var(--secondary-bg-color);
+  color: var(--text-color);
   padding: 5px;
   border-radius: 5px;
   font-size: 0.8rem;
   white-space: nowrap;
   z-index: 1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--header-shadow-color);
 }
 
 .shipping-icon-container:hover .shipping-tooltip {
@@ -122,8 +122,8 @@
 .buy-now {
   flex: 0 0 140px;
   padding: 10px;
-  background-color: #0363bb;
-  color: #fff;
+  background-color: var(--primary-blue-color);
+  color: #fff; /* Always white text */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -136,7 +136,7 @@
 }
 
 .buy-now:hover {
-  background-color: #023785;
+  background-color: var(--dark-blue-color);
 }
 
 .buy-now a {
