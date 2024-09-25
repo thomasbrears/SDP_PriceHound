@@ -53,6 +53,9 @@
     border-radius: 8px;
     border: 1px solid var(--boarder-color);
 }
+#emailChange::placeholder{
+    opacity: 0.6;
+}
 
 /* Label and button styling */
 label {
@@ -118,7 +121,9 @@ label {
   .modal-buttons button {
     width: 45%;
   }
-
+.ver-button{
+    margin: 15px 0;
+}
   
 /* Responsive layout for mobile */
 @media (max-width: 768px) {
