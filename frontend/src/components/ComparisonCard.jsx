@@ -5,6 +5,7 @@ import '../css/ComparisonCard.css';
 import { storage } from '../FirebaseAuth/Firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { format } from 'date-fns';
+import Loading from './Loading';
 
 function ComparisonCard({
   logo,
@@ -14,6 +15,8 @@ function ComparisonCard({
   shippingInfo,
   deliveryTime,
   location,
+  setLoading, // Receive setLoading prop
+  setLoadingMessage, // Receive setLoadingMessage prop
   onAdd,
 
 }) {
@@ -22,6 +25,9 @@ function ComparisonCard({
 
 // Function to handle search rerun
 const handleSearch = async () => {
+  setLoading(true); // Show loading overlay
+  setLoadingMessage(`Sit tight; A hound is getting the latest prices for you...`);
+
   try {
     // Replace any "/" with "-" in the title
     const sanitizedTitle = title.replace(/\//g, '-');
@@ -35,6 +41,8 @@ const handleSearch = async () => {
     navigate('/product', { state: { searchResults: searchResults, searchQuery: title } });
   } catch (error) {
     console.error('Error searching for the product:', error);
+  } finally {
+    setLoading(false); // stop loading animation
   }
 };
 
@@ -89,7 +97,7 @@ const handleSearch = async () => {
       <h3 className="comparison-card-price">{price}</h3>
       { /* rerun search with the product name */}
       <div className="comparison-card-price-action">
-        <button onClick={handleSearch} className="comparison-card-button">Buy Now</button>
+        <button onClick={handleSearch} className="comparison-card-button">Compare Prices</button>
         {userInfo !== null ? <button onClick={() => addToWishlist(logo, title, price)} className="comparison-card-wishlist-button">Add to wishlist</button> : <></>}
       </div>
     </div>

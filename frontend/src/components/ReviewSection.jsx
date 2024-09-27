@@ -9,6 +9,8 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
     const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
     const [ratingStats, setRatingStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }); // Store the count for each rating
     const [averageRating, setAverageRating] = useState(0); // Store the overall average rating
+    const [hoverRating, setHoverRating] = useState(0); // Store the hover rating
+    const reviewsWithText = reviews.filter(review => review.reviewText && review.reviewText.trim() !== '');
     const navigate = useNavigate();
   
     // Function to calculate the rating statistics and overall average rating
@@ -73,6 +75,15 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         }
     }, [searchQuery]);
   
+    // Handle star rating click
+    const handleRatingChange = (newRating) => {
+      if (!user) return; // Prevent rating if not logged in
+      setReviewData((prevData) => ({
+        ...prevData,
+        rating: newRating,
+      }));
+    };
+
     // Handle review form submission
     const handleReviewSubmit = async (e) => {
       e.preventDefault(); // Prevent default form submission behavior
@@ -138,6 +149,27 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         localStorage.removeItem('icon');
         navigate("/signout?logout=true");
     };
+
+    // Star rating component
+    const StarRating = ({ rating, onRatingChange, disabled }) => {
+      return (
+        <div className="star-rating">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span
+              key={star}
+              className={`star ${star <= (hoverRating || rating) ? 'filled' : ''} ${disabled ? 'disabled' : ''}`}
+              onClick={() => !disabled && onRatingChange(star)} // Set rating on click
+              onMouseEnter={() => !disabled && setHoverRating(star)} // Set hover rating
+              onMouseLeave={() => setHoverRating(0)} // Reset hover rating when not selected
+              role="button"
+              aria-label={`${star} star rating`}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+      );
+};
   
     return (
       <div className="review-section-container">
@@ -156,7 +188,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
                     <span className="rating-label">{star} stars</span>
                     <div
                       className="rating-bar-fill"
-                      style={{ width: `${(ratingStats[star] / reviews.length) * 100}%`, maxWidth: '100px' }} /* Max width adjusted */
+                      style={{ width: `${(ratingStats[star] / reviews.length) * 100}%`, maxWidth: '100px' }}
                     ></div>
                     <span className="rating-value">{ratingStats[star]}</span>
                   </div>
@@ -166,63 +198,53 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
   
             {/* Write a Review Section */}
             <div className="review-form-container">
-            <h3>Write a Review</h3>
-            <form className="review-form" onSubmit={handleReviewSubmit}> {/* Add onSubmit handler */}
+              <h3>Write a Review</h3>
+              <form className="review-form" onSubmit={handleReviewSubmit}>
                 <div className="rating-input">
-                <label htmlFor="rating">Rating:</label>
-                <select 
-                    name="rating" 
-                    id="rating"
-                    value={reviewData.rating} 
-                    onChange={handleReviewChange} 
-                    required
+                  <label htmlFor="rating">Rating:</label>
+                  <StarRating 
+                    rating={reviewData.rating}
+                    onRatingChange={handleRatingChange}
                     disabled={!user} // Disable if not logged in
-                >
-                    <option value={0}>Select Rating</option>
-                    <option value={1}>1 Star</option>
-                    <option value={2}>2 Stars</option>
-                    <option value={3}>3 Stars</option>
-                    <option value={4}>4 Stars</option>
-                    <option value={5}>5 Stars</option>
-                </select>
+                  />
                 </div>
                 <label className="review-label" htmlFor="reviewText">Review:</label>
                 <textarea 
-                name="reviewText"
-                value={reviewData.reviewText}
-                onChange={handleReviewChange}
-                placeholder="Your Review (optional)"
-                className="review-input"
-                id="reviewText"
-                disabled={!user} // Disable if not logged in
+                  name="reviewText"
+                  value={reviewData.reviewText}
+                  onChange={handleReviewChange}
+                  placeholder="Your Review (optional)"
+                  className="review-input"
+                  id="reviewText"
+                  disabled={!user} 
                 ></textarea>
                 {user ? (
-                <p className="submit-info">
+                  <p className="submit-info">
                     Submitting as: <span>{user.displayName} ({user.email})</span>
                     <br />
                     <a className="submit-info" onClick={handleLogout}>Not {user.displayName}? Switch Accounts</a>
-                </p>
+                  </p>
                 ) : (
-                <p className="submit-info">
+                  <p className="submit-info">
                     You must <a href="/login">log in</a> to submit a review.
-                </p>
+                  </p>
                 )}
                 <button 
-                className="submit-rating" 
-                type="submit" 
-                disabled={!user} // Disable button if not logged in
+                  className="submit-rating" 
+                  type="submit" 
+                  disabled={!user} // Disable button if not logged in
                 >
-                {user ? 'Submit Rating' : 'Login to Submit'}
+                  {user ? 'Submit Rating' : 'Login to Submit'}
                 </button>
-            </form>
+              </form>
             </div>
-            </div>
+          </div>
   
           {/* Display Reviews */}
           <div className="reviews-section">
             <h3>Customer Reviews</h3>
-            {reviews.length > 0 ? (
-              reviews.map((review) => (
+            {reviewsWithText.length > 0 ? (
+              reviewsWithText.map((review) => (
                 <div key={review.id} className="review-card">
                   <div className="review-header">
                     <p><strong>{review.name}</strong></p> 

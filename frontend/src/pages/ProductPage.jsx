@@ -117,7 +117,11 @@ function ProductPage() {
               <span className="product-page-price">Found for as low as {`${mainProduct.price}`}</span>
               </div>
               <hr />
-              <span className="product-page-rating">The products average rating is {averageRating} / 5 </span>
+              <span className="product-page-rating">
+                {averageRating > 0 
+                  ? `The product's average rating is ${averageRating} / 5`
+                  : 'No one has reviewed this product yet. Be the first to review it below!'}
+              </span>
               <br />
               <p className="product-page-description">{mainProduct.description || ''}</p> {/* Leave description blank if unavailable */}
             </div>

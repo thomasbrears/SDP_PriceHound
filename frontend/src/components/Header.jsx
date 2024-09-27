@@ -79,8 +79,18 @@ function Header() {
     setShowDropdown(!showDropdown);
   };
 
+  // Close dropdown when a link is clicked
+  const closeDropdown = () => {
+    setShowDropdown(false);
+  };
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen); // Open/close mobile menu
+  };
+
+  // Close mobile menu when a link is clicked
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   // Profile picture from cookie
@@ -110,16 +120,16 @@ function Header() {
     <header className={`header ${isSticky ? 'sticky' : ''} ${isHidden ? 'hidden' : ''}`}>
       <div className="header-container">
         {/* Logo */}
-        <Link to="/" className="logo-link">
+        <Link to="/" className="logo-link" onClick={closeDropdown}>
           <img src={logoSrc} alt="PriceHound Logo" className="logo" />
         </Link>
       
         {/* Desktop Navigation */}
         <nav className="nav">
-          <Link to="/about" className="nav-link">About</Link>
-          <Link to="/contact" className="nav-link">Contact</Link>
-          <Link to="/brands" className="nav-link">Brands</Link>
-          <Link to="/categories" className="nav-link">Categories</Link>
+          <Link to="/about" className="nav-link" onClick={closeDropdown}>About</Link>
+          <Link to="/contact" className="nav-link" onClick={closeDropdown}>Contact</Link>
+          <Link to="/brands" className="nav-link" onClick={closeDropdown}>Brands</Link>
+          <Link to="/categories" className="nav-link" onClick={closeDropdown}>Categories</Link>
         </nav>
   
         {/* Search Bar and Profile Section for Desktop */}
@@ -148,8 +158,8 @@ function Header() {
               </div>
               {showDropdown && (
                 <div className="profile-dropdown">
-                  <Link to="/wishlist" className="dropdown-link">My Wishlist</Link> 
-                  <Link to="/manage-account" className="dropdown-link">Manage My Account</Link> 
+                  <Link to="/wishlist" className="dropdown-link" onClick={closeDropdown}>My Wishlist</Link> 
+                  <Link to="/manage-account" className="dropdown-link" onClick={closeDropdown}>Manage My Account</Link> 
                   <LogOutButton />
                 </div>
               )}
@@ -186,23 +196,23 @@ function Header() {
             </div>
   
             {/* Mobile nav links */}
-            <Link to="/about" className="nav-link">About</Link>
-            <Link to="/contact" className="nav-link">Contact</Link>
-            <Link to="/brands" className="nav-link">Brands</Link>
-            <Link to="/categories" className="nav-link">Categories</Link>
+            <Link to="/about" className="nav-link" onClick={closeMobileMenu}>About</Link>
+            <Link to="/contact" className="nav-link" onClick={closeMobileMenu}>Contact</Link>
+            <Link to="/brands" className="nav-link" onClick={closeMobileMenu}>Brands</Link>
+            <Link to="/categories" className="nav-link" onClick={closeMobileMenu}>Categories</Link>
   
             {/* Mobile account links or sign-in/up links */}
             {isAuthenticated ? (
               <div className="profile-section">
                 <img src={pfp ? pfp : 'images/profile.png'} alt="Profile" className="profile-pic" />
-                <Link to="/wishlist" className="nav-link">My Wishlist</Link>
-                <Link to="/manage-account" className="nav-link">Manage My Account</Link>
+                <Link to="/wishlist" className="nav-link" onClick={closeMobileMenu}>My Wishlist</Link>
+                <Link to="/manage-account" className="nav-link" onClick={closeMobileMenu}>Manage My Account</Link>
                 <LogOutButton />
               </div>
             ) : (
               <div className="mobile-auth-links">
-                <Link to="/login" className="nav-link">Sign in</Link> 
-                <Link to="/signup" className="nav-link">Sign up</Link>
+                <Link to="/login" className="nav-link" onClick={closeMobileMenu}>Sign in</Link> 
+                <Link to="/signup" className="nav-link" onClick={closeMobileMenu}>Sign up</Link>
               </div>
             )}
 
