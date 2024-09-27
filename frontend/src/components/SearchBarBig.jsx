@@ -34,6 +34,7 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
       handleSearch();
     }
   }, [localQuery, sortOrder, JSON.stringify(priceRange)]);
+
  // Search for products
   const handleSearch = async () => {
     setLoading(true);
@@ -71,6 +72,13 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
     }
   };
 
+    // Handle "Enter" key press to trigger search
+    const handleEnterKeySearch = (e) => {
+      if (e.key === 'Enter') {
+        handleSearch(); // Search when Enter key is pressed
+      }
+    };
+
   return (
     <div className="search-big-container">
       <div className="search-big-input-wrapper">
@@ -80,6 +88,7 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
           onChange={handleInputChange}
           placeholder="Search for a product to compare ..."
           className="search-big-input"
+          onKeyDown={handleEnterKeySearch}
         />
         <button onClick={handleSearch} className="search-big-button">
           <FiSearch className="search-big-icon" />
