@@ -22,7 +22,7 @@ function ProductNotFoundPage() {
         <p><b>Here is what you can do:</b></p>
         <a href="/" className="pink-button">Head back to our main page.</a>
         <br />
-        <a href="/search" className="pink-button">Try searchimg for the product again.</a>
+        <a href="/search" className="pink-button">Try searching for the product again.</a>
         <br />
         <a href="/contact-us" className="pink-button">Contact us an let us know if something's off, and we'll get our hound on it!</a>        
       </div>

@@ -6,6 +6,7 @@ import userRoutes from './routes/users.js';
 import contactRoutes from './routes/contact.js';
 import wishlistRoutes from './routes/wishlist.js'
 //import searchApiRoutes from '/searchapi.js';
+import reviewRoutes from './routes/reviews.js';
 import dotenv from 'dotenv';
 import { db } from './firebase.js';
 import path from 'path';
@@ -46,6 +47,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/retailers', retailerRoutes);
 app.use('/api/userinfo', userRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/reviews', reviewRoutes);
+//app.use('/api/address', addressRoutes);
 
 //app.use('/api/search', searchApiRoutes); // Search API
 
