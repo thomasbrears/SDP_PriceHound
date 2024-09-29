@@ -2,7 +2,7 @@
     padding: 20px;
 }
 
-.category-buttons {
+.brand-category-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start; 

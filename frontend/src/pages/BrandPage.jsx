@@ -58,7 +58,7 @@ const BrandPage = () => {
     <div className="brand-page">
       <MainHeadTitle title="Find your favourite brands" subtitle="We're comparing over 1000 products globally to get the best deals." />
 
-      <div className="category-buttons">
+      <div className="brand-category-buttons">
         {/* Create buttons for each letter in the brand data */}
         {Object.keys(brandData).map((key) => (
           <PinkButton
