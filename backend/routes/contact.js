@@ -10,6 +10,7 @@ const mailjetClient = mailjet.apiConnect(process.env.MJ_APIKEY_PUBLIC, process.e
 
 // Handle contact form submission
 router.post('/submit-contact-form', async (req, res) => {
+  console.log("API Hit: Contact form submitted"); // LOG
   const { name, email, reason, productUrl, subject, message } = req.body;
 
   try {
@@ -24,7 +25,7 @@ router.post('/submit-contact-form', async (req, res) => {
       createdAt: admin.firestore.FieldValue.serverTimestamp(), // Timestamp when the form was submitted
     });
 
-    const logoUrl = 'https://i.ibb.co/9pCMS5w/Price-Hound-Logo.png'; // Logo URL for in email
+    const logoUrl = 'https://pricehound.tech/images/PH-logo-blacktext.png'; // Logo URL for in email
 
     // Send email to the PriceHound team
     const teamRequest = mailjetClient

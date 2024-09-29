@@ -51,8 +51,8 @@ function ContactPage() {
 
     try {
       // Send the form data to the backend API
-      const response = await axios.post(`${contactApiUrl}/submit-contact-form`, formData);
-      
+      const response = await axios.post('https://pricehound.tech/api/contact/submit-contact-form', formData);
+
       // If the response is successful, show success message
       if (response.data.success) {
         setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });

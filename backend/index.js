@@ -36,9 +36,9 @@ app.use(express.json());
 
 // Cores middleware to allow cross-origin requests
 app.use(cors({
-  //origin: 'https://pricehound.tech',
-  //methods: 'GET,POST,PUT,DELETE,OPTIONS',
-  //credentials: true
+  origin: 'https://pricehound.tech',
+  methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  credentials: true
 }));
 
 // Use the routes
@@ -56,8 +56,12 @@ app.use('/api/reviews', reviewRoutes);
 app.use(express.static(path.join(__dirname, '../build')));
 
 // Serve index.html for all non-API routes
-app.get(/^(?!\/api).+/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'));
+app.get('*', (req, res) => {
+  if (!req.originalUrl.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+  } else {
+    res.status(404).send('API route not found');
+  }
 });
 
 // Error handler middleware

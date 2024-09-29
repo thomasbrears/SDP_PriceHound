@@ -12,10 +12,15 @@ automatic_scaling:
 
 # Serve static assets from the build directory
 handlers:
+  # Handle API requests
+  - url: /api/.*
+    script: auto
+
+  # Serve static files from the build directory
   - url: /static
     static_dir: build/static
 
-  - url: /images  # Serve images from the images folder
+  - url: /images 
     static_dir: build/images
 
   # Catch-all handler to serve index.html for all other routes
