@@ -75,8 +75,14 @@ const BrandPage = () => {
           <ul className="brand-list">
             {currentItems.map((brand, index) => (
               <li key={index}>
-                <a href={brand.link} target="_blank" rel="noopener noreferrer">{brand.text}</a>
-              </li>
+               {/* Replace <a> with <button> */}
+              <button
+                className="brand-button"
+                onClick={() => window.open(brand.link, "_blank")}
+              >
+                {brand.text}
+              </button>
+            </li>
             ))}
           </ul>
 

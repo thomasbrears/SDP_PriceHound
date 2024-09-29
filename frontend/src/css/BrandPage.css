@@ -9,8 +9,8 @@
     margin: 20px;
 }
 
-.category-buttons .pink-button {
-    margin: 0 5px; /* Adjust spacing between buttons */
+.brand-category-buttons .pink-button {
+    margin: 5px 5px; /* Adjust spacing between buttons */
     padding: 5px 10px; /* Add padding for clickable area */
 }
 
@@ -37,6 +37,28 @@
 .brand-list a:hover {
     text-decoration: underline; /* Add underline on hover */
 }
+.brand-button {
+    background-color: white;
+    color:black;
+    border: solid 1px #093f79;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+    min-width: 100px; 
+    height: 40px; 
+    display: flex; 
+    min-width: 140px; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+  }
+  
+  .brand-button:hover {
+    background-color: #f0f2f6;
+  }
 .pagination-controls {
     display: flex;
     justify-content: space-between;
