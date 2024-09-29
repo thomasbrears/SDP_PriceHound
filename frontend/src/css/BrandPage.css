@@ -1,0 +1,39 @@
+.brand-page {
+    padding: 20px;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    margin-bottom: 20px;
+}
+
+.category-buttons .pink-button {
+    margin: 0 5px; /* Adjust spacing between buttons */
+    padding: 5px 10px; /* Add padding for clickable area */
+}
+
+.brand-list {
+    display: grid; /* Use CSS Grid layout */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive columns */
+    gap: 10px; /* Space between grid items */
+    margin-top: 20px; /* Optional: Add top margin to separate from buttons */
+}
+
+.brand-list li {
+    list-style: none; /* Remove bullet points */
+    text-align: left; /* Left align text */
+    padding: 5px; /* Add padding for better spacing */
+}
+
+.brand-list a {
+    text-decoration: none; /* Remove underline from links */
+    color: #007bff; /* Set link color */
+    display: block; /* Make link fill the entire list item */
+
+}
+
+.brand-list a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
