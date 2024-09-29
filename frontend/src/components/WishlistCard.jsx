@@ -16,7 +16,7 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
 
   const searchApiUrl = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api/search'
-    : 'http://localhost:5001/api/search'; 
+    : 'http://localhost:8000/api/search'; 
 
   const handleSearch = async () => {
     setLoading(true, `Searching for ${productName}...`); // Set loading with a message
