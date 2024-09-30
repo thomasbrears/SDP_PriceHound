@@ -1,16 +1,16 @@
 .brand-page {
-    padding: 20px;
+    padding: 20px; /* Add padding around the brand page */
 }
 
 .brand-category-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; 
-    margin: 20px;
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow buttons to wrap onto multiple lines */
+    justify-content: flex-start; /* Align buttons to the start */
+    margin: 20px; /* Margin around the category buttons */
 }
 
 .brand-category-buttons .pink-button {
-    margin: 5px 5px; /* Adjust spacing between buttons */
+    margin: 5px; /* Adjust spacing between buttons */
     padding: 5px 10px; /* Add padding for clickable area */
 }
 
@@ -27,53 +27,43 @@
     padding: 5px; /* Add padding for better spacing */
 }
 
-.brand-list a {
-    text-decoration: none; /* Remove underline from links */
-    color: #007bff; /* Set link color */
-    display: block; /* Make link fill the entire list item */
-
-}
-
-.brand-list a:hover {
-    text-decoration: underline; /* Add underline on hover */
-}
 .brand-button {
-    background-color: white;
-    color:black;
-    border: solid 1px #093f79;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px;
-    transition: background-color 0.3s ease;
-    min-width: 100px; 
-    height: 40px; 
-    display: flex; 
-    min-width: 140px; 
-    height: 40px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-  }
-  
-  .brand-button:hover {
-    background-color: #f0f2f6;
-  }
+    background-color: white; /* Set background color */
+    color: black; /* Set text color */
+    border: solid 1px #093f79; /* Set border color */
+    padding: 10px 15px; /* Add padding */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    margin: 5px; /* Margin around buttons */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    min-width: 140px; /* Minimum width for buttons */
+    height: 40px; /* Fixed height for buttons */
+    display: flex; /* Use flexbox for button content */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    font-weight: bold; /* Bold font for button text */
+}
+
+.brand-button:hover {
+    background-color: #f0f2f6; /* Background color on hover */
+}
+
 .pagination-controls {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px; /* Space above pagination */
+    display: flex; /* Use flexbox for pagination controls */
+    justify-content: space-between; /* Space between pagination buttons */
+    margin-top: 20px; /* Space above pagination controls */
 }
 
 .pagination-controls button {
-    background-color: #007bff; /* Button color */
-    color: white; /* Text color */
+    background-color: #dba7c5; /* Button color */
+    color: black; /* Text color */
     border: none; /* Remove border */
-    padding: 5px 10px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px 10px; /* Padding for buttons */
     cursor: pointer; /* Pointer cursor on hover */
 }
 
 .pagination-controls button:disabled {
     background-color: #cccccc; /* Grey out disabled buttons */
-    cursor: not-allowed; /* Not-allowed cursor */
+    cursor: not-allowed; /* Not-allowed cursor for disabled buttons */
 }
