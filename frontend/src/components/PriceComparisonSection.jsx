@@ -65,72 +65,56 @@ const PriceComparisonSection = ({ retailers }) => {
         {retailers.map((retailer, index) => {
           const price = parseFloat(retailer.price.replace(/[^0-9.-]+/g, "")); // Parse price
           const shortenedTitle = shortenTitle(retailer.title); // Clean and shorten title
-
+  
           return (
             <div
               key={index}
-              className={`retailer-card ${
-                !retailer.shopLogo ? "retailer-card-no-logo" : ""
-              }`}
+              className={`retailer-card ${!retailer.shopLogo ? "retailer-card-no-logo" : ""}`}
             >
               {retailer.shopLogo ? (
                 <img
-                  src={retailer.shopLogo || "/images/shopTemp.png"}
+                  src={retailer.shopLogo || "/images/image-unavailable.jpg"}
                   alt={shortenedTitle}
                   className="retailer-logo"
                   onError={handleImageError} // Handle image load error
                 />
               ) : (
-                <div
-                  style={{ width: "20px", marginRight: "20px" }}
-                ></div> /* Empty space when no logo */
+                <div style={{ width: "20px", marginRight: "20px" }}></div>
               )}
-
+  
               <div className="retailer-info">
                 <p>{shortenedTitle}</p>
                 <div className="price-shipping-container">
                   <p className="price">
-                    {isNaN(price)
-                      ? "Price Not Available"
-                      : `$${price.toFixed(2)}`}
+                    {isNaN(price) ? "Price Not Available" : `$${price.toFixed(2)}`}
                   </p>
                   <div className="shipping-icon-container">
                     <FaShippingFast className="shipping-icon" />
                     <div className="shipping-tooltip">
-                      {retailer.location ? (
-                        <span>{retailer.location}</span>
-                      ) : (
-                        ""
-                      )}
-                      {retailer.shippingAvailable ? (
-                        <span>{retailer.shippingAvailable}</span>
-                      ) : (
-                        ""
-                      )}
-                      {retailer.deliveryInfo ? (
-                        <span>| {retailer.deliveryInfo}</span>
-                      ) : (
-                        ""
-                      )}
+                      {retailer.location && <span>{retailer.location}</span>}
+                      {retailer.shippingAvailable && <span>{retailer.shippingAvailable}</span>}
+                      {retailer.deliveryInfo && <span>| {retailer.deliveryInfo}</span>}
                     </div>
                   </div>
                 </div>
               </div>
-
-              <a
-                href={retailer.shopLink}
-                className="buy-now"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Buy Now
-              </a>
+  
+              {/* Check if the shopLink is valid */}
+              {retailer.shopLink ? (
+                <a href={retailer.shopLink} className="buy-now" target="_blank" rel="noopener noreferrer">
+                  Buy Now
+                </a>
+              ) : (
+                <button className="buy-now-disabled" disabled>
+                  No Link Available
+                </button>
+              )}
             </div>
           );
         })}
       </div>
     </section>
-  );
+  );  
 };
 
 export default PriceComparisonSection;

@@ -94,12 +94,22 @@ export const performScraping = async (searchTerm, sortOrder, priceRange) => {
         const productLink = item.querySelector('.title a')?.href;
         const shippingStockAvailable = item.querySelector('.notdelivery') ? 'No delivery stock' : 'Delivery stock available';
 
+        // Capture shopLink using multiple selectors
+        let shopLink = item.querySelector('.d-flex.justify-content-between.align-items-md-center.main a')?.href;
+        if (!shopLink) {
+          shopLink = item.querySelector('.d-flex.flex-column.flex-md-row.align-items-md-center.price-shipping a')?.href;
+        }
+        if (!shopLink) {
+          shopLink = item.querySelector('a[href*="shop"]')?.href; // Generic fallback if structured selectors fail
+        }
+
         return shopLogo || title || price || productLink
           ? {
               shopLogo,
               title,
               price,
               productLink,
+              shopLink,
               shippingAvailable: shippingStockAvailable,
             }
           : null;
