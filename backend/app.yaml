@@ -16,11 +16,10 @@ handlers:
   - url: /api/.*
     script: auto
 
-  # Serve static files from the build directory
   - url: /static
     static_dir: build/static
 
-  - url: /images 
+  - url: /images  # Serve images from the images folder
     static_dir: build/images
 
   # Catch-all handler to serve index.html for all other routes

@@ -128,7 +128,7 @@ function ProductPage() {
           </div>
 
       {/* Price Comparison Section */}
-      <PriceComparisonSection retailers={filteredResults} />
+      <PriceComparisonSection retailers={searchResults} />
 
       {/* Rating and Review Section */}
       <ReviewSection 
