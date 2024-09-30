@@ -10,11 +10,12 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const navigate = useNavigate();
-
+  
+  // Dynamically set the search API URL based on environment
   const searchApiUrl = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api/search'
-    : 'http://localhost:5001/api/search'; 
-
+    : 'http://localhost:8000/api/search';
+    
   const handleInputChange = (e) => {
     setLocalQuery(e.target.value);
   };

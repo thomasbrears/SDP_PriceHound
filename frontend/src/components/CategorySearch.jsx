@@ -4,6 +4,11 @@ import axios from 'axios';
 import '../css/CategoryButton.css'; 
 import '../css/HomePage.css'; 
 
+// Dynamically set the search API URL based on environment
+const searchApiUrl = process.env.NODE_ENV === 'production'
+? 'https://pricehound.tech/api/search'
+: 'http://localhost:8000/api/search';
+
 function CategorySearch({ category, setLoading, backgroundImage }) {
   const navigate = useNavigate();
 
@@ -11,7 +16,7 @@ function CategorySearch({ category, setLoading, backgroundImage }) {
     setLoading(true, `Searching ${category}...`); // Pass the loading message
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${category}`);
+      const response = await axios.get(`${searchApiUrl}?query=${category}`);
       setLoading(false);
       const { searchResults, priceRanges } = response.data;
 

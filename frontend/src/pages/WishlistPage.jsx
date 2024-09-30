@@ -5,6 +5,7 @@ import WishlistCard from "../components/WishlistCard";
 import PinkButton from "../components/PinkButton";
 import Message from "../components/Message";
 import axios from 'axios';
+import Loading from "../components/Loading";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../FirebaseAuth/Firebase';
 
@@ -15,11 +16,13 @@ function WishlistPage() {
   const firestoreURL = 'https://firebasestorage.googleapis.com/v0/b/pricehound-aut.appspot.com/o/';
   const [backendData, setBackendData] = useState({})
   const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
+  const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
 
   // Dynamically determine the API URL based on environment
-  const wishlistApiUrl = process.env.NODE_ENV === 'production'
-    ? 'https://pricehound.tech/api/wishlist'
-    : 'http://localhost:8000/api/wishlist';
+  const apiUrl = process.env.NODE_ENV === 'production'
+    ? 'https://pricehound.tech/api'
+    : 'http://localhost:8000/api';
 
   //runs a use effect when the page is loaded, this useeffect retrieves the wishlist information based on the uid stored in the local storage
   useEffect(() => {
@@ -31,7 +34,7 @@ function WishlistPage() {
         uid: storedUser.uid
       }
       try {
-        const response = await axios.post(`${wishlistApiUrl}/get`, formData);
+        const response = await axios.post(`${apiUrl}/wishlist/get`, formData);
         console.log(response.data)
         //set the usestate variable to the repsonse
         setBackendData(response.data)
@@ -66,7 +69,7 @@ function WishlistPage() {
       const storedUser = JSON.parse(localStorage.getItem('user'));
       const formData = { uid: storedUser.uid };
       try {
-        const response = await axios.post(`${wishlistApiUrl}/get`, formData);
+        const response = await axios.post(`${apiUrl}/wishlist/get`, formData);
         setBackendData(response.data);
       } catch (error) {
         setMessageInfo({ message: 'Sorry, we ran into an error retrieving your wishlist', type: 'error' });
@@ -81,6 +84,8 @@ function WishlistPage() {
   const total = wishlistItems.length;
   return (
     <div className="wishlist-page" style={{ backgroundColor: 'var(--secondary-bg-color)' }}>
+      {loading && <Loading message={loadingMessage} />}
+      
       <MainHeadTitle
         title={title}
         subtitle="When viewing a product press Add to wishlist to be able to view it here"

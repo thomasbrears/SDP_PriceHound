@@ -23,6 +23,11 @@ function ComparisonCard({
   const navigate = useNavigate(); // Initialize navigate hook
   const userInfo = JSON.parse(localStorage.getItem('user'));
 
+// Dynamically set the search API URL based on environment
+const searchApiUrl = process.env.NODE_ENV === 'production'
+? 'https://pricehound.tech/api/search'
+: 'http://localhost:8000/api/search';
+
 // Function to handle search rerun
 const handleSearch = async () => {
   setLoading(true); // Show loading overlay
@@ -33,7 +38,7 @@ const handleSearch = async () => {
     const sanitizedTitle = title.replace(/\//g, '-');
 
     // Make API call to backend to run searchapi.js with the sanitized title
-    const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(sanitizedTitle)}`);
+    const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(sanitizedTitle)}`);
 
     const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
