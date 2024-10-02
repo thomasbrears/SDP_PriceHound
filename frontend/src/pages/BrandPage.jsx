@@ -42,7 +42,7 @@ const handleSearch = async (query, type) => {
   setLoading(true); // Show the loading animation
 
   try {
-    const response = await axios.get(`http://localhost:5001/api/search?query=${query}`); // Make an API request to search for the brand
+    const response = await axios.get(`http://localhost:8000/api/search?query=${query}`); // Make an API request to search for the brand
     setLoading(false); // Stop the loading animation
     
     const { searchResults } = response.data;
