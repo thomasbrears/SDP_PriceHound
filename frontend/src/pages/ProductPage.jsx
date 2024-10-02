@@ -78,7 +78,7 @@ function ProductPage() {
       {/* Main Header Title */}
       <MainHeadTitle 
         title={searchQuery}
-        subtitle={`Found ${filteredResults.length} options for as low as ${mainProduct.price}`}
+        subtitle={`Found ${searchResults.length} options for as low as ${mainProduct.price}`}
       />
 
       {/* TODO: Add back Breadcrumbs */}

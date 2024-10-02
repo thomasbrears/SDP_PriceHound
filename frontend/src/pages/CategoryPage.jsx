@@ -218,7 +218,7 @@ function CategoryPage() {
       
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-      navigate('/search', { state: { searchResults: searchResults, query } }); // Navigate to the search page with the search results
+      navigate('/search', { state: { searchResults: searchResults, query ,priceRanges: fetchedPriceRanges} }); // Navigate to the search page with the search results
     } catch (error) {
       console.error('Error fetching category products:', error); // Log any errors
       setLoading(false); // Stop the loading animation

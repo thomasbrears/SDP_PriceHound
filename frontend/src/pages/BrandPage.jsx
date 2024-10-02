@@ -36,23 +36,24 @@ const BrandPage = () => {
   // Call handleSearch with the brand text
   handleSearch(brand.text, 'brand'); // Pass 'brand' as type for loading message
 };
+  // Dynamically set the search API URL based on environment
+  const searchApiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://pricehound.tech/api/search'
+  : 'http://localhost:8000/api/search';
+
 
 // Function to handle a search for the selected brand
 const handleSearch = async (query, type) => {
   setLoadingMessage(`Searching ${type === 'brand' ? query : selectedCategory}...`); // Set the loading message
   setLoading(true); // Show the loading animation
-  // Dynamically set the search API URL based on environment
-const searchApiUrl = process.env.NODE_ENV === 'production'
-? 'https://pricehound.tech/api/search'
-: 'http://localhost:8000/api/search';
-
+  
   try {
     const response = await axios.get(`${searchApiUrl}?query=${query}`); // Make an API request to search for the brand
-    setLoading(true); 
+    setLoading(false); 
     
-    const { searchResults } = response.data;
+    const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-    navigate('/search', { state: { searchResults, query } }); // Navigate to the search page with the search results
+    navigate('/search', { state: { searchResults, query, priceRanges: fetchedPriceRanges } }); // Navigate to the search page with the search results
   } catch (error) {
     console.error('Error fetching brand products:', error); // Log any errors
     setLoading(false); // Stop the loading animation
