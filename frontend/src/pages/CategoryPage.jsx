@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+// Dynamically set the search API URL based on environment
+const searchApiUrl = process.env.NODE_ENV === 'production'
+? 'https://pricehound.tech/api/search'
+: 'http://localhost:8000/api/search';
+
 function CategoryPage() {
   // State variables for selected category, subcategories, and loading status
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -208,12 +213,12 @@ function CategoryPage() {
     setLoading(true); // Show the loading animation
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`); // Make an API request to search for the selected category or subcategory
+      const response = await axios.get(`${searchApiUrl}?query=${query}`); // Make an API request to search for the selected category or subcategory
       setLoading(false); // Stop the loading animation
       
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-      navigate('/search', { state: { searchResults: searchResults, query } }); // Navigate to the search page with the search results
+      navigate('/search', { state: { searchResults: searchResults, query ,priceRanges: fetchedPriceRanges} }); // Navigate to the search page with the search results
     } catch (error) {
       console.error('Error fetching category products:', error); // Log any errors
       setLoading(false); // Stop the loading animation

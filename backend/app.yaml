@@ -12,6 +12,10 @@ automatic_scaling:
 
 # Serve static assets from the build directory
 handlers:
+  # Handle API requests
+  - url: /api/.*
+    script: auto
+
   - url: /static
     static_dir: build/static
 

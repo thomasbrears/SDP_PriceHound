@@ -1,8 +1,6 @@
 import './css/Global.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
 import SearchPage from './pages/SearchPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -20,6 +18,7 @@ import VerifyCheck from './components/VerifyCheck';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import CompleteSignInPage from './pages/CompleteSignInPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import AdblockDetect from './components/AdblockDetect';
 
 import AppLayout from './components/AppLayout';
 
@@ -31,8 +30,10 @@ import ForbiddenPage from './pages/error/ForbiddenPage';
 
 function App() {
   return (
+    
     <BrowserRouter>
       <div className="App">
+      <AdblockDetect />
       <AppLayout>
         <Routes>
           <Route path="/" element={<HomePage />} />

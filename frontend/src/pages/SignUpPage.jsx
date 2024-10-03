@@ -8,6 +8,7 @@ import { FaUser } from "react-icons/fa";
 import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../FirebaseAuth/Firebase';
+import Loading from '../components/Loading.jsx';
 
 const SignUpPage = () => {
     const userUrl = process.env.NODE_ENV === 'production'
@@ -18,6 +19,8 @@ const SignUpPage = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
     const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('');
     const navigate = useNavigate();
 
     const actionCodeSettings = {
@@ -34,6 +37,10 @@ const SignUpPage = () => {
             setMessageInfo({ message: 'Passwords do not match', type: 'error' });
             return;
         }
+
+        setLoading(true); // Show loading animation
+        setLoadingMessage('Creating your account...');
+
         try {
             // First, create the account with Firebase Auth
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -61,6 +68,8 @@ const SignUpPage = () => {
 
         } catch (error) {
             setMessageInfo({ message: 'Oops, an error occurred during signup', type: 'error' });
+        } finally {
+            setLoading(false); // Stop loading animation
         }
     
         try {
@@ -81,6 +90,10 @@ const SignUpPage = () => {
     
     const handleGoogle = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
+        setLoadingMessage('Signing you up with Google...');
+
         try {
             //simular to the regular sign up but for when users sign up with google, does all the same relevant steps just a bit simpler due to google sign in
             const provider = new GoogleAuthProvider();
@@ -109,10 +122,14 @@ const SignUpPage = () => {
 
         } catch (error) {
             setMessageInfo({ message: 'Error with Google sign-up', type: 'error' });
+        } finally {
+            setLoading(false); // Stop loading animation
         }
     }
     return (
         <div className="center">
+            {loading && <Loading message={loadingMessage} />}
+            
             <div className="signUpDetails">
                 <img src="/images/PriceHound_Logo.png" alt="profilehead" />
                 <h1>Sign Up</h1>

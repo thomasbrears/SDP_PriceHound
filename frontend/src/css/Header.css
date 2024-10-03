@@ -70,6 +70,8 @@
   border: 1px solid var(--border-color); 
   border-radius: 10px;
   outline: none;
+  color: var(--text-color);
+  background-color: var(--secondary-bg-color);
 }
 
 .search-bar:focus {
@@ -81,7 +83,7 @@
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  color: #000; /* Black search icon */
+  color: var(--text-color);
   cursor: pointer;
 }
 

@@ -13,6 +13,7 @@ function SearchPage() {
   const location = useLocation();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [sortOrder, setSortOrder] = useState('');
   const [priceRange, setPriceRange] = useState(''); // select one price range
   const [priceRanges, setPriceRanges] = useState([]); // show price range
@@ -36,15 +37,13 @@ function SearchPage() {
   // Use useEffect to handle location changes
   useEffect(() => {
     if (location.state?.searchResults) {
-      setLoading(true);
       setResults(location.state.searchResults);
       setPriceRanges(location.state.priceRanges || []); // Set priceRanges if available
       setQuery(location.state.query || ''); // Set query if available
-      setLoading(false);
     }
   }, [location]);
 
-//function to display a relevant message when an item is added to the wishlist
+  //function to display a relevant message when an item is added to the wishlist
   const displayMessage = (messageText, type = 'success') => {
     setMessage({ message: messageText, type });
     setTimeout(() => {
@@ -61,9 +60,10 @@ function SearchPage() {
     setIsSidebarVisible(false);
   };
 
-
   return (
     <div className="search-page">
+    {loading && <Loading message={loadingMessage} />}
+
       <MainHeadTitle
         title="Search for your favorite products"
         subtitle="We're sniffing out and comparing over 1000 products for the best deals worldwide"
@@ -78,11 +78,8 @@ function SearchPage() {
         />
       </div>
 
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="search-page-content">
-          {/* Sidebar */}
+      <div className="search-page-content">
+      {/* Sidebar */}
       <div className={`search-page-filters-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
         {/* Close button for small screens */}
         <button className="close-button" onClick={closeSidebar}>×</button>
@@ -111,6 +108,8 @@ function SearchPage() {
                   link={item.compareLink}
                   shippingInfo={item.shippingAvailable}
                   onAdd={() => { displayMessage('This item has been successfully added to your wishlist!') }}
+                  setLoading={setLoading}
+                  setLoadingMessage={setLoadingMessage}
                 />
               ))
             ) : (
@@ -118,9 +117,7 @@ function SearchPage() {
             )}
             </div>
           </div>
-        )}
-  
-        
+                  
       {message.message && <Message message={message.message} type={message.type} />}
     </div>
   );
