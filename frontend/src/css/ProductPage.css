@@ -26,6 +26,9 @@
   font-size: 0.875rem;
 }
 
+.change-currency{
+  margin-top: 10%;
+}
 .product-details {
   display: flex;
   justify-content: space-between;

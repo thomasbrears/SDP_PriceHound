@@ -15,6 +15,9 @@
   color: var(--primary-blue-color);
   text-align: center;
 }
+.price{
+  font-size: 5px;
+}
 
 .retailers {
   display: flex;
@@ -65,7 +68,7 @@
 }
 
 .price {
-  font-size: 2rem !important;
+  font-size: 1.5rem !important;
   font-weight: bold;
   color: var(--primary-blue-color);
   text-align: right; /* Align prices to the right */

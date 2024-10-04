@@ -8,6 +8,7 @@ import PriceRange from '../components/PriceRange';
 import '../css/SearchPage.css';
 import Sort from '../components/Sort';
 import Message from '../components/Message';
+import ChangeCurrency from '../components/ChangeCurrency';
 
 function SearchPage() {
   const location = useLocation();
@@ -19,9 +20,8 @@ function SearchPage() {
   const [priceRanges, setPriceRanges] = useState([]); // show price range
   const [query, setQuery] = useState(''); // header query state
   const [message, setMessage] = useState({ message: '', type: '' });
-
-   // New state for handling mobile modal
-   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  // New state for handling mobile modal
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const handleSortChange = (order) => {
     setSortOrder(order);
@@ -40,7 +40,18 @@ function SearchPage() {
       setResults(location.state.searchResults);
       setPriceRanges(location.state.priceRanges || []); // Set priceRanges if available
       setQuery(location.state.query || ''); // Set query if available
+      const updatedResults = location.state.searchResults.map((item) => {
+        const priceNumber = parseFloat(item.price.replace(/[$,]/g, ''));
+        var symbol = "$";
+        const convertedPrice = priceNumber * 1;
+        return {
+          ...item,
+          price: `${symbol}${convertedPrice.toFixed(2)} nzd`
+        };
+      });
+      setResults(updatedResults)
     }
+
   }, [location]);
 
   //function to display a relevant message when an item is added to the wishlist
@@ -60,9 +71,30 @@ function SearchPage() {
     setIsSidebarVisible(false);
   };
 
+  const changeCurrency = async (newCurrency, curShort) => {
+    //const curShort = JSON.parse(localStorage.getItem('cur-short'));
+    const updatedResults = location.state.searchResults.map((item) => {
+      const priceNumber = parseFloat(item.price.replace(/[$,]/g, ''));
+      //\u20AC - euro
+      var symbol = "";
+      if (curShort.localeCompare("eur") === 0) {
+        symbol = "\u20AC"
+      }
+      else {
+        symbol = "$"
+      }
+      const convertedPrice = priceNumber * newCurrency;
+      return {
+        ...item,
+        price: `${symbol}${convertedPrice.toFixed(2)} ${curShort}`
+      };
+    });
+    setResults(updatedResults)
+  }
+
   return (
     <div className="search-page">
-    {loading && <Loading message={loadingMessage} />}
+      {loading && <Loading message={loadingMessage} />}
 
       <MainHeadTitle
         title="Search for your favorite products"
@@ -79,45 +111,48 @@ function SearchPage() {
       </div>
 
       <div className="search-page-content">
-      {/* Sidebar */}
-      <div className={`search-page-filters-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
-        {/* Close button for small screens */}
-        <button className="close-button" onClick={closeSidebar}>×</button>
-            <Sort onSort={handleSortChange} />
-            {/* Display PriceRange component */}
-            <PriceRange priceRanges={priceRanges} onPriceRangeClick={onPriceRangeClick} />
+        {/* Sidebar */}
+        <div className={`search-page-filters-sidebar ${isSidebarVisible ? 'visible' : ''}`}>
+          {/* Close button for small screens */}
+          <button className="close-button" onClick={closeSidebar}>×</button>
+          <Sort onSort={handleSortChange} />
+          {/* Display PriceRange component */}
+          <PriceRange priceRanges={priceRanges} onPriceRangeClick={onPriceRangeClick} />
+          <ChangeCurrency
+            onChange={changeCurrency}
+          />
+        </div>
+        {/* Main content */}
+        < div className="search-page-products-grid">
+          {/* Results header with button only on small screens */}
+          <div className="results-header">
+            <h4>Results</h4>
+            {/* Filter button only for small screens */}
+            <button className="filter-button" onClick={toggleSidebar}>
+              Filters
+            </button>
           </div>
-           {/* Main content */}
-          < div className="search-page-products-grid">
-             {/* Results header with button only on small screens */}
-            <div className="results-header">
-              <h4>Results</h4>
-             {/* Filter button only for small screens */}
-             <button className="filter-button" onClick={toggleSidebar}>
-                Filters
-              </button>
-            </div>
-            {/* Product listing */}
-            {results.length > 0 ? (
-              results.map((item, index) => (
-                <ComparisonCard
-                  key={index}
-                  logo={item.image}
-                  title={item.name}
-                  price={item.price}
-                  link={item.compareLink}
-                  shippingInfo={item.shippingAvailable}
-                  onAdd={() => { displayMessage('This item has been successfully added to your wishlist!') }}
-                  setLoading={setLoading}
-                  setLoadingMessage={setLoadingMessage}
-                />
-              ))
-            ) : (
-              <p>No results found</p>
-            )}
-            </div>
-          </div>
-                  
+          {/* Product listing */}
+          {results.length > 0 ? (
+            results.map((item, index) => (
+              <ComparisonCard
+                key={index}
+                logo={item.image}
+                title={item.name}
+                price={item.price}
+                link={item.compareLink}
+                shippingInfo={item.shippingAvailable}
+                onAdd={() => { displayMessage('This item has been successfully added to your wishlist!') }}
+                setLoading={setLoading}
+                setLoadingMessage={setLoadingMessage}
+              />
+            ))
+          ) : (
+            <p>No results found</p>
+          )}
+        </div>
+      </div>
+
       {message.message && <Message message={message.message} type={message.type} />}
     </div>
   );

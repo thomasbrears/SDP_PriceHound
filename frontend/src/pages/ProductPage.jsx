@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeadTitle from '../components/MainHeadTitle';
-import PriceComparisonSection from '../components/PriceComparisonSection'; 
+import PriceComparisonSection from '../components/PriceComparisonSection';
 import Message from '../components/Message';
 import ReviewSection from '../components/ReviewSection';
-import axios from 'axios'; 
+import axios from 'axios';
 import '../css/ProductPage.css';
 import '../css/PriceComparisonCard.css';
+import ChangeCurrency from '../components/ChangeCurrency';
 
 function ProductPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [mainImage, setMainImage] = useState(null);
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });  
+  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   const [averageRating, setAverageRating] = useState(0);
-  const searchResults = location.state?.searchResults || [];
+  const [results, setResults] = useState([]);
   const searchQuery = location.state?.searchQuery || ''; // Extract searchQuery from location state
   const [user, setUser] = useState(null); // Store user info
-
+  const searchResults = location.state?.searchResults || [];
+  const [mainProductPrice, setMainProductPrice] = useState();
   // Function to handle average rating update
   const handleAverageRatingUpdate = (newAverageRating) => {
     setAverageRating(newAverageRating);
@@ -25,13 +27,25 @@ function ProductPage() {
 
   // Redirect if no search results
   useEffect(() => {
+    const updatedResults = location.state.searchResults.map((item) => {
+      const priceNumber = item.price ? parseFloat(item.price.replace(/[$,]/g, '')) : 1;
+      var symbol = "$";
+      const convertedPrice = priceNumber * 1;
+      return {
+        ...item,
+        price: `${symbol}${convertedPrice.toFixed(2)} nzd`
+      };
+    });
+    setResults(updatedResults);
+    setMainProductPrice(mainProduct.price);
     if (searchResults.length === 0) {
       navigate('/product-not-found');
     }
   }, [searchResults, navigate]);
-  
+
   // main product object
   const mainProduct = searchResults[0] || {};
+
 
   // Set main image if available
   useEffect(() => {
@@ -71,70 +85,102 @@ function ProductPage() {
     }
   }, []);
 
+  const changeCurrency = async (newCurrency, curShort) => {
+    //const curShort = JSON.parse(localStorage.getItem('cur-short'));
+    const updatedResults = location.state.searchResults.map((item) => {
+
+      const priceNumber = item.price ? parseFloat(item.price.replace(/[$,]/g, '')) : 1;
+
+      //\u20AC - euro
+      var symbol = "";
+      if (curShort.localeCompare("eur") === 0) {
+        symbol = "\u20AC"
+      }
+      else {
+        symbol = "$"
+      }
+
+      const convertedPrice = priceNumber * newCurrency;
+
+      return {
+        ...item,
+        price: `${symbol}${convertedPrice.toFixed(2)} ${curShort}`
+      };
+    });
+    setResults(updatedResults)
+    const mainProductP = updatedResults[0] || {};
+    setMainProductPrice(mainProductP.price);
+  }
   return (
     <div className="product-page">
-      {messageInfo.message && <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />} 
+      {messageInfo.message && <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />}
 
       {/* Main Header Title */}
-      <MainHeadTitle 
+      <MainHeadTitle
         title={searchQuery}
-        subtitle={`Found ${searchResults.length} options for as low as ${mainProduct.price}`}
+        subtitle={`Found ${searchResults.length} options for as low as ${mainProductPrice}`}
       />
 
       {/* TODO: Add back Breadcrumbs */}
 
       {/* Product Details Section */}
       <div className="product-page-details">
-            {/* Main Product Image */}
-            <div className="product-page-main-image">
-              <div className="product-page-image-placeholder">
-                <img 
-                  src={mainImage || 'images/image-unavailable.jpg'} // Fallback to placeholder if no main image
-                  alt={searchQuery} 
-                />
-              </div>
-            </div>
 
-            {/* Additional Product Images */}
-            {mainProduct.images && mainProduct.images.length > 1 && (
-              <div className="additional-images">
-                {mainProduct.images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`${mainProduct.title} ${index + 1}`}
-                    onClick={() => handleImageClick(image)}
-                    className={`thumbnail ${image === mainImage ? 'active' : ''}`}
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* Product Info */}
-            <div className="product-page-info">
-              <h3>{searchQuery}</h3>
-              <div className="price-rating-container">
-              <span className="product-page-price">Found for as low as {`${mainProduct.price}`}</span>
-              </div>
-              <hr />
-              <span className="product-page-rating">
-                {averageRating > 0 
-                  ? `The product's average rating is ${averageRating} / 5`
-                  : 'No one has reviewed this product yet. Be the first to review it below!'}
-              </span>
-              <br />
-              <p className="product-page-description">{mainProduct.description || ''}</p> {/* Leave description blank if unavailable */}
-            </div>
+        {/* Main Product Image */}
+        <div className="product-page-main-image">
+          <div className="product-page-image-placeholder">
+            <img
+              src={mainImage || 'images/image-unavailable.jpg'} // Fallback to placeholder if no main image
+              alt={searchQuery}
+            />
           </div>
+        </div>
 
+
+
+        {/* Additional Product Images */}
+        {mainProduct.images && mainProduct.images.length > 1 && (
+          <div className="additional-images">
+            {mainProduct.images.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`${mainProduct.title} ${index + 1}`}
+                onClick={() => handleImageClick(image)}
+                className={`thumbnail ${image === mainImage ? 'active' : ''}`}
+              />
+            ))}
+          </div>
+        )}
+
+
+        {/* Product Info */}
+        <div className="product-page-info">
+          <h3>{searchQuery}</h3>
+          <div className="price-rating-container">
+            <span className="product-page-price">Found for as low as {`${mainProductPrice}`}</span>
+          </div>
+          <hr />
+          <span className="product-page-rating">
+            {averageRating > 0
+              ? `The product's average rating is ${averageRating} / 5`
+              : 'No one has reviewed this product yet. Be the first to review it below!'}
+          </span>
+          <br />
+          <p className="product-page-description">{mainProduct.description || ''}</p> {/* Leave description blank if unavailable */}
+        </div>
+      </div>
+      <ChangeCurrency className="change-currency"
+        onChange={changeCurrency}
+      />
       {/* Price Comparison Section */}
-      <PriceComparisonSection retailers={searchResults} />
+      <PriceComparisonSection retailers={results} />
 
       {/* Rating and Review Section */}
-      <ReviewSection 
-        searchQuery={searchQuery} 
-        mainProduct={mainProduct} 
-        user={user} 
+      <ReviewSection
+        searchQuery={searchQuery}
+        mainProduct={mainProduct}
+        user={user}
         onAverageRatingUpdate={handleAverageRatingUpdate}
       />
 
