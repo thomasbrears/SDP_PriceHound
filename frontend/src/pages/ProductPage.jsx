@@ -33,7 +33,7 @@ function ProductPage() {
       const convertedPrice = priceNumber * 1;
       return {
         ...item,
-        price: `${symbol}${convertedPrice.toFixed(2)} nzd`
+        price: `${symbol}${convertedPrice.toFixed(2)} NZD`
       };
     });
     setResults(updatedResults);
@@ -170,9 +170,13 @@ function ProductPage() {
           <p className="product-page-description">{mainProduct.description || ''}</p> {/* Leave description blank if unavailable */}
         </div>
       </div>
-      <ChangeCurrency className="change-currency"
-        onChange={changeCurrency}
-      />
+      <div className='currency-center'>
+        <div className='currency-div'>
+          <ChangeCurrency className="change-currency"
+            onChange={changeCurrency}
+          />
+        </div>
+      </div>
       {/* Price Comparison Section */}
       <PriceComparisonSection retailers={results} />
 

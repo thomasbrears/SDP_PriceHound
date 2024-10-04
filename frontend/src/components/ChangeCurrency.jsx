@@ -5,12 +5,10 @@ import "../css/ChangeCurrency.css";
 function ChangeCurrency({ onChange }) {
     const handleChange = async (e) => {
         const response = await axios.get("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json");
-        localStorage.setItem('currency', response.data.nzd[e.target.value])
-        localStorage.setItem('cur-short', e.target.value)
-        onChange(response.data.nzd[e.target.value], e.target.value);
+        onChange(response.data.nzd[e.target.value], e.target.value.toUpperCase());
     }
     return (
-        <div>
+        <div className='curr-div'>
             <h4>Change currency</h4>
             <div>
                 <select onChange={handleChange}>
@@ -22,11 +20,12 @@ function ChangeCurrency({ onChange }) {
                     <option value="isk">Icelandic Krona</option>
                     <option value="kgs">Kyrgyzstani Som</option>
                     <option value="luf">Luxembourg Franc</option>
-                    <option value="bch">Bitcoin Cash</option>
+                    <option value="btc">Bitcoin</option>
                     <option value="gbp">British Pound</option>
                     <option value="eur">Euro</option>
                     <option value="cad">Canadian Dollar</option>
                     <option value="doge">Dogecoin</option>
+                    <option value="kpw">North Koren Won</option>
                 </select>
             </div>
         </div>

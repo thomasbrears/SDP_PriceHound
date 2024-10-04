@@ -14,6 +14,10 @@
     cursor: pointer; /* Pointer cursor on hover */
     transition: transform 0.2s ease; /* Smooth transition on hover */
   }
+  .brand-logos img{
+    width: 100px;
+    height: auto;
+  }
 
 .brand-logo:hover {
   transform: scale(1.05); /* Slightly increase size on hover */

@@ -9,7 +9,7 @@ const PriceComparisonSection = ({ retailers }) => {
   // Function to shorten and clean titles
   const shortenTitle = (title) => {
 
-    if (!title) return '';
+   if (!title) return '';
 
     const keywordsToRemove = [
       "with",

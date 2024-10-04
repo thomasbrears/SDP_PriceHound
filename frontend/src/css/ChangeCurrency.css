@@ -1,6 +1,13 @@
 
 
-
+.cur-div{
+    display: flex;
+    flex-direction: row;
+}
+h4{
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
 select {
     padding: 5px;
     border-radius: 4px;

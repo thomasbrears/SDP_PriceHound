@@ -21,18 +21,19 @@
 }
 
 .breadcrumb {
-  margin: 20px 0; 
-  padding: 0 20px; 
+  margin: 20px 0;
+  padding: 0 20px;
   font-size: 0.875rem;
 }
 
-.change-currency{
+.change-currency {
   margin-top: 10%;
 }
+
 .product-details {
   display: flex;
   justify-content: space-between;
-  padding: 20px; 
+  padding: 20px;
 }
 
 .product-images {
@@ -51,12 +52,14 @@
   height: auto;
   margin-right: 10px;
   cursor: pointer;
-  border: 1px solid transparent; /* Default no border */
+  border: 1px solid transparent;
+  /* Default no border */
   border-radius: 5px;
 }
 
 .additional-images img.active {
-  border: 2px solid #0363BB; /* Highlight the active image */
+  border: 2px solid #0363BB;
+  /* Highlight the active image */
 }
 
 
@@ -69,9 +72,10 @@
 
 .product-page-image-placeholder {
   width: 100%;
-  max-width: 300px; 
+  max-width: 300px;
   height: auto;
-  background-color: var(--secondary-bg-color);;
+  background-color: var(--secondary-bg-color);
+  ;
   border-radius: 10px;
 }
 
@@ -151,18 +155,18 @@ Reviews, Raitings & Ad Styling
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  gap: 20px; 
+  gap: 20px;
 }
 
 /* Rating and Summary Section */
 .rating-summary-container {
   display: flex;
   flex-direction: column;
-  gap: 20px; 
+  gap: 20px;
   padding: 20px;
   border-radius: 8px;
-  flex: 1; 
-  min-width: 300px; 
+  flex: 1;
+  min-width: 300px;
 }
 
 /* Review Section */
@@ -170,9 +174,10 @@ Reviews, Raitings & Ad Styling
   flex: 2.5;
   margin-right: 20px;
 }
+
 .review-section h2,
 .review-form-container h3,
-.reviews-section h3, 
+.reviews-section h3,
 .rating-stats h3 {
   color: var(--text-color);
   margin-bottom: 10px;
@@ -188,19 +193,19 @@ Reviews, Raitings & Ad Styling
 }
 
 .review-card p {
-  margin: 0 0 5px; 
+  margin: 0 0 5px;
   color: var(--text-color);
 }
 
 .review-card .review-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
   color: var(--text-color);
 }
 
 .review-card .review-header strong {
-  margin-right: 10px; 
+  margin-right: 10px;
   color: var(--text-color);
 }
 
@@ -210,7 +215,8 @@ Reviews, Raitings & Ad Styling
 
 .review-card .review-text {
   margin-top: 5px;
-  border-top: 1px solid var(--primary-blue-color); /* Separator line */
+  border-top: 1px solid var(--primary-blue-color);
+  /* Separator line */
   padding-top: 10px;
   color: var(--text-color);
 }
@@ -223,7 +229,7 @@ Reviews, Raitings & Ad Styling
 
 .rating-input select {
   color: var(--text-color);
-  background-color: var(--secondary-bg-color); 
+  background-color: var(--secondary-bg-color);
 }
 
 .review-input:focus,
@@ -258,7 +264,8 @@ Reviews, Raitings & Ad Styling
 
 .star-summary .star {
   font-size: 24px;
-  color: #f5a623; /* gold */
+  color: #f5a623;
+  /* gold */
 }
 
 .rating-breakdown {
@@ -275,7 +282,7 @@ Reviews, Raitings & Ad Styling
 }
 
 .rating-label {
-  width: 80px; 
+  width: 80px;
   text-align: left;
   color: var(--text-color);
 }
@@ -302,7 +309,8 @@ Reviews, Raitings & Ad Styling
 .rating-bar-fill {
   height: 12px;
   border-radius: 6px;
-  background-color: #ffd700; /* gold */
+  background-color: #ffd700;
+  /* gold */
   transition: width 0.3s ease;
 }
 
@@ -324,8 +332,8 @@ Reviews, Raitings & Ad Styling
   border: 1px solid var(--border-color);
   padding: 20px;
   border-radius: 8px;
-  flex: 1; 
-  position: relative; 
+  flex: 1;
+  position: relative;
 }
 
 .review-form {
@@ -350,16 +358,19 @@ Reviews, Raitings & Ad Styling
 .review-input:disabled,
 .rating-input select:disabled,
 .submit-rating[disabled] {
-  cursor: not-allowed; /* disabled cursor */
-  opacity: 0.6; /* Dim colour*/
+  cursor: not-allowed;
+  /* disabled cursor */
+  opacity: 0.6;
+  /* Dim colour*/
 }
 
 /* Show Disabled Icon for Disabled Fields */
 .review-input:disabled:hover::after,
 .rating-input select:disabled:hover::after,
 .submit-rating[disabled]::after {
-  content: '🔒'; /* Lock icon */
-  display: inline; 
+  content: '🔒';
+  /* Lock icon */
+  display: inline;
   position: absolute;
   right: 10px;
   top: 50%;
@@ -385,31 +396,37 @@ Reviews, Raitings & Ad Styling
   margin-top: 10px;
 }
 
-.submit-rating, .discard-edit, .delete-review {
+.submit-rating,
+.discard-edit,
+.delete-review {
   background-color: var(--primary-blue-color);
-  color: #fff; /* always white */
+  color: #fff;
+  /* always white */
   padding: 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  position: relative; 
+  position: relative;
 }
 
-.submit-rating:hover, .discard-edit:hover {
+.submit-rating:hover,
+.discard-edit:hover {
   background-color: var(--dark-blue-color);
 }
 
 /* Delete Button Specific */
 .delete-review {
-  background-color: #e73c3c !important; /* red */
+  background-color: #e73c3c !important;
+  /* red */
 }
 
 .delete-review:hover {
-  background-color: #c12b2b; /* darker red on hover */
+  background-color: #c12b2b;
+  /* darker red on hover */
 }
 
 .submit-rating[disabled]:hover {
-  background-color: var(--icon-color); 
+  background-color: var(--icon-color);
 }
 
 .edit-icon {
@@ -425,29 +442,35 @@ Reviews, Raitings & Ad Styling
 
 .star-rating {
   display: flex;
-  gap: 5px; /* Space between stars */
+  gap: 5px;
+  /* Space between stars */
 }
 
 .star {
-  font-size: 30px; /* Increase size */
+  font-size: 30px;
+  /* Increase size */
   cursor: pointer;
-  color: #ccc; /* Default color */
+  color: #ccc;
+  /* Default color */
   transition: color 0.2s;
 }
 
 .star.filled {
-  color: #f5a623; /* Gold color for filled stars */
+  color: #f5a623;
+  /* Gold color for filled stars */
 }
 
 .star:hover,
 .star.filled:hover,
-.star.filled ~ .star:hover {
-  color: #f5a623; /* Keep only the filled or hovered stars in gold color */
+.star.filled~.star:hover {
+  color: #f5a623;
+  /* Keep only the filled or hovered stars in gold color */
 }
 
 .star.disabled {
   cursor: not-allowed;
-  color: #ddd; /* Grey out disabled stars */
+  color: #ddd;
+  /* Grey out disabled stars */
 }
 
 /* Styling for name and email */
@@ -473,13 +496,14 @@ Reviews, Raitings & Ad Styling
 /* Responsive Styling */
 @media (min-width: 800px) {
   .rating-summary-container {
-    flex-direction: row; /* Align summary and review form side by side */
+    flex-direction: row;
+    /* Align summary and review form side by side */
     gap: 20px;
-    align-items: stretch; 
+    align-items: stretch;
   }
 
   .review-form-container {
-    margin-top: 0; 
+    margin-top: 0;
   }
 
   .rating-stats,
@@ -490,11 +514,13 @@ Reviews, Raitings & Ad Styling
 
 @media (max-width: 768px) {
   .rating-summary-container {
-    flex-direction: column; /* Stack summary and review form*/
+    flex-direction: column;
+    /* Stack summary and review form*/
   }
 
   .review-section-container {
-    flex-direction: column; /* Stack sections vertically */
+    flex-direction: column;
+    /* Stack sections vertically */
   }
 
   .ad-section {
@@ -511,11 +537,33 @@ Reviews, Raitings & Ad Styling
 
 /* Disabled Icon Styling */
 .disabled-icon {
-  display: none; /* Hidden by default */
+  display: none;
+  /* Hidden by default */
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
-  color: #e73c3c; /* Red */
+  color: #e73c3c;
+  /* Red */
 }
+
+.currency-center {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.currency-div {
+  width: 1000px;
+  margin: auto;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px var(--header-shadow-color);
+}
+

@@ -13,14 +13,13 @@ function WishlistPage() {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const name = storedUser.displayName;
   const title = name + "'s Wishlist"
-  const firestoreURL = 'https://firebasestorage.googleapis.com/v0/b/pricehound-aut.appspot.com/o/';
   const [backendData, setBackendData] = useState({})
   const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
 
   // Dynamically determine the API URL based on environment
-  const apiUrl = process.env.NODE_ENV === 'production'
+  const API_URL = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api'
     : 'http://localhost:8000/api';
 
@@ -34,7 +33,7 @@ function WishlistPage() {
         uid: storedUser.uid
       }
       try {
-        const response = await axios.post(`${apiUrl}/wishlist/get`, formData);
+        const response = await axios.post(`${API_URL}/wishlist/get`, formData);
         console.log(response.data)
         //set the usestate variable to the repsonse
         setBackendData(response.data)
@@ -69,7 +68,7 @@ function WishlistPage() {
       const storedUser = JSON.parse(localStorage.getItem('user'));
       const formData = { uid: storedUser.uid };
       try {
-        const response = await axios.post(`${apiUrl}/wishlist/get`, formData);
+        const response = await axios.post(`${API_URL}/wishlist/get`, formData);
         setBackendData(response.data);
       } catch (error) {
         setMessageInfo({ message: 'Sorry, we ran into an error retrieving your wishlist', type: 'error' });

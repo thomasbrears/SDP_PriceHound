@@ -46,7 +46,7 @@ function SearchPage() {
         const convertedPrice = priceNumber * 1;
         return {
           ...item,
-          price: `${symbol}${convertedPrice.toFixed(2)} nzd`
+          price: `${symbol}${convertedPrice.toFixed(2)} NZD`
         };
       });
       setResults(updatedResults)
