@@ -1,5 +1,5 @@
 import './css/Global.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SearchPage from './pages/SearchPage';
 import HomePage from './pages/HomePage';
@@ -19,7 +19,9 @@ import VerifyEmailPage from './pages/VerifyEmailPage';
 import CompleteSignInPage from './pages/CompleteSignInPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import AdblockDetect from './components/AdblockDetect';
-
+import { ToastContainer, toast } from 'react-toastify'; // Toastify message container
+import 'react-toastify/dist/ReactToastify.css'; // Toastify message css
+import { ThemeContext } from './ThemeContext';
 import AppLayout from './components/AppLayout';
 
 import NotFoundPage from './pages/error/NotFoundPage';
@@ -29,12 +31,24 @@ import UnauthorisedPage from './pages/error/UnauthorisedPage';
 import ForbiddenPage from './pages/error/ForbiddenPage';
 
 function App() {
+  const { theme } = useContext(ThemeContext);
   return (
     
     <BrowserRouter>
       <div className="App">
-      <AdblockDetect />
-      <AppLayout>
+      <AdblockDetect /> {/* Adblock detection */}
+      {/* Toastify message container with defult location and theme*/}
+      <ToastContainer
+        theme={theme} // Dynamically set theme (light/dark)
+        position="top-center" // Set default position
+        draggable={true} // Allow toasts to be draggable
+        closeOnClick={true} // Close toast on click
+        autoClose={5000} // Auto close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        pauseOnHover={true} // Pause on hover
+        pauseOnFocusLoss={false} // Keep toast running even when focus is lost
+      />
+      <AppLayout> {/* App layout */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />

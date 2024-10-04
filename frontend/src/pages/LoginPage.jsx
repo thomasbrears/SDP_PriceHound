@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { useContext } from 'react';
 import '../css/AuthPages.css';
-import Message from '../components/Message';
-import { FaUser } from "react-icons/fa";
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { storage } from '../FirebaseAuth/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage'
 import { ThemeContext } from '../ThemeContext';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 
 function LoginPage() {
     //variables that are used throughout this page
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
     const navigate = useNavigate();
 
     //fetches an existing icon from firebase storage
@@ -25,7 +23,8 @@ function LoginPage() {
             localStorage.setItem('icon', url);
         }
         catch (error) {
-            setMessageInfo({ message: 'Error', type: 'error' });
+            toast.error('Opps! An error occurred while fetching your icon.');
+            console.error("Error fetching icon from firebase:", error);  // Log the error
         }
     }
 
@@ -40,24 +39,25 @@ function LoginPage() {
             localStorage.setItem('user', JSON.stringify(user))
             await fetchIcon(user.uid);
             navigate("/")
+            toast.success('Signed in successfully!', { position: 'top-right', autoClose: 3000 });
         } catch (error) {
             console.error("Error during sign-in:", error);  // Log the error for debugging
             // Handle specific Firebase authentication errors
             switch (error.code) {
                 case 'auth/user-not-found':
-                    setMessageInfo({ message: 'No user found with this email.', type: 'error' });
+                    toast.error('No user found with this email.');
                     break;
                 case 'auth/invalid-password':
-                    setMessageInfo({ message: 'Incorrect password. Please try again.', type: 'error' });
+                    toast.error('Incorrect password. Please try again.');
                     break;
                 case 'auth/invalid-email':
-                    setMessageInfo({ message: 'Invalid email format. Please enter a valid email address.', type: 'error' });
+                    toast.error('Invalid email format. Please enter a valid email address.');
                     break;
                 case 'auth/invalid-credential':
-                    setMessageInfo({ message: 'Invalid credentials. Please try again.', type: 'error' });
+                    toast.error('Invalid credentials. Please try again.');
                     break;
                 default:
-                    setMessageInfo({ message: 'Login failed. Please try again.', type: 'error' });
+                    toast.error('Login failed. Please try again.');
                     break;
             }
         }
@@ -73,17 +73,17 @@ function LoginPage() {
             localStorage.setItem('user', JSON.stringify(user))
             await fetchIcon(user.uid);
             navigate("/")
-            //message based on the success
+            toast.success('Signed in with Google successfully!', { position: 'top-right', autoClose: 3000 });
         } catch (error) {
             switch (error.code) {
                 case 'auth/popup-closed-by-user':
-                    setMessageInfo({ message: 'Google sign-in was canceled. Please try again.', type: 'error' });
+                    toast.error('Google sign-in was canceled. Please try again.');
                     break;
                 case 'auth/network-request-failed':
-                    setMessageInfo({ message: 'Network error. Please check your connection and try again.', type: 'error' });
+                    toast.error('Network error. Please check your connection and try again.');
                     break;
                 default:
-                    setMessageInfo({ message: 'Error with Google sign-in. Please try again.', type: 'error' });
+                    toast.error('Error with Google sign-in. Please try again.');
                     break;
             }
         }
@@ -101,9 +101,9 @@ function LoginPage() {
             await sendSignInLinkToEmail(auth, email, actionCodeSettings);
             // Store the email locally to complete sign-in later
             window.localStorage.setItem('emailForSignIn', email);
-            setMessageInfo({ message: 'Sign-in link sent! Check your email.', type: 'success' });
+            toast.success('Sign-in link sent! Check your email.', { position: 'top-center', autoClose: 7000 });
         } catch (error) {
-            setMessageInfo({ message: `Error sending sign-in link: ${error.message}`, type: 'error' });
+            toast.error(`Error sending sign-in link: ${error.message}`);
         }
     };
 
@@ -142,7 +142,6 @@ function LoginPage() {
                     Don't have an account? <Link to="/signup" className="link">Sign up</Link>
                 </p>
 
-                {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
             </div>
         </div>
     )
