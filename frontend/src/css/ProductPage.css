@@ -141,7 +141,9 @@
   justify-content: center;
 }
 
-/* Review Section Container */
+/*------------------------------
+Reviews, Raitings & Ad Styling
+------------------------------*/
 .review-section-container {
   display: flex;
   flex-wrap: wrap;
@@ -377,7 +379,13 @@
   color: var(--text-color);
 }
 
-.submit-rating {
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.submit-rating, .discard-edit, .delete-review {
   background-color: var(--primary-blue-color);
   color: #fff; /* always white */
   padding: 10px;
@@ -387,12 +395,32 @@
   position: relative; 
 }
 
-.submit-rating:hover {
+.submit-rating:hover, .discard-edit:hover {
   background-color: var(--dark-blue-color);
+}
+
+/* Delete Button Specific */
+.delete-review {
+  background-color: #e73c3c !important; /* red */
+}
+
+.delete-review:hover {
+  background-color: #c12b2b; /* darker red on hover */
 }
 
 .submit-rating[disabled]:hover {
   background-color: var(--icon-color); 
+}
+
+.edit-icon {
+  margin-left: 8px;
+  cursor: pointer;
+  color: var(--primary-blue-color);
+  font-size: 16px;
+}
+
+.edit-icon:hover {
+  color: var(--dark-blue-color);
 }
 
 .star-rating {

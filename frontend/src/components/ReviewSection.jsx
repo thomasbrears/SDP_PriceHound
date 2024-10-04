@@ -3,6 +3,11 @@ import axios from 'axios';
 import Message from '../components/Message'; 
 import { useNavigate } from 'react-router-dom';
 
+// API URL for reviews
+const REVIEW_API_URL = process.env.NODE_ENV === 'production'
+? 'https://pricehound.tech/api/reviews'
+: 'http://localhost:8000/api/reviews';
+
 function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }) {
     const [reviews, setReviews] = useState([]);
     const [reviewData, setReviewData] = useState({ rating: 0, reviewText: '' }); // Store review info
@@ -10,10 +15,15 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
     const [ratingStats, setRatingStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }); // Store the count for each rating
     const [averageRating, setAverageRating] = useState(0); // Store the overall average rating
     const [hoverRating, setHoverRating] = useState(0); // Store the hover rating
+    const [hasReviewed, setHasReviewed] = useState(false); // Track if user has already reviewed
+    const [existingReview, setExistingReview] = useState(null); // Store the existing review if found
+    const [isEditing, setIsEditing] = useState(false); // Track if the user is editing a review
     const reviewsWithText = reviews.filter(review => review.reviewText && review.reviewText.trim() !== '');
     const navigate = useNavigate();
   
-    // Function to calculate the rating statistics and overall average rating
+    /*------------------------------
+    Function to calculate the rating statistics and overall average rating
+    ------------------------------*/
     const calculateRatingStats = (reviews) => {
       const ratingsCount = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       let totalRating = 0;
@@ -43,21 +53,31 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
       }
     };
   
-    // Function to fetch reviews for the product
-    const fetchReviews = async () => {
-     if (!searchQuery) { // Check if searchQuery is valid
+     /*------------------------------
+     Function to fetch reviews for the product
+     ------------------------------*/
+     const fetchReviews = async () => {
+      if (!searchQuery) {
         setMessageInfo({ message: 'Invalid product query. Unable to fetch reviews.', type: 'error' });
         return;
-     }
-      const reviewApiUrl = process.env.NODE_ENV === 'production'
-        ? 'https://pricehound.tech/api/reviews'
-        : 'http://localhost:8000/api/reviews';
-  
+      }
+
       try {
-        const response = await axios.get(`${reviewApiUrl}/fetch-reviews/${searchQuery}`);
+        const response = await axios.get(`${REVIEW_API_URL}/fetch-reviews/${searchQuery}`);
         if (response.data.success) {
-          setReviews(response.data.reviews); // Set reviews state with fetched data
-          calculateRatingStats(response.data.reviews); // Calculate rating stats
+          setReviews(response.data.reviews); 
+          calculateRatingStats(response.data.reviews);
+
+          // Check if the user has already reviewed the product
+          if (user) {
+            const userReview = response.data.reviews.find(review => review.uid === user.uid);
+            if (userReview) {
+              setHasReviewed(true);
+              setExistingReview(userReview);
+              setReviewData({ rating: userReview.rating, reviewText: userReview.reviewText });
+              setIsEditing(false); // Disable editing until the user clicks "Edit"
+            }
+          }
         } else {
           setMessageInfo({ message: 'Failed to fetch reviews.', type: 'error' });
         }
@@ -65,17 +85,34 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         setMessageInfo({ message: 'Error: Unable to fetch reviews.', type: 'error' });
       }
     };
-  
-    // Fetch reviews when the component mounts or searchQuery changes
+      
+    /*------------------------------
+    Fetch reviews when the component mounts or searchQuery changes
+    ------------------------------*/
     useEffect(() => {
-        if (searchQuery) {
-        fetchReviews(); // Fetch reviews only if searchQuery is present
-        } else {
-        setMessageInfo({ message: 'Invalid search query. Unable to fetch reviews.', type: 'error' });
-        }
+      if (searchQuery) {
+        // Reset review-related states when the product changes
+        setReviewData({ rating: 0, reviewText: '' });
+        setHasReviewed(false);
+        setExistingReview(null);
+        setRatingStats({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }); // Reset rating stats
+        setIsEditing(false); // Reset editing state
+        fetchReviews();
+      }
     }, [searchQuery]);
+
+    /*------------------------------
+    Additional useEffect to handle the when the user state changes
+    ------------------------------*/
+    useEffect(() => {
+      if (user && searchQuery) {
+        fetchReviews(); // Re-fetch reviews once the user is logged in or changed
+      }
+    }, [user, searchQuery]);
   
-    // Handle star rating click
+    /*------------------------------
+    Handle star rating click
+    ------------------------------*/
     const handleRatingChange = (newRating) => {
       if (!user) return; // Prevent rating if not logged in
       setReviewData((prevData) => ({
@@ -84,7 +121,9 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
       }));
     };
 
-    // Handle review form submission
+    /*------------------------------
+    Handle review form submission
+    ------------------------------*/
     const handleReviewSubmit = async (e) => {
       e.preventDefault(); // Prevent default form submission behavior
       if (!searchQuery) { // Check if searchQuery is valid before submission
@@ -102,10 +141,6 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         return;
       }
   
-      const reviewApiUrl = process.env.NODE_ENV === 'production'
-        ? 'https://pricehound.tech/api/reviews'
-        : 'http://localhost:8000/api/reviews';
-  
       const reviewPayload = {
         productQuery: searchQuery,
         productTitle: mainProduct.title,
@@ -118,13 +153,12 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
       };
   
       try {
-        const response = await axios.post(`${reviewApiUrl}/submit-review`, reviewPayload);
+        const response = await axios.post(`${REVIEW_API_URL}/submit-review`, reviewPayload);
   
         if (response.data.success) {
-          setMessageInfo({ message: 'Your review has been successfully submitted!', type: 'success' });
-          // Clear form and fetch new reviews
+          setMessageInfo({ message: hasReviewed ? 'Your review has been successfully updated!' : 'Your review has been successfully submitted!', type: 'success' });
           setReviewData({ rating: 0, reviewText: '' });
-          fetchReviews(); // Fetch updated reviews
+          fetchReviews(); 
         } else {
           setMessageInfo({ message: 'Failed to submit your review. Please try again.', type: 'error' });
         }
@@ -132,8 +166,49 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         setMessageInfo({ message: 'Error: Unable to submit your review.', type: 'error' });
       }
     };
+
+    /*------------------------------
+    Handle review deletion
+    ------------------------------*/
+    const handleDeleteReview = async () => {
+    
+      if (!existingReview || !user) {
+        console.log("No existing review or user not logged in.");
+        setMessageInfo({ message: 'Opps, we couldnt find that review or you are not loged in', type: 'success' });
+        return;
+      }
+    
+      try {
+        console.log("Sending delete request for review ID:", existingReview.id);
+        const response = await axios.delete(`${REVIEW_API_URL}/delete-review`, {
+          data: {
+            productQuery: searchQuery, // The product for which the review was written
+            reviewId: existingReview.id, // The ID of the review to delete
+            uid: user.uid, // User ID to verify ownership
+          }
+        });
+            
+        if (response.data.success) {
+          setMessageInfo({ message: 'Review deleted successfully.', type: 'success' });
+          setReviewData({ rating: 0, reviewText: '' });
+          setHasReviewed(false);
+          setExistingReview(null);
+          setIsEditing(false);
+          setRatingStats({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
+          fetchReviews(); // Re-fetch reviews to update UI
+        } else {
+          console.log("Failed to delete review. Response:", response.data);
+          setMessageInfo({ message: 'Failed to delete review. Please try again.', type: 'error' });
+        }
+      } catch (error) {
+        console.error("Error deleting review:", error);
+        setMessageInfo({ message: 'Error: Unable to delete review.', type: 'error' });
+      }
+    };     
   
-    // Handle review input changes
+    /*------------------------------
+    Handle review input changes
+    ------------------------------*/
     const handleReviewChange = (e) => {
       const { name, value } = e.target;
       setReviewData((prevData) => ({
@@ -142,7 +217,9 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
       }));
     };
   
-    // Handle logout action
+    /*------------------------------
+    Handle logout action (from swtich accounts button)
+    ------------------------------*/
     const handleLogout = async () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -150,7 +227,9 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         navigate("/signout?logout=true");
     };
 
-    // Star rating component
+    /*------------------------------
+    Star rating component
+    ------------------------------*/
     const StarRating = ({ rating, onRatingChange, disabled }) => {
       return (
         <div className="star-rating">
@@ -169,7 +248,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
           ))}
         </div>
       );
-};
+    };
   
     return (
       <div className="review-section-container">
@@ -178,93 +257,174 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
   
           <h2>Product Rating & Reviews</h2>
           
-          {/* Display Rating Stats */}
+          {/*----------------------- 
+              Display Rating Stats 
+          --------------------------*/}
           <div className="rating-summary-container">
             <div className="rating-stats">
-              <h3>Average Rating: {averageRating} / 5</h3>
+              <h3>Average Rating: {averageRating} / 5</h3> {/* Display the average rating */}
               <div className="rating-summary">
                 {[5, 4, 3, 2, 1].map((star) => (
                   <div key={star} className="rating-bar">
-                    <span className="rating-label">{star} stars</span>
+                    <span className="rating-label"> {star} {star === 1 ? 'star' : 'stars'} </span> {/* Display the stars (1-5) */}
                     <div
-                      className="rating-bar-fill"
+                      className="rating-bar-fill" // Fill the bar based on the rating count
                       style={{ width: `${(ratingStats[star] / reviews.length) * 100}%`, maxWidth: '100px' }}
                     ></div>
-                    <span className="rating-value">{ratingStats[star]}</span>
+                    <span className="rating-value">{ratingStats[star]}</span> {/* Display the number of ratings */}
                   </div>
                 ))}
               </div>
             </div>
-  
-            {/* Write a Review Section */}
+
+            {/*----------------------------------------- 
+             Write (or Edit or delete) a Review Section
+            --------------------------------------------*/}
             <div className="review-form-container">
-              <h3>Write a Review</h3>
+              <h3>{hasReviewed ? 'Edit Your Review' : 'Write a Review'}</h3> {/* Dynamic heading - changes depending on new or exisitng review */}
+
               <form className="review-form" onSubmit={handleReviewSubmit}>
+                {/* Star Rating Section */}
                 <div className="rating-input">
-                  <label htmlFor="rating">Rating:</label>
+                  <label htmlFor="rating" className="rating-label">
+                    Rating:
+                    {hasReviewed && !isEditing && (
+                      <i
+                        className="fas fa-edit edit-icon" // Edit icon to allow user to edit their exisitng review
+                        onClick={() => setIsEditing(true)}
+                        title="Edit Rating"
+                      ></i>
+                    )}
+                  </label>
                   <StarRating 
                     rating={reviewData.rating}
                     onRatingChange={handleRatingChange}
-                    disabled={!user} // Disable if not logged in
+                    disabled={!user || (!isEditing && hasReviewed)} // Disable rating if user is not logged in or has already reviewed
                   />
                 </div>
-                <label className="review-label" htmlFor="reviewText">Review:</label>
-                <textarea 
-                  name="reviewText"
-                  value={reviewData.reviewText}
-                  onChange={handleReviewChange}
-                  placeholder="Your Review (optional)"
-                  className="review-input"
-                  id="reviewText"
-                  disabled={!user} 
-                ></textarea>
-                {user ? (
+
+                {/* Review Section */}
+                <div className="review-input-section">
+                  <label htmlFor="reviewText" className="review-text-label">
+                    Review:
+                    {hasReviewed && !isEditing && (
+                      <i
+                        className="fas fa-edit edit-icon"
+                        onClick={() => setIsEditing(true)}
+                        title="Edit Review"
+                      ></i>
+                    )}
+                  </label>
+                  <textarea // review text input
+                    name="reviewText"
+                    value={reviewData.reviewText}
+                    onChange={handleReviewChange}
+                    placeholder="Your Review (optional)"
+                    className="review-input"
+                    id="reviewText"
+                    disabled={!user || (!isEditing && hasReviewed)} // Disable review input if user is not logged in or has already reviewed
+                  ></textarea>
+                </div>
+
+                {/* Check if the user is logied in or not */}
+                {user ? ( 
+                  // Display users info if logged in
                   <p className="submit-info">
                     Submitting as: <span>{user.displayName} ({user.email})</span>
                     <br />
                     <a className="submit-info" onClick={handleLogout}>Not {user.displayName}? Switch Accounts</a>
                   </p>
                 ) : (
+                  // Display propmt to login if not logged in
                   <p className="submit-info">
                     You must <a href="/login">log in</a> to submit a review.
                   </p>
                 )}
-                <button 
-                  className="submit-rating" 
-                  type="submit" 
-                  disabled={!user} // Disable button if not logged in
-                >
-                  {user ? 'Submit Rating' : 'Login to Submit'}
-                </button>
+
+                {/* Buttons for editing review */}
+                {isEditing && (
+                  <div className="button-group">
+                    {/* Button to cancel edit */}
+                    <button
+                      type="button"
+                      className="discard-edit"
+                      onClick={() => {
+                        if (existingReview) {
+                          setReviewData({
+                            rating: existingReview.rating,
+                            reviewText: existingReview.reviewText,
+                          });
+                        }
+                        setIsEditing(false); // Exit editing mode
+                      }}
+                    >
+                      Discard Edits
+                    </button>
+                      
+                    {/* Button to update review */}
+                    <button 
+                      className="submit-rating"
+                      type="submit"
+                    >
+                      Update Review
+                    </button>
+
+                    {/* Button to delete review */}
+                    <button
+                      type="button"
+                      className="delete-review"
+                      onClick={handleDeleteReview}
+                    >
+                      Delete Review
+                    </button>
+                  </div>
+                )}
+
+                {/* Submit new Review Button */}
+                {!isEditing && (
+                  <button 
+                    className="submit-rating"
+                    type="submit"
+                    disabled={!user || (!isEditing && hasReviewed)} // Disable submit button if user is not logged in or has already reviewed
+                  >
+                    {user ? 'Submit Rating' : 'Login to Submit'}
+                  </button>
+                )}
               </form>
             </div>
           </div>
-  
-          {/* Display Reviews */}
+        
+          {/*----------------------- 
+            Display text Reviews
+          --------------------------*/}
           <div className="reviews-section">
             <h3>Customer Reviews</h3>
             {reviewsWithText.length > 0 ? (
               reviewsWithText.map((review) => (
                 <div key={review.id} className="review-card">
                   <div className="review-header">
-                    <p><strong>{review.name}</strong></p> 
-                    <div className="review-stars">
+                    <p><strong>{review.name}</strong></p>  {/* Display users name */}
+                    <div className="review-stars"> {/* Display the number of rating for the raiting*/}
                       {Array.from({ length: review.rating }, (_, index) => (
                         <span key={index} className="star" role="img" aria-label="star">⭐</span>
                       ))}
                     </div>
                   </div>
+                  {/* Display the Review text */}
                   {review.reviewText && <p className="review-text">{review.reviewText}</p>}
                 </div>
               ))
             ) : (
-              <p>No reviews yet. Be the first to review this product!</p>
+              <p>No reviews yet. Be the first to review this product!</p> // Display if no reviews are found
             )}
           </div>
         </div>
   
-        {/* Advertisement Section */}
+       {/*----------------------- 
+          Advertisement Section
+        --------------------------*/}
         <div className="ad-section">
+          {/* Ad component */}
           <ins className="adsbygoogle"
             style={{ display: 'block' }}
             data-ad-client="ca-pub-1301948966347874"
