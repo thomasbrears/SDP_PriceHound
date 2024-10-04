@@ -1,0 +1,32 @@
+
+
+.cur-div{
+    display: flex;
+    flex-direction: row;
+}
+h4{
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+select {
+    padding: 5px;
+    border-radius: 4px;
+    width: 15vw;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .sort-component {
+        margin-bottom: 15px;
+        /* Reduce margin for small screens */
+    }
+
+    .sort-component select {
+        width: 100%;
+        /* Ensure dropdown fits container width */
+    }
+
+}

@@ -8,6 +8,9 @@ const placeholderImage =
 const PriceComparisonSection = ({ retailers }) => {
   // Function to shorten and clean titles
   const shortenTitle = (title) => {
+
+   if (!title) return '';
+
     const keywordsToRemove = [
       "with",
       "and",
@@ -63,9 +66,8 @@ const PriceComparisonSection = ({ retailers }) => {
       <h3>Let's Compare Prices</h3>
       <div className="retailers">
         {retailers.map((retailer, index) => {
-          const price = parseFloat(retailer.price.replace(/[^0-9.-]+/g, "")); // Parse price
           const shortenedTitle = shortenTitle(retailer.title); // Clean and shorten title
-  
+
           return (
             <div
               key={index}
@@ -81,12 +83,12 @@ const PriceComparisonSection = ({ retailers }) => {
               ) : (
                 <div style={{ width: "20px", marginRight: "20px" }}></div>
               )}
-  
+
               <div className="retailer-info">
                 <p>{shortenedTitle}</p>
                 <div className="price-shipping-container">
                   <p className="price">
-                    {isNaN(price) ? "Price Not Available" : `$${price.toFixed(2)}`}
+                    {retailer.price}
                   </p>
                   <div className="shipping-icon-container">
                     <FaShippingFast className="shipping-icon" />
@@ -98,7 +100,7 @@ const PriceComparisonSection = ({ retailers }) => {
                   </div>
                 </div>
               </div>
-  
+
               {/* Check if the shopLink is valid */}
               {retailer.shopLink ? (
                 <a href={retailer.shopLink} className="buy-now" target="_blank" rel="noopener noreferrer">
@@ -114,7 +116,7 @@ const PriceComparisonSection = ({ retailers }) => {
         })}
       </div>
     </section>
-  );  
+  );
 };
 
 export default PriceComparisonSection;
