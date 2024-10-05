@@ -6,7 +6,7 @@ import CategorySearch from '../components/CategorySearch';
 import PinkButton from '../components/PinkButton'; 
 import Loading from '../components/Loading';
 import BrandLogo from '../components/BrandLogo'; 
-import Message from '../components/Message';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/HomePage.css'; 
 
@@ -15,7 +15,6 @@ function HomePage() {
   const location = useLocation(); // Get current location
   const [loading, setLoadingState] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); 
 
   const setLoading = (state, message = '') => {
     setLoadingState(state);
@@ -26,9 +25,9 @@ function HomePage() {
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     if (query.get('logout') === 'true') {
-      setMessageInfo({ message: 'You have successfully logged out.', type: 'success' });
+      toast.success('You have successfully logged out. Have a great day!');
     } else if (query.get('error') === 'true') {
-      setMessageInfo({ message: 'An error occurred during logout.', type: 'error' });
+      toast.error('An error occurred during logout. Please try again.');
     }
   }, [location]);
 
@@ -41,8 +40,6 @@ function HomePage() {
   return (
     <div className="home-page">
       {loading && <Loading message={loadingMessage} />}
-      {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
-
 
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"

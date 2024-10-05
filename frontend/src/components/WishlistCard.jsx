@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/ProductCard.css';
-import Message from './Message';
 import Loading from './Loading';
+import { toast } from 'react-toastify';
 
 function WishlistCard({ productName, productImg, price, date, onRemove }) {
   const navigate = useNavigate(); // Initialize navigate hook
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
   
   // Dynamically determine the APIs URL based on environment
   const apiUrl = process.env.NODE_ENV === 'production'
@@ -29,11 +28,12 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
         if (searchResults && searchResults.length > 0) {
           navigate('/product', { state: { searchResults: searchResults, searchQuery: productName } }); // Navigate to product page
         } else {
-          setMessageInfo({ message: 'No products found for this search.', type: 'error' });
+          console.log('No products found');
+          toast.error('Sorry, no products were found. Please try again');
         }
     
       } catch (error) {
-        setMessageInfo({ message: 'Error fetching search results', type: 'error' });
+        toast.error('Sorry, an error occurred well fetching the search results. Please try again');
         console.error('Error fetching search results:', error);
       } finally {
         setLoading(false); // Stop loading animation
@@ -55,11 +55,11 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
       const response = await axios.post(`${apiUrl}/remove`, formData);
       //onremove function to tell wishlist to update
       onRemove();
-      setMessageInfo({ message: 'Item removed from wishlist.', type: 'success' });
+      toast.success('Product successfuly removed from wishlist');
       console.log(response)
     }
     catch (error) {
-      setMessageInfo({ message: 'Error removing item from wishlist.', type: 'error' });
+      toast.error('Sorry, an error occurred well removing the product from your wishlist. Please try again later');
       console.error('Error removing item from wishlist:', error);
     }
   }

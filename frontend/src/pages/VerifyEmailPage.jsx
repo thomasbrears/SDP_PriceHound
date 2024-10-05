@@ -3,11 +3,11 @@ import { getAuth, sendEmailVerification } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import "../css/AuthPages.css";
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 
 const VerifyEmailPage = () => {
   const auth = getAuth();
   const navigate = useNavigate();
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   const [resendCooldown, setResendCooldown] = useState(30); // 30 seconds countdown
   const [canResend, setCanResend] = useState(false); // They can't resend immediately
   const [userEmail, setUserEmail] = useState('');
@@ -24,10 +24,8 @@ const VerifyEmailPage = () => {
         user.reload(); // Reload user data to check if email is verified
         if (user.emailVerified) {
           clearInterval(intervalId);
-          setMessageInfo({ message: 'Email verified! Redirecting to your account...', type: 'success' });
-          setTimeout(() => {
-            navigate('/manage-account'); // Redirect to Manage Account page after verification
-          }, 3000); // Wait for 3 seconds before redirecting
+          toast.success('Email verified! Happy shopping!');
+          navigate('/manage-account'); // Redirect to Manage Account page after verification
         }
       }
     }, 3000); // Check every 3 seconds
@@ -53,11 +51,12 @@ const VerifyEmailPage = () => {
     try {
       const user = auth.currentUser;
       await sendEmailVerification(user);
-      setMessageInfo({ message: 'Verification email resent! Please check your inbox.', type: 'success' });
+      toast.success('Verification email resent! Please check your inbox.');
       setCanResend(false); // Disable the resend button
       setResendCooldown(30); // Reset countdown
     } catch (error) {
-      setMessageInfo({ message: 'Failed to resend verification email. Please try again.', type: 'error' });
+      console.error('Error resending verification email:', error);
+      toast.error('Sorry, we failed to resend the verification email. Please try again later.');
     }
   };
 
@@ -73,9 +72,7 @@ const VerifyEmailPage = () => {
 
         <img src="/images/PriceHound_Logo.png" alt="PriceHound Logo" />
         <h1>Verify Your Email</h1>
-        <p>
-          We have sent a verification email to <b>{userEmail}</b>. Please click the verification link in the email to verify your account.
-        </p>
+        <p>We have sent a verification email to <b>{userEmail}</b>. Please click the verification link in the email to verify your account.</p>
         <p>Once verified, you will be automatically redirected to your account.</p>
 
         {/* Resend Button with Countdown */}
@@ -85,12 +82,6 @@ const VerifyEmailPage = () => {
           disabled={!canResend}>
           {canResend ? 'Resend Email' : `Resend in ${resendCooldown}s`}
         </button>
-
-        {messageInfo.message && (
-          <p className={`message ${messageInfo.type}`}>
-            {messageInfo.message}
-          </p>
-        )}
       </div>
     </div>
   );

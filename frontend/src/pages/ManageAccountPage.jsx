@@ -5,7 +5,7 @@ import { storage } from '../FirebaseAuth/Firebase';
 import { useNavigate } from 'react-router-dom';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton';
-import Message from '../components/Message';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import '../css/PinkButton.css';
 import '../css/ManageAccountPage.css';
 
@@ -23,7 +23,6 @@ function ManageAccountPage() {
     isVerified: ''
   });
 
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   // State variables for form inputs
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -66,16 +65,17 @@ function ManageAccountPage() {
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [navigate, a]); // 'navigate' as a dependency  
+
   // Handle password change
   const handleChangePassword = async (e) => {
     e.preventDefault();
     // Check if new passwords match and meet length requirement
     if (newPassword !== confirmNewPassword) {
-      setMessageInfo({ message: 'New passwords do not match!', type: 'error' });
+      toast.error('New passwords do not match! Please check them and try again');
       return;
     }
     if (newPassword.length < 6) {
-      setMessageInfo({ message: 'Password must be at least 6 characters long!', type: 'error' });
+      toast.error('Password must be at least 6 characters long! Please correct and try again');
       return;
     }
 
@@ -85,10 +85,10 @@ function ManageAccountPage() {
       const credential = EmailAuthProvider.credential(user.email, currentPassword);
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
-      setMessageInfo({ message: 'Password updated successfully', type: 'success' });
+      toast.success('Password updated successfully');
     } catch (error) {
       console.error('Error updating password:', error);
-      setMessageInfo({ message: 'Error updating password', type: 'error' });
+      toast.error('Sorry, an error occurred well updating you password; Please try again');
     }
   };
   // Handle name change
@@ -96,7 +96,7 @@ function ManageAccountPage() {
     e.preventDefault();
     // Ensure new name is not empty
     if (newName.length < 1) {
-      setMessageInfo({ message: 'Please enter a name!', type: 'error' });
+      toast.error('Please enter a name!');
       return;
     }
 
@@ -108,10 +108,10 @@ function ManageAccountPage() {
       setCurrentUser({ ...currentUser, name: newName });
       localStorage.setItem('user', JSON.stringify({ ...currentUser, name: newName }));
 
-      setMessageInfo({ message: 'Name updated successfully', type: 'success' });
+      toast.success('Name updated successfully');
     } catch (error) {
       console.error('Error updating name:', error);
-      setMessageInfo({ message: 'Error updating name; Please try again', type: 'error' });
+      toast.error('Sorry, an error occurred well updating your name. Please try again');
     }
   };
 
@@ -124,12 +124,10 @@ function ManageAccountPage() {
 
     if (file && !acceptableTypes.includes(file.type)) {
       // Set an error message if the file type is not acceptable
-      setMessageInfo({ message: 'File type not accepted. Please upload a valid image file (JPEG, JPG, PNG, WEBP, SVG, or HEIC).', type: 'error' });
+      toast.error('File type not accepted. Please upload a valid image file (JPEG, JPG, PNG, WEBP, SVG, or HEIC) and try again.');
       return;
     }
 
-    // Clear previous messages and proceed with file handling if valid
-    setMessageInfo({ message: '', type: '' });
     setIcon(file); // Set the selected file to the state
   };
 
@@ -147,7 +145,7 @@ function ManageAccountPage() {
   //function for handling the icon change, gets the file inputed by the user then uploads it to firebase and changes the link in local storage
   const handleChangeIcon = async (e) => {
     if (!icon) {
-      setMessageInfo({ message: 'Please select an image file!', type: 'error' });
+      toast.error('Please select an image file!');
       return;
     }
     try {
@@ -158,10 +156,10 @@ function ManageAccountPage() {
         contentType: icon.type,
       });
       //returns message based on success
-      setMessageInfo({ message: 'Icon updated successfully', type: 'success' });
+      toast.success('Profile image updated successfully');
     } catch (error) {
       console.error('Error updating icon:', error);
-      setMessageInfo({ message: 'Error updating icon', type: 'error' });
+      toast.error('Sorry a error occurred well updating your profile picture. Please try again');
     }
   };
 
@@ -177,7 +175,7 @@ function ManageAccountPage() {
       await reauthenticateWithCredential(user, credential);
       await deleteUserData(user.uid); // Delete user data
       await user.delete(); // Delete user account from Firebase Auth
-      setMessageInfo({ message: 'Your account has been deleted successfully; Have a good day', type: 'success' });
+      toast.success('Your account has been deleted successfully; We\'re sorry to see you go!');
 
       // Delay to show success message
       setTimeout(() => {
@@ -188,7 +186,7 @@ function ManageAccountPage() {
       }, 4000); // 4-second delay
     } catch (error) {
       console.error('Error deleting account:', error);
-      setMessageInfo({ message: 'Error deleting account. Please try again.', type: 'error' });
+      toast.error('Sorry, an error occurred well deleting your account. Please try again.');
     }
   };
 
@@ -199,6 +197,7 @@ function ManageAccountPage() {
       const storageRef = ref(storage, `icons/${uid}`);
       await deleteObject(storageRef); // Delete profile picture from storage
     } catch (error) {
+      toast.error('Sorry, an error occurred well deleting your data. Please try again.');
       console.error('Error deleting user data:', error);
     }
   };
@@ -228,6 +227,7 @@ function ManageAccountPage() {
   //     alert('Error updating email');
   //   }
   // };
+
   const verifyEmail = async () => {
     //get auth 
     const auth = getAuth();
@@ -236,7 +236,9 @@ function ManageAccountPage() {
     await sendEmailVerification(user);
     //redirect to verify email page to await verification
     navigate('/verify-email');
+    toast.success('Verification email sent');
   }
+
   const changeEmail = async (e) => {
     e.preventDefault();
     try {
@@ -251,10 +253,12 @@ function ManageAccountPage() {
       await sendEmailVerification(user);
       //redirect to verify email page to await verification
       navigate('/verify-email');
+      toast.success('Verification email sent');
     }
     catch (e) {
       //error message if errors
-      setMessageInfo({ message: "There was an error, please enter the correct password and try again", type: 'error' });
+      console.error('Error updating email:', e);
+      toast.error('Sorry, an error occurred well updating your email. Please try again');
     }
 
   }
@@ -377,7 +381,6 @@ function ManageAccountPage() {
         </div>
 
       </div>
-      {messageInfo.message && (<Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}
     </div>
   );
 }

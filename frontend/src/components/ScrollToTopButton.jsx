@@ -32,9 +32,7 @@ function ScrollToTopButton() {
   return (
     <div className="scroll-to-top">
       {isVisible && (
-        <button onClick={scrollToTop} className="scroll-button">
-          <FaArrowUp />
-        </button>
+        <button onClick={scrollToTop} className="scroll-button"><FaArrowUp /></button>
       )}
     </div>
   );

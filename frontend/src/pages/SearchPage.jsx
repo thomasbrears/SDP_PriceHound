@@ -7,7 +7,7 @@ import Loading from '../components/Loading';
 import PriceRange from '../components/PriceRange';
 import '../css/SearchPage.css';
 import Sort from '../components/Sort';
-import Message from '../components/Message';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ChangeCurrency from '../components/ChangeCurrency';
 
 function SearchPage() {
@@ -19,9 +19,7 @@ function SearchPage() {
   const [priceRange, setPriceRange] = useState(''); // select one price range
   const [priceRanges, setPriceRanges] = useState([]); // show price range
   const [query, setQuery] = useState(''); // header query state
-  const [message, setMessage] = useState({ message: '', type: '' });
-  // New state for handling mobile modal
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);// state for handling mobile modal
 
   const handleSortChange = (order) => {
     setSortOrder(order);
@@ -32,6 +30,7 @@ function SearchPage() {
     const formattedRange = `selectedMinPr=${range.min}&selectedMaxPr=${range.max === Infinity ? 'Infinity' : range.max}`;
     setPriceRange(formattedRange);
     console.log("Selected Price Range:", formattedRange);
+    toast.success(`Price range updated to ${range.min} - ${range.max === Infinity ? 'Infinity' : range.max}`, {position: 'top-right' });
   };
 
   // Use useEffect to handle location changes
@@ -56,9 +55,8 @@ function SearchPage() {
 
   //function to display a relevant message when an item is added to the wishlist
   const displayMessage = (messageText, type = 'success') => {
-    setMessage({ message: messageText, type });
+    toast[type](messageText);
     setTimeout(() => {
-      setMessage({ message: '', type: '' });
     }, 3000);
   };
 
@@ -152,8 +150,6 @@ function SearchPage() {
           )}
         </div>
       </div>
-
-      {message.message && <Message message={message.message} type={message.type} />}
     </div>
   );
 }

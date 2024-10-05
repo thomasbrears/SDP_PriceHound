@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Message from '../components/Message'; 
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import { useNavigate } from 'react-router-dom';
 
 // API URL for reviews
@@ -11,7 +11,6 @@ const REVIEW_API_URL = process.env.NODE_ENV === 'production'
 function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }) {
     const [reviews, setReviews] = useState([]);
     const [reviewData, setReviewData] = useState({ rating: 0, reviewText: '' }); // Store review info
-    const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
     const [ratingStats, setRatingStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }); // Store the count for each rating
     const [averageRating, setAverageRating] = useState(0); // Store the overall average rating
     const [hoverRating, setHoverRating] = useState(0); // Store the hover rating
@@ -58,7 +57,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
      ------------------------------*/
      const fetchReviews = async () => {
       if (!searchQuery) {
-        setMessageInfo({ message: 'Invalid product query. Unable to fetch reviews.', type: 'error' });
+        toast.error('Invalid product query. Unable to fetch reviews.');
         return;
       }
 
@@ -79,10 +78,11 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
             }
           }
         } else {
-          setMessageInfo({ message: 'Failed to fetch reviews.', type: 'error' });
+          toast.error('Failed to fetch reviews.');
         }
       } catch (error) {
-        setMessageInfo({ message: 'Error: Unable to fetch reviews.', type: 'error' });
+        console.error('Error fetching reviews:', error);
+        toast.error('Sorry, we are unable to fetch reviews for this product.', {position: 'top-right'});
       }
     };
       
@@ -127,17 +127,17 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
     const handleReviewSubmit = async (e) => {
       e.preventDefault(); // Prevent default form submission behavior
       if (!searchQuery) { // Check if searchQuery is valid before submission
-        setMessageInfo({ message: 'Invalid product query. Unable to submit your review.', type: 'error' });
+        toast.error('Sorry, we are unable to submit your review due to a product query issue. Please refresh the page and try again.');
         return;
       }
   
       if (!user) {
-        setMessageInfo({ message: 'You must be logged in to submit a review.', type: 'error' });
+        toast.error('You must be logged in to submit a review. Please log in and try again.');
         return;
       }
   
       if (reviewData.rating === 0) {
-        setMessageInfo({ message: 'Please provide a rating between 1 and 5 stars.', type: 'error' });
+        toast.error('Please provide a rating between 1 and 5 stars.');
         return;
       }
   
@@ -156,14 +156,16 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         const response = await axios.post(`${REVIEW_API_URL}/submit-review`, reviewPayload);
   
         if (response.data.success) {
-          setMessageInfo({ message: hasReviewed ? 'Your review has been successfully updated!' : 'Your review has been successfully submitted!', type: 'success' });
+          toast.success(hasReviewed ? 'Your review has been successfully updated!' : 'Your review has been successfully submitted! Your review will help others looking to purchase this product!.');
           setReviewData({ rating: 0, reviewText: '' });
           fetchReviews(); 
         } else {
-          setMessageInfo({ message: 'Failed to submit your review. Please try again.', type: 'error' });
+          console.log("Failed to submit review:", response.data);
+          toast.error('Failed to submit your review. Please try again.');
         }
       } catch (error) {
-        setMessageInfo({ message: 'Error: Unable to submit your review.', type: 'error' });
+        console.error('Error submitting review:', error);
+        toast.error('Sorry, we are unable to submit your review at this time. Please try again later.');
       }
     };
 
@@ -173,13 +175,12 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
     const handleDeleteReview = async () => {
     
       if (!existingReview || !user) {
+        toast.error('Opps, we couldnt find that review or you are not loged in');
         console.log("No existing review or user not logged in.");
-        setMessageInfo({ message: 'Opps, we couldnt find that review or you are not loged in', type: 'success' });
         return;
       }
     
       try {
-        console.log("Sending delete request for review ID:", existingReview.id);
         const response = await axios.delete(`${REVIEW_API_URL}/delete-review`, {
           data: {
             productQuery: searchQuery, // The product for which the review was written
@@ -189,7 +190,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
         });
             
         if (response.data.success) {
-          setMessageInfo({ message: 'Review deleted successfully.', type: 'success' });
+          toast.success('Your review has been deleted successfully.');
           setReviewData({ rating: 0, reviewText: '' });
           setHasReviewed(false);
           setExistingReview(null);
@@ -198,11 +199,11 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
           fetchReviews(); // Re-fetch reviews to update UI
         } else {
           console.log("Failed to delete review. Response:", response.data);
-          setMessageInfo({ message: 'Failed to delete review. Please try again.', type: 'error' });
+          toast.error('We failed to delete your review. Please refresh the page and try again.');
         }
       } catch (error) {
         console.error("Error deleting review:", error);
-        setMessageInfo({ message: 'Error: Unable to delete review.', type: 'error' });
+        toast.error('Sorry, we are unable to delete your review at this time. Please try again later.');
       }
     };     
   
@@ -252,9 +253,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
   
     return (
       <div className="review-section-container">
-        <div className="review-section">
-          {messageInfo.message && <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />}
-  
+        <div className="review-section">  
           <h2>Product Rating & Reviews</h2>
           
           {/*----------------------- 
@@ -286,8 +285,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
               <form className="review-form" onSubmit={handleReviewSubmit}>
                 {/* Star Rating Section */}
                 <div className="rating-input">
-                  <label htmlFor="rating" className="rating-label">
-                    Rating:
+                  <label htmlFor="rating" className="rating-label">Rating:
                     {hasReviewed && !isEditing && (
                       <i
                         className="fas fa-edit edit-icon" // Edit icon to allow user to edit their exisitng review
@@ -305,8 +303,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
 
                 {/* Review Section */}
                 <div className="review-input-section">
-                  <label htmlFor="reviewText" className="review-text-label">
-                    Review:
+                  <label htmlFor="reviewText" className="review-text-label">Review:
                     {hasReviewed && !isEditing && (
                       <i
                         className="fas fa-edit edit-icon"
@@ -315,6 +312,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
                       ></i>
                     )}
                   </label>
+
                   <textarea // review text input
                     name="reviewText"
                     value={reviewData.reviewText}
@@ -336,18 +334,14 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
                   </p>
                 ) : (
                   // Display propmt to login if not logged in
-                  <p className="submit-info">
-                    You must <a href="/login">log in</a> to submit a review.
-                  </p>
+                  <p className="submit-info">You must <a href="/login">log in</a> to submit a review.</p>
                 )}
 
                 {/* Buttons for editing review */}
                 {isEditing && (
                   <div className="button-group">
                     {/* Button to cancel edit */}
-                    <button
-                      type="button"
-                      className="discard-edit"
+                    <button type="button" className="discard-edit"
                       onClick={() => {
                         if (existingReview) {
                           setReviewData({
@@ -356,26 +350,18 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
                           });
                         }
                         setIsEditing(false); // Exit editing mode
-                      }}
-                    >
-                      Discard Edits
-                    </button>
+                      }} 
+                    >Discard Edits</button>
                       
                     {/* Button to update review */}
-                    <button 
-                      className="submit-rating"
-                      type="submit"
-                    >
-                      Update Review
-                    </button>
+                    <button className="submit-rating" type="submit">Update Review</button>
 
                     {/* Button to delete review */}
                     <button
                       type="button"
                       className="delete-review"
                       onClick={handleDeleteReview}
-                    >
-                      Delete Review
+                    >Delete Review
                     </button>
                   </div>
                 )}
@@ -386,8 +372,7 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
                     className="submit-rating"
                     type="submit"
                     disabled={!user || (!isEditing && hasReviewed)} // Disable submit button if user is not logged in or has already reviewed
-                  >
-                    {user ? 'Submit Rating' : 'Login to Submit'}
+                  >{user ? 'Submit Rating' : 'Login to Submit'}
                   </button>
                 )}
               </form>
