@@ -15,9 +15,13 @@ const handleSearch = async () => {
   setLoading(true, `Searching for ${productName}...`); // Set loading with a message
 
   try {
+    
+    const country = localStorage.getItem('selectedCountry');  
+
     const response = await axios.get(`${searchApiUrl}`, {
       params: {
-        query: productName, 
+        query: productName,
+        country: country  
       }
     });
 

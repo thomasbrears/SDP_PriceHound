@@ -4,6 +4,7 @@ import Loading from '../components/Loading';
 import '../css/SearchBarBig.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import CountrySelector from './CountrySelector';
 
 function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
   const [localQuery, setLocalQuery] = useState(query || ''); // Initialize with query prop
@@ -43,11 +44,15 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
     setLoadingMessage(`Searching for "${localQuery}"...`);
 
     try {
+
+      const country = localStorage.getItem('selectedCountry');  
+
       const response = await axios.get(`${searchApiUrl}`, {
         params: {
           query: localQuery,
           sort: sortOrder,
-          priceRange: priceRange
+          priceRange: priceRange,
+          country: country  
         }
       });
 

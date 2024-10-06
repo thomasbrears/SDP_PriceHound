@@ -213,7 +213,9 @@ function CategoryPage() {
     setLoading(true); // Show the loading animation
 
     try {
-      const response = await axios.get(`${searchApiUrl}?query=${query}`); // Make an API request to search for the selected category or subcategory
+      const country = localStorage.getItem('selectedCountry'); 
+
+      const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(query)}&country=${encodeURIComponent(country)}`); // Make an API request to search for the selected category or subcategory
       setLoading(false); // Stop the loading animation
       
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;

@@ -24,19 +24,28 @@ function ProductPage() {
     setAverageRating(newAverageRating);
   };
 
-  // Redirect if no search results
   useEffect(() => {
     const updatedResults = location.state.searchResults.map((item) => {
       const priceNumber = item.price ? parseFloat(item.price.replace(/[$,]/g, '')) : 1;
+      
+      const country = localStorage.getItem('selectedCountry');
+      
       var symbol = "$";
-      const convertedPrice = priceNumber * 1;
+      let currencyUnit = "NZD"; 
+      if (country === 'AU') {
+        currencyUnit = "AUD";
+      }
+      
+      const convertedPrice = priceNumber * 1; 
       return {
         ...item,
-        price: `${symbol}${convertedPrice.toFixed(2)} NZD`
+        price: `${symbol}${convertedPrice.toFixed(2)} ${currencyUnit}`
       };
     });
+    
     setResults(updatedResults);
     setMainProductPrice(mainProduct.price);
+    
     if (searchResults.length === 0) {
       navigate('/product-not-found');
       toast.error('Sorry, we couldn\'t find that product. Please try again', { autoClose: 3000, position: 'top-right' }); 

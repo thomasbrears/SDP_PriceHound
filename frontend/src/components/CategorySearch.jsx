@@ -16,7 +16,9 @@ function CategorySearch({ category, setLoading, backgroundImage }) {
     setLoading(true, `Searching ${category}...`); // Pass the loading message
 
     try {
-      const response = await axios.get(`${searchApiUrl}?query=${category}`);
+      const country = localStorage.getItem('selectedCountry'); 
+
+      const response = await axios.get(`${searchApiUrl}?query=${category}&country=${country}`);
       setLoading(false);
       const { searchResults, priceRanges } = response.data;
 

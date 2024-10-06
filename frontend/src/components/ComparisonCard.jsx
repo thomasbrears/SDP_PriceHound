@@ -38,8 +38,9 @@ const handleSearch = async () => {
     const sanitizedTitle = title.replace(/\//g, '-');
 
     // Make API call to backend to run searchapi.js with the sanitized title
-    const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(sanitizedTitle)}`);
+    const country = localStorage.getItem('selectedCountry'); 
 
+    const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(sanitizedTitle)}&country=${encodeURIComponent(country)}`);
     const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
     // Navigate to product page with new search results and include search query (title)
