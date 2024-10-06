@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
   let searchTerm = req.query.query;
   let sortOrder = req.query.sort;
   let priceRange = req.query.priceRange;
+  let country = req.query.country;
 
   if (!searchTerm) {
     console.error('No search term provided');
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
 
   try {
     console.log('Scraping for term:', searchTerm);
-    const results = await performScraping(searchTerm, sortOrder, priceRange);
+    const results = await performScraping(searchTerm, sortOrder, priceRange, country);
     console.log('Scraping successful, returning results');
     res.json(results);
   } catch (error) {

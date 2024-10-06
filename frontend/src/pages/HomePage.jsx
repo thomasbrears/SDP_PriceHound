@@ -7,6 +7,7 @@ import PinkButton from '../components/PinkButton';
 import Loading from '../components/Loading';
 import BrandLogo from '../components/BrandLogo'; 
 import Message from '../components/Message';
+import CountrySelector from '../components/CountrySelector';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/HomePage.css'; 
 
@@ -51,6 +52,7 @@ function HomePage() {
 
       <div className="search-section">
         <h2>Search over 1000 products from 2 countries</h2>
+        <CountrySelector />
         <SearchBarBig onResults={handleSearchResults} />
         <div className="suggested-searches">
           <span>Suggested Searches:</span>

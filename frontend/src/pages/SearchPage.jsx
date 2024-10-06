@@ -34,24 +34,32 @@ function SearchPage() {
     console.log("Selected Price Range:", formattedRange);
   };
 
-  // Use useEffect to handle location changes
   useEffect(() => {
     if (location.state?.searchResults) {
       setResults(location.state.searchResults);
       setPriceRanges(location.state.priceRanges || []); // Set priceRanges if available
       setQuery(location.state.query || ''); // Set query if available
-      const updatedResults = location.state.searchResults.map((item) => {
+  
+        const updatedResults = location.state.searchResults.map((item) => {
         const priceNumber = parseFloat(item.price.replace(/[$,]/g, ''));
-        var symbol = "$";
-        const convertedPrice = priceNumber * 1;
+  
+        const country = localStorage.getItem('selectedCountry');
+  
+        let symbol = "$"; 
+        let currencyUnit = "NZD"; 
+        if (country === 'AU') {
+          currencyUnit = "AUD"; 
+        }
+  
+        const convertedPrice = priceNumber * 1; 
         return {
           ...item,
-          price: `${symbol}${convertedPrice.toFixed(2)} NZD`
+          price: `${symbol}${convertedPrice.toFixed(2)} ${currencyUnit}` 
         };
       });
-      setResults(updatedResults)
+  
+      setResults(updatedResults);
     }
-
   }, [location]);
 
   //function to display a relevant message when an item is added to the wishlist

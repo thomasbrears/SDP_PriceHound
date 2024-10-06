@@ -7,7 +7,7 @@ puppeteer.use(StealthPlugin());
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 
 // Function to perform scraping
-export const performScraping = async (searchTerm, sortOrder, priceRange) => {
+export const performScraping = async (searchTerm, sortOrder, priceRange, country) => {
   let browser; // Declare browser in the outer scope to ensure proper closure in error handling
   
   try {
@@ -31,11 +31,17 @@ export const performScraping = async (searchTerm, sortOrder, priceRange) => {
     const page = await browser.newPage();
     console.log('Puppeteer browser launched successfully.');
 
+    const countryUrls = {
+      AU: 'https://www.priceme.com.au',
+      NZ: 'https://www.priceme.co.nz',
+    };
+    const baseUrl = countryUrls[country] || countryUrls['NZ'];
+
     // **********************
     // Specific Search Scrape
     // **********************
     console.log('Navigating to homepage...');
-    await page.goto('https://www.priceme.co.nz', { waitUntil: 'networkidle2', timeout: 60000 });
+    await page.goto(baseUrl, { waitUntil: 'networkidle2', timeout: 60000 });
     
     // Enter search term
     console.log('Entering search term:', searchTerm);
@@ -124,7 +130,7 @@ export const performScraping = async (searchTerm, sortOrder, priceRange) => {
     if (!searchResults || searchResults.length === 0) {
       console.log('Specific search returned no results, running broad search...');
 
-      let broadSearchUrl = `https://www.priceme.co.nz/search.aspx?q=${encodeURIComponent(searchTerm)}`;
+      let broadSearchUrl = baseUrl +`/search.aspx?q=${encodeURIComponent(searchTerm)}`;
       if (sortOrder) {
         broadSearchUrl += `&sb=${encodeURIComponent(sortOrder)}`;
       }
@@ -149,9 +155,46 @@ export const performScraping = async (searchTerm, sortOrder, priceRange) => {
       });
     }
 
-    console.log('Final search results:', searchResults);
+    const priceRanges = await page.evaluate(() => {
+      // creat one object to store all the price ranges
+      const ranges = {};
+
+      // address all the hidden inputs
+      const inputs = document.querySelectorAll('input[type="hidden"]');
+
+      inputs.forEach((input) => {
+        const name = input.name;
+        const value = parseFloat(input.value);
+
+        // check if the input is a price range
+        const match = name.match(/^pri-(\d+)-(min|max)$/);
+        if (match) {
+          const index = match[1];
+          const type = match[2];
+
+          if (!ranges[index]) {
+            ranges[index] = {};
+          }
+
+          ranges[index][type] = value;
+        }
+      });
+
+      // format the ranges
+      const formattedRanges = Object.keys(ranges).map((index) => {
+        const range = ranges[index];
+        if (range.min != null && range.max != null) {
+          return `$${range.min} — $${range.max}`;
+        }
+        return "";
+      });
+
+      return formattedRanges;
+    });
+
+    console.log("Final search results:", searchResults, priceRanges);
     await browser.close();
-    return { searchResults };
+    return { searchResults, priceRanges };
   } catch (error) {
     console.error('Error occurred during scraping:', error);
     if (browser) {

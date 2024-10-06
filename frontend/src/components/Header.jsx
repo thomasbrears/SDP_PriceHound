@@ -42,7 +42,9 @@ function Header() {
     setLoadingMessage(`Searching for "${query}"...`); // Set the loading message with the search query
   
     try {
-      const response = await axios.get(`${searchApiUrl}?query=${query}`);
+      const country = localStorage.getItem('selectedCountry'); 
+
+      const response = await axios.get(`${searchApiUrl}?query=${query}&country=${encodeURIComponent(country)}`);      
       setLoading(false); // Stop loading
   
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;

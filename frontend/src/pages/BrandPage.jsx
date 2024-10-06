@@ -48,7 +48,9 @@ const handleSearch = async (query, type) => {
   setLoading(true); // Show the loading animation
   
   try {
-    const response = await axios.get(`${searchApiUrl}?query=${query}`); // Make an API request to search for the brand
+    const country = localStorage.getItem('selectedCountry');
+    const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(query)}&country=${encodeURIComponent(country)}`); 
+    // Make an API request to search for the brand to search for the brand
     setLoading(false); 
     
     const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
