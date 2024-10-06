@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PriceComparisonSection from '../components/PriceComparisonSection';
-import Message from '../components/Message';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ReviewSection from '../components/ReviewSection';
 import axios from 'axios';
 import '../css/ProductPage.css';
@@ -13,7 +13,6 @@ function ProductPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [mainImage, setMainImage] = useState(null);
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' });
   const [averageRating, setAverageRating] = useState(0);
   const [results, setResults] = useState([]);
   const searchQuery = location.state?.searchQuery || ''; // Extract searchQuery from location state
@@ -49,6 +48,7 @@ function ProductPage() {
     
     if (searchResults.length === 0) {
       navigate('/product-not-found');
+      toast.error('Sorry, we couldn\'t find that product. Please try again', { autoClose: 3000, position: 'top-right' }); 
     }
   }, [searchResults, navigate]);
 
@@ -66,7 +66,7 @@ function ProductPage() {
   // Check for incomplete product data and set error message
   useEffect(() => {
     if (!mainProduct.title || !mainProduct.price) {
-      setMessageInfo({ message: 'Product information is incomplete or unavailable.', type: 'error' });
+      toast.error('Sorry, the product information is incomplete or unavailable. Please try searching again');
     }
   }, [mainProduct.title, mainProduct.price]);
 
@@ -122,7 +122,6 @@ function ProductPage() {
   }
   return (
     <div className="product-page">
-      {messageInfo.message && <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />}
 
       {/* Main Header Title */}
       <MainHeadTitle

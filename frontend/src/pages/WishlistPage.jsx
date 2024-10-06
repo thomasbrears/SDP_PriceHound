@@ -3,7 +3,7 @@ import '../css/WishListPage.css'
 import MainHeadTitle from "../components/MainHeadTitle";
 import WishlistCard from "../components/WishlistCard";
 import PinkButton from "../components/PinkButton";
-import Message from "../components/Message";
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import axios from 'axios';
 import Loading from "../components/Loading";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -14,7 +14,6 @@ function WishlistPage() {
   const name = storedUser.displayName;
   const title = name + "'s Wishlist"
   const [backendData, setBackendData] = useState({})
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
 
@@ -39,7 +38,7 @@ function WishlistPage() {
         setBackendData(response.data)
       }
       catch (error) {
-        setMessageInfo({ message: 'Sorry, we ran into an error retrieving your wishlist', type: 'error' });
+        toast.error('Sorry, we ran into an error retrieving your wishlist');
         console.error('Error retrieving wishlist:', error);
       }
     }
@@ -71,7 +70,7 @@ function WishlistPage() {
         const response = await axios.post(`${API_URL}/wishlist/get`, formData);
         setBackendData(response.data);
       } catch (error) {
-        setMessageInfo({ message: 'Sorry, we ran into an error retrieving your wishlist', type: 'error' });
+        toast.error('Sorry, we ran into an error retrieving your wishlist');
         console.error('Error fetching wishlist:', error);
       }
     };
@@ -116,7 +115,6 @@ function WishlistPage() {
         />
         }
       </div>
-      {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)} {/* Display success/error message */}                
     </div>
   );
 }

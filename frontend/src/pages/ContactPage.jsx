@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton'; 
-import Message from '../components/Message';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import '../css/ContactPage.css';
 import axios from 'axios'; 
 
@@ -15,8 +15,6 @@ function ContactPage() {
     subject: '',
     message: '',
   });
-
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
 
   // Dynamically determine the API URL based on environment
   const contactApiUrl = process.env.NODE_ENV === 'production'
@@ -55,15 +53,15 @@ function ContactPage() {
 
       // If the response is successful, show success message
       if (response.data.success) {
-        setMessageInfo({ message: 'Your message has been successfully sent!', type: 'success' });
+        toast.success('Your message has been successfully sent! We will reply soon.');
       } else {
         // If the response is error/fail, show error message
-        setMessageInfo({ message: 'Failed to send your message. Please try again.', type: 'error' });
+        toast.error('Sorry, we failed to send your message. Please try again later or email support@pricehound.tech');
       }
     } catch (error) {
       // If there is an error, show error message
-      setMessageInfo({ message: 'Error: Unable to submit your message.', type: 'error' });
-    }
+      toast.error('Sorry, we failed to send your message. Please try again later or email support@pricehound.tech');
+      console.error('Error sending contact form:', error);}
   };
 
   return (
@@ -150,7 +148,6 @@ function ContactPage() {
           {/* Submit button */}
           <PinkButton text="Submit" style={{ width: '250px' }} />
         </form>
-        {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)} {/* Display success/error message */}                
       </div>
     </div>
   );

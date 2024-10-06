@@ -23,7 +23,6 @@ function LoginPage() {
             localStorage.setItem('icon', url);
         }
         catch (error) {
-            toast.error('Opps! An error occurred while fetching your icon.');
             console.error("Error fetching icon from firebase:", error);  // Log the error
         }
     }
@@ -101,9 +100,31 @@ function LoginPage() {
             await sendSignInLinkToEmail(auth, email, actionCodeSettings);
             // Store the email locally to complete sign-in later
             window.localStorage.setItem('emailForSignIn', email);
-            toast.success('Sign-in link sent! Check your email.', { position: 'top-center', autoClose: 7000 });
+            toast.success('Sign-in link sent! Please check your email and click the link included.', { autoClose: 8000 });
         } catch (error) {
-            toast.error(`Error sending sign-in link: ${error.message}`);
+            console.error('Error sending sign-in link:', error);
+
+            // Handle Firebase Auth specific error messages
+            switch (error.code) {
+                case 'auth/invalid-email':
+                    toast.error('Invalid email format. Please enter a valid email.');
+                    break;
+                case 'auth/missing-email':
+                    toast.error('Please provide an email address.');
+                    break;
+                case 'auth/user-not-found':
+                    toast.error('No account found with this email. Please sign up or use a different email.');
+                    break;
+                case 'auth/network-request-failed':
+                    toast.error('Network error. Please check your connection and try again.');
+                    break;
+                case 'auth/too-many-requests':
+                    toast.error('Too many requests. Please wait a moment and try again.');
+                    break;
+                default:
+                    toast.error('Error sending sign-in link. Please try again.');
+                    break;
+            }
         }
     };
 
