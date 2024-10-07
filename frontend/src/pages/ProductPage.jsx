@@ -5,7 +5,7 @@ import PriceComparisonSection from '../components/PriceComparisonSection';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ReviewSection from '../components/ReviewSection';
 import axios from 'axios';
-import '../css/ProductPage.css';
+import '../pages/css/ProductPage.css';
 import '../css/PriceComparisonCard.css';
 import ChangeCurrency from '../components/ChangeCurrency';
 

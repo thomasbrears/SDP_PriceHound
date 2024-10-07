@@ -1,7 +1,7 @@
 import React from "react";
 import MainHeadTitle from "../components/MainHeadTitle";
 import PinkButton from "../components/PinkButton";
-import "../css/AboutPage.css";
+import "../pages/css/AboutPage.css";
 
 function AboutPage() {
   return (

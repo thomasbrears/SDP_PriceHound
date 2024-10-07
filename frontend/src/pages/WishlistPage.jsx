@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import '../css/WishListPage.css'
+import '../pages/css/WishListPage.css'
 import MainHeadTitle from "../components/MainHeadTitle";
 import WishlistCard from "../components/WishlistCard";
 import PinkButton from "../components/PinkButton";

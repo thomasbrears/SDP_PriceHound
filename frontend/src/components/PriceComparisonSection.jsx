@@ -8,8 +8,7 @@ const placeholderImage =
 const PriceComparisonSection = ({ retailers }) => {
   // Function to shorten and clean titles
   const shortenTitle = (title) => {
-
-   if (!title) return '';
+    if (!title) return "";
 
     const keywordsToRemove = [
       "with",
@@ -71,7 +70,9 @@ const PriceComparisonSection = ({ retailers }) => {
           return (
             <div
               key={index}
-              className={`retailer-card ${!retailer.shopLogo ? "retailer-card-no-logo" : ""}`}
+              className={`retailer-card ${
+                !retailer.shopLogo ? "retailer-card-no-logo" : ""
+              }`}
             >
               {retailer.shopLogo ? (
                 <img
@@ -84,18 +85,29 @@ const PriceComparisonSection = ({ retailers }) => {
                 <div style={{ width: "20px", marginRight: "20px" }}></div>
               )}
 
+              {/* Hardcoded company verification badge for all retailers */}
+              <div className="company-verification-badge">
+                <img
+                  src="../images/verifiedCompany.png"
+                  alt="Verified Company"
+                  className="verification-badge-image"
+                />
+              </div>
+
               <div className="retailer-info">
                 <p>{shortenedTitle}</p>
                 <div className="price-shipping-container">
-                  <p className="price">
-                    {retailer.price}
-                  </p>
+                  <p className="price">{retailer.price}</p>
                   <div className="shipping-icon-container">
                     <FaShippingFast className="shipping-icon" />
                     <div className="shipping-tooltip">
                       {retailer.location && <span>{retailer.location}</span>}
-                      {retailer.shippingAvailable && <span>{retailer.shippingAvailable}</span>}
-                      {retailer.deliveryInfo && <span>| {retailer.deliveryInfo}</span>}
+                      {retailer.shippingAvailable && (
+                        <span>{retailer.shippingAvailable}</span>
+                      )}
+                      {retailer.deliveryInfo && (
+                        <span>| {retailer.deliveryInfo}</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -103,7 +115,12 @@ const PriceComparisonSection = ({ retailers }) => {
 
               {/* Check if the shopLink is valid */}
               {retailer.shopLink ? (
-                <a href={retailer.shopLink} className="buy-now" target="_blank" rel="noopener noreferrer">
+                <a
+                  href={retailer.shopLink}
+                  className="buy-now"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Buy Now
                 </a>
               ) : (

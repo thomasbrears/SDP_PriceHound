@@ -5,7 +5,7 @@ import SearchBarBig from '../components/SearchBarBig';
 import ComparisonCard from '../components/ComparisonCard';
 import Loading from '../components/Loading';
 import PriceRange from '../components/PriceRange';
-import '../css/SearchPage.css';
+import '../pages/css/SearchPage.css';
 import Sort from '../components/Sort';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ChangeCurrency from '../components/ChangeCurrency';
