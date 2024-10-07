@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/Footer.css';
 import LogOutButton from '../components/LogOutButton';
 import { ThemeContext } from '../ThemeContext';
@@ -7,9 +7,23 @@ import { ThemeContext } from '../ThemeContext';
 const Footer = () => {
   // Check if the user is authenticated by checking local storage
   const isAuthenticated = localStorage.getItem('user') !== null;
-
+  const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const logoSrc = theme === 'light' ? 'images/PH-logo-blacktext.png' : 'images/PH-logo-whitetext.png';
+
+  // Function to save current URL and redirect to sign in
+  const handleSignInClick = () => {
+    const currentUrl = window.location.pathname; // Save current URL
+    sessionStorage.setItem('previousUrl', currentUrl); // Store it in session storage
+    navigate('/login'); // Redirect to login page
+  };
+
+  // Function to save current URL and redirect to signup
+  const handleSignUpClick = () => {
+    const currentUrl = window.location.pathname; // Save current URL
+    sessionStorage.setItem('previousUrl', currentUrl); // Store it in session storage
+    navigate('/signup'); // Redirect to signup page
+  };
 
   return (
     <footer className="footer">
@@ -43,8 +57,8 @@ const Footer = () => {
              {/* Links shown only when the user is authenticated */}
              {!isAuthenticated && (
               <>
-              <li><Link to="/login" className="footer-link">Signin </Link></li>
-              <li><Link to="/signup" className="footer-link">Signup </Link></li>
+              <li><button onClick={handleSignInClick} className="footer-link">Sign in </button></li>
+              <li><button onClick={handleSignUpClick} className="footer-link">Sign up </button></li>
               </>
              )}
             </ul> }

@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaCaretDown, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 import Loading from '../components/Loading';
 import LogOutButton from '../components/LogOutButton';
 import '../css/Header.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { storage } from '../FirebaseAuth/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage'
 import { ThemeContext } from '../ThemeContext';
-
 
 function Header() {
   const [query, setQuery] = useState("");
@@ -31,6 +29,20 @@ function Header() {
   const searchApiUrl = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api/search'
     : 'http://localhost:8000/api/search';
+
+  // Handle sign-in button click and save the current URL
+  const handleSignInClick = () => {
+    const currentUrl = window.location.pathname; // Capture current URL (without query params)
+    sessionStorage.setItem('previousUrl', currentUrl); // Save the current URL
+    navigate('/login'); // Redirect to the sign-in page
+  };
+
+  // Handle sign-in button click and save the current URL
+  const handleSignupClick = () => {
+    const currentUrl = window.location.pathname; // Capture current URL (without query params)
+    sessionStorage.setItem('previousUrl', currentUrl); // Save the current URL
+    navigate('/signup'); // Redirect to the sign-up page
+  };
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -168,8 +180,8 @@ function Header() {
             </div>
           ) : (
             <>
-              <Link to="/login" className="nav-link">Sign in</Link>
-              <Link to="/signup" className="nav-link">Sign up</Link>
+              <button onClick={handleSignInClick} className="nav-button-link">Sign in</button>
+              <button onClick={handleSignupClick} className="nav-button-link">Sign up</button>
             </>
           )}
 
@@ -213,8 +225,24 @@ function Header() {
               </div>
             ) : (
               <div className="mobile-auth-links">
-                <Link to="/login" className="nav-link" onClick={closeMobileMenu}>Sign in</Link> 
-                <Link to="/signup" className="nav-link" onClick={closeMobileMenu}>Sign up</Link>
+                <button 
+                  onClick={() => {
+                    const currentUrl = window.location.pathname; // Save the current URL
+                    sessionStorage.setItem('previousUrl', currentUrl); // Store it
+                    closeMobileMenu(); // Close the mobile menu
+                    navigate('/login'); // Redirect to login page
+                  }} 
+                  className="nav-button-link"
+                >Sign in</button>
+                <button 
+                  onClick={() => {
+                    const currentUrl = window.location.pathname; // Save the current URL
+                    sessionStorage.setItem('previousUrl', currentUrl); // Store it
+                    closeMobileMenu(); // Close the mobile menu
+                    navigate('/signup'); // Redirect to sign-up page
+                  }} 
+                  className="nav-button-link"
+                  >Sign up</button>
               </div>
             )}
 
