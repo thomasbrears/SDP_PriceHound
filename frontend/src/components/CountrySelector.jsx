@@ -1,9 +1,10 @@
-// CountrySelector.js
+
 import React, { useEffect, useState } from 'react';
 
+
 const countries = [
-  { code: 'AU', name: 'Australia' },
   { code: 'NZ', name: 'New Zealand' },
+  { code: 'AU', name: 'Australia' },
 
 ];
 
@@ -25,7 +26,7 @@ const CountrySelector = () => {
   };
 
   return (
-    <select className="country-selector" value={selectedCountry} onChange={handleCountryChange}>
+    <select  className ="country-selector" value={selectedCountry} onChange={handleCountryChange}>
       <option value="">Select a country</option>
       {countries.map((country) => (
         <option key={country.code} value={country.code}>
