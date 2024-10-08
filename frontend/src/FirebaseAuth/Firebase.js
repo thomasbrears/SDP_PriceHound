@@ -8,7 +8,8 @@ const firebaseConfig = {
     projectId: "pricehound-aut",
     storageBucket: "pricehound-aut.appspot.com",
     messagingSenderId: "37369181782",
-    appId: "1:37369181782:web:caec45e46d013c26e9edf7"
+    appId: "1:37369181782:web:caec45e46d013c26e9edf7",
+    measurementId: "G-PJDRXM5TET"
   };
 
 const app = initializeApp(firebaseConfig);

@@ -23,6 +23,7 @@ import { ToastContainer, toast } from 'react-toastify'; // Toastify message cont
 import 'react-toastify/dist/ReactToastify.css'; // Toastify message css
 import { ThemeContext } from './ThemeContext';
 import AppLayout from './components/AppLayout';
+import GoogleAnalytics from './components/GoogleAnalytics';
 
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
@@ -36,6 +37,7 @@ function App() {
     
     <BrowserRouter>
       <div className="App">
+      <GoogleAnalytics/>{/*to allow cookies for google analytics*/}
       <AdblockDetect /> {/* Adblock detection */}
       {/* Toastify message container with defult location and theme*/}
       <ToastContainer
