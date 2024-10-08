@@ -23,6 +23,7 @@ import { ToastContainer, toast } from 'react-toastify'; // Toastify message cont
 import 'react-toastify/dist/ReactToastify.css'; // Toastify message css
 import { ThemeContext } from './ThemeContext';
 import AppLayout from './components/AppLayout';
+import AdvertisementsPage from './pages/AdvertisementsPage';
 
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
@@ -59,6 +60,7 @@ function App() {
           <Route path="/product" element={<ProductPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
+          <Route path="/ads" element={<AdvertisementsPage />} />
 
           {/* Error pages */}
           <Route path="*" element={<NotFoundPage />} />  {/* 404 Error */}
