@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import { useNavigate } from 'react-router-dom';
+import AdSection from '../components/AdSection'; // Ad component
 
 // API URL for reviews
 const REVIEW_API_URL = process.env.NODE_ENV === 'production'
@@ -405,18 +406,12 @@ function ReviewSection({ searchQuery, mainProduct, user, onAverageRatingUpdate }
           </div>
         </div>
   
-       {/*----------------------- 
-          Advertisement Section
+        {/*----------------------- 
+            Portrait Ads Section
         --------------------------*/}
         <div className="ad-section">
-          {/* Ad component */}
-          <ins className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-1301948966347874"
-            data-ad-slot="6032252070"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <p className="ad-label">Advertisement</p>
+          {/* Ad component for portrait ads, displaying up to 2 ads */}
+          <AdSection adType="portrait" maxAds={2} />
         </div>
       </div>
     );
