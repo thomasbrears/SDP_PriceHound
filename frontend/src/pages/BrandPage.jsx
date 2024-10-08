@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton'; 
 import { useNavigate } from 'react-router-dom';
-import '../css/BrandPage.css';
+import '../pages/css/BrandPage.css';
 import LZString from 'lz-string';
 import axios from 'axios'; 
 import Loading from '../components/Loading';

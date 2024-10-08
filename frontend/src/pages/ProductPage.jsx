@@ -5,9 +5,11 @@ import PriceComparisonSection from '../components/PriceComparisonSection';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ReviewSection from '../components/ReviewSection';
 import axios from 'axios';
-import '../css/ProductPage.css';
+import '../pages/css/ProductPage.css';
 import '../css/PriceComparisonCard.css';
 import ChangeCurrency from '../components/ChangeCurrency';
+import AdSection from '../components/AdSection';
+import '../css/AdSection.css'; 
 
 function ProductPage() {
   const location = useLocation();
@@ -196,15 +198,12 @@ function ProductPage() {
         onAverageRatingUpdate={handleAverageRatingUpdate}
       />
 
-      {/* Google Adsense Section */}
+      {/*----------------------- 
+         Landscape Ads Section
+      --------------------------*/}
       <div className="ad-section">
-        <ins className="adsbygoogle"
-          style={{ display: 'block' }}
-          data-ad-client="ca-pub-1301948966347874"
-          data-ad-slot="6032252070"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-        <p className="ad-label">Advertisement</p>
+        {/* Ad component for landscape ads, displaying 1 ad */}
+        <AdSection adType="landscape" maxAds={1} />
       </div>
     </div>
   );

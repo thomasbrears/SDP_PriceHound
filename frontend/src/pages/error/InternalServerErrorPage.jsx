@@ -1,7 +1,7 @@
 import React from 'react';
 import MainHeadTitle from '../../components/MainHeadTitle'; 
 import PinkButton from '../../components/PinkButton'; 
-import '../../css/ErrorPage.css'; 
+import '../../pages/css/ErrorPage.css'; 
 
 function InternalServerErrorPage() {
   return (

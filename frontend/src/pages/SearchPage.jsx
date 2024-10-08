@@ -5,7 +5,7 @@ import SearchBarBig from '../components/SearchBarBig';
 import ComparisonCard from '../components/ComparisonCard';
 import Loading from '../components/Loading';
 import PriceRange from '../components/PriceRange';
-import '../css/SearchPage.css';
+import '../pages/css/SearchPage.css';
 import Sort from '../components/Sort';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ChangeCurrency from '../components/ChangeCurrency';
@@ -20,7 +20,8 @@ function SearchPage() {
   const [priceRanges, setPriceRanges] = useState([]); // show price range
   const [query, setQuery] = useState(''); // header query state
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);// state for handling mobile modal
-
+  // const [currency, setCurrency] = useState(''); 
+  // const [conversionRate, setConversionRate] = useState(1);
   const handleSortChange = (order) => {
     setSortOrder(order);
   };
@@ -76,7 +77,7 @@ function SearchPage() {
   const closeSidebar = () => {
     setIsSidebarVisible(false);
   };
-
+// Function to handle currency change
   const changeCurrency = async (newCurrency, curShort) => {
     //const curShort = JSON.parse(localStorage.getItem('cur-short'));
     const updatedResults = location.state.searchResults.map((item) => {

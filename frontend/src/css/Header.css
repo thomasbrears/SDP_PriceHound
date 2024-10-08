@@ -49,7 +49,19 @@
   font-size: 16px;
 }
 
-.nav-link:hover {
+.nav-button-link {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.nav-link:hover, .nav-button-link:hover {
   color: var(--primary-blue-color);
 }
 
@@ -213,7 +225,7 @@
     z-index: 999;
   }
 
-  .nav-link {
+  .nav-link, .nav-button-link {
     padding: 8px 0;
     text-align: center;
     width: 100%;

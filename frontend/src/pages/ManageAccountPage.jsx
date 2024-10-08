@@ -7,7 +7,7 @@ import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import '../css/PinkButton.css';
-import '../css/ManageAccountPage.css';
+import '../pages/css/ManageAccountPage.css';
 
 
 function ManageAccountPage() {

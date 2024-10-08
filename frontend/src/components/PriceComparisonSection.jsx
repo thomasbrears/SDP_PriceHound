@@ -1,15 +1,39 @@
 import React from "react";
 import { FaShippingFast } from "react-icons/fa";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../FirebaseAuth/Firebase"; 
+import { useState, useEffect } from "react"; 
 import "../css/PriceComparisonCard.css"; // Import CSS for the section
 
 const placeholderImage =
   "https://www.aut.ac.nz/__data/assets/file/0009/166932/AUT-logo-block-white.svg";
 
-const PriceComparisonSection = ({ retailers }) => {
+  const PriceComparisonSection = ({ retailers }) => {
+    const [verifiedLogos, setVerifiedLogos] = useState([]);
+  
+    // Fetch verified shop logos from Firestore
+    useEffect(() => {
+      const fetchVerifiedLogos = async () => {
+        const querySnapshot = await getDocs(collection(db, "verifiedCompany")); // Fetch from 'verifiedCompany' collection
+        const logos = [];
+        querySnapshot.forEach((doc) => {
+          // Get all logo URLs from the document fields
+          Object.values(doc.data()).forEach((logo) => logos.push(logo));
+        });
+        setVerifiedLogos(logos); // Set the verified logos in state
+      };
+  
+      fetchVerifiedLogos();
+    }, []);
+
+      // Function to check if a shop is verified
+  const isVerifiedShop = (shopLogo) => {
+    return verifiedLogos.includes(shopLogo);
+  };
+
   // Function to shorten and clean titles
   const shortenTitle = (title) => {
-
-   if (!title) return '';
+    if (!title) return "";
 
     const keywordsToRemove = [
       "with",
@@ -54,7 +78,7 @@ const PriceComparisonSection = ({ retailers }) => {
 
     return cleanedTitle;
   };
-
+  
   // Function to handle image errors
   const handleImageError = (e) => {
     e.target.src = placeholderImage; // Replace with placeholder if image is unavailable
@@ -71,7 +95,9 @@ const PriceComparisonSection = ({ retailers }) => {
           return (
             <div
               key={index}
-              className={`retailer-card ${!retailer.shopLogo ? "retailer-card-no-logo" : ""}`}
+              className={`retailer-card ${
+                !retailer.shopLogo ? "retailer-card-no-logo" : ""
+              }`}
             >
               {retailer.shopLogo ? (
                 <img
@@ -84,18 +110,31 @@ const PriceComparisonSection = ({ retailers }) => {
                 <div style={{ width: "20px", marginRight: "20px" }}></div>
               )}
 
+              {/* Conditionally render the verification badge */}
+              {isVerifiedShop(retailer.shopLogo) && (
+                <div className="company-verification-badge">
+                  <img
+                    src="../images/verifiedCompany.png"
+                    alt="Verified Company"
+                    className="verification-badge-image"
+                  />
+                </div>
+              )}
+
               <div className="retailer-info">
                 <p>{shortenedTitle}</p>
                 <div className="price-shipping-container">
-                  <p className="price">
-                    {retailer.price}
-                  </p>
+                  <p className="price">{retailer.price}</p>
                   <div className="shipping-icon-container">
                     <FaShippingFast className="shipping-icon" />
                     <div className="shipping-tooltip">
                       {retailer.location && <span>{retailer.location}</span>}
-                      {retailer.shippingAvailable && <span>{retailer.shippingAvailable}</span>}
-                      {retailer.deliveryInfo && <span>| {retailer.deliveryInfo}</span>}
+                      {retailer.shippingAvailable && (
+                        <span>{retailer.shippingAvailable}</span>
+                      )}
+                      {retailer.deliveryInfo && (
+                        <span>| {retailer.deliveryInfo}</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -103,7 +142,12 @@ const PriceComparisonSection = ({ retailers }) => {
 
               {/* Check if the shopLink is valid */}
               {retailer.shopLink ? (
-                <a href={retailer.shopLink} className="buy-now" target="_blank" rel="noopener noreferrer">
+                <a
+                  href={retailer.shopLink}
+                  className="buy-now"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Buy Now
                 </a>
               ) : (

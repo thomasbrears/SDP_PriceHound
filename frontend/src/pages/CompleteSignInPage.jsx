@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../css/AuthPages.css';
+import '../pages/css/AuthPages.css';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';

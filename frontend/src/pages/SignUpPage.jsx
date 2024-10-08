@@ -2,7 +2,7 @@ import { updateProfile, getAuth, createUserWithEmailAndPassword, GoogleAuthProvi
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../FirebaseAuth/Firebase.js';
-import "../css/AuthPages.css"
+import "../pages/css/AuthPages.css"
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';

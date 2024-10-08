@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAuth, sendEmailVerification } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
-import "../css/AuthPages.css";
+import "../pages/css/AuthPages.css";
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 
 const VerifyEmailPage = () => {

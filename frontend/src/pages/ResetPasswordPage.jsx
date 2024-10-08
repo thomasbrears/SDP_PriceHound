@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import { useNavigate, Link} from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import '../css/AuthPages.css';
+import '../pages/css/AuthPages.css';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 
 function ResetPasswordPage() {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useContext } from 'react';
-import '../css/AuthPages.css';
+import '../pages/css/AuthPages.css';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { auth } from '../FirebaseAuth/Firebase.js';
 import { Link, useNavigate } from 'react-router-dom';
@@ -28,7 +28,8 @@ function LoginPage() {
     }
 
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    //function for logging in, sends request to firebase auth with relevant info and then calls the fetch icon to store in local storage based on the uid before redirecting to home
+    //function for logging in, sends request to firebase auth with relevant info and then calls the fetch 
+    //icon to store in local storage based on the uid before redirecting to the prevous page if avaible or to the home page
     const HandleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -37,8 +38,20 @@ function LoginPage() {
             localStorage.setItem('token', user.accessToken)
             localStorage.setItem('user', JSON.stringify(user))
             await fetchIcon(user.uid);
-            navigate("/")
             toast.success('Signed in successfully!', { position: 'top-right', autoClose: 3000 });
+            //navigate("/")
+
+            // Check if there is a previous URL stored
+            const previousUrl = sessionStorage.getItem('previousUrl');
+
+            if (previousUrl) {
+                // If there's a previous URL, redirect to it
+                navigate(previousUrl); // Redirect to the previous URL
+                sessionStorage.removeItem('previousUrl'); // Clear previous URL after redirect
+            } else {
+                // If there's no previous URL, redirect to home
+                navigate('/');
+            }
         } catch (error) {
             console.error("Error during sign-in:", error);  // Log the error for debugging
             // Handle specific Firebase authentication errors

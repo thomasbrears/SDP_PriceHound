@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle';
 import PinkButton from '../components/PinkButton'; 
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
-import '../css/ContactPage.css';
+import '../pages/css/ContactPage.css';
 import axios from 'axios'; 
 
 function ContactPage() {

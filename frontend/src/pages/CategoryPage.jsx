@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle'; 
-import '../css/CategoryPage.css'; 
+import '../pages/css/CategoryPage.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';

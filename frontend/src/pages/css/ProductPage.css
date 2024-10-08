@@ -58,8 +58,7 @@
 }
 
 .additional-images img.active {
-  border: 2px solid #0363BB;
-  /* Highlight the active image */
+  border: 2px solid var(--primary-blue-color); /* Highlight the active image */
 }
 
 
@@ -146,7 +145,7 @@
 }
 
 /*------------------------------
-Reviews, Raitings & Ad Styling
+Reviews & Raitings Styling
 ------------------------------*/
 .review-section-container {
   display: flex;
@@ -221,12 +220,6 @@ Reviews, Raitings & Ad Styling
   color: var(--text-color);
 }
 
-/* Ad Section */
-.ad-section {
-  flex: 1;
-  min-width: 300px;
-}
-
 .rating-input select {
   color: var(--text-color);
   background-color: var(--secondary-bg-color);
@@ -264,8 +257,7 @@ Reviews, Raitings & Ad Styling
 
 .star-summary .star {
   font-size: 24px;
-  color: #f5a623;
-  /* gold */
+  color: #f5a623; /* gold */
 }
 
 .rating-breakdown {
@@ -358,10 +350,8 @@ Reviews, Raitings & Ad Styling
 .review-input:disabled,
 .rating-input select:disabled,
 .submit-rating[disabled] {
-  cursor: not-allowed;
-  /* disabled cursor */
-  opacity: 0.6;
-  /* Dim colour*/
+  cursor: not-allowed; /* disabled cursor */
+  opacity: 0.6; /* Dim colour*/
 }
 
 /* Show Disabled Icon for Disabled Fields */
@@ -400,8 +390,7 @@ Reviews, Raitings & Ad Styling
 .discard-edit,
 .delete-review {
   background-color: var(--primary-blue-color);
-  color: #fff;
-  /* always white */
+  color: #fff; /* always white */
   padding: 10px;
   border: none;
   border-radius: 4px;
@@ -416,13 +405,12 @@ Reviews, Raitings & Ad Styling
 
 /* Delete Button Specific */
 .delete-review {
-  background-color: #e73c3c !important;
-  /* red */
+  background-color: #e73c3c !important; /* red */
+  
 }
 
 .delete-review:hover {
-  background-color: #c12b2b;
-  /* darker red on hover */
+  background-color: #af0e0e; /* darker red on hover */
 }
 
 .submit-rating[disabled]:hover {
@@ -442,35 +430,29 @@ Reviews, Raitings & Ad Styling
 
 .star-rating {
   display: flex;
-  gap: 5px;
-  /* Space between stars */
+  gap: 5px; /* Space between stars */
 }
 
 .star {
-  font-size: 30px;
-  /* Increase size */
+  font-size: 30px; /* Increase size */
   cursor: pointer;
-  color: #ccc;
-  /* Default color */
+  color: #ccc; /* Default color */
   transition: color 0.2s;
 }
 
 .star.filled {
-  color: #f5a623;
-  /* Gold color for filled stars */
+  color: #f5a623; /* Gold color for filled stars */
 }
 
 .star:hover,
 .star.filled:hover,
 .star.filled~.star:hover {
-  color: #f5a623;
-  /* Keep only the filled or hovered stars in gold color */
+  color: #f5a623; /* Keep only the filled or hovered stars in gold color */
 }
 
 .star.disabled {
   cursor: not-allowed;
-  color: #ddd;
-  /* Grey out disabled stars */
+  color: #ddd; /* Grey out disabled stars */
 }
 
 /* Styling for name and email */
@@ -496,8 +478,7 @@ Reviews, Raitings & Ad Styling
 /* Responsive Styling */
 @media (min-width: 800px) {
   .rating-summary-container {
-    flex-direction: row;
-    /* Align summary and review form side by side */
+    flex-direction: row; /* Align summary and review form side by side */
     gap: 20px;
     align-items: stretch;
   }
@@ -514,38 +495,23 @@ Reviews, Raitings & Ad Styling
 
 @media (max-width: 768px) {
   .rating-summary-container {
-    flex-direction: column;
-    /* Stack summary and review form*/
+    flex-direction: column; /* Stack summary and review form*/
   }
 
   .review-section-container {
-    flex-direction: column;
-    /* Stack sections vertically */
+    flex-direction: column; /* Stack sections vertically */
   }
-
-  .ad-section {
-    margin-top: 20px;
-  }
-}
-
-.ad-label {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 12px;
-  color: var(icon-color);
 }
 
 /* Disabled Icon Styling */
 .disabled-icon {
-  display: none;
-  /* Hidden by default */
+  display: none; /* Hidden by default */
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
-  color: #e73c3c;
-  /* Red */
+  color: #e73c3c; /* Red */
 }
 
 .currency-center {

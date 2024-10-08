@@ -1,17 +1,44 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 import "../css/ChangeCurrency.css";
 
 function ChangeCurrency({ onChange }) {
+    const [exchangeRates, setExchangeRates] = useState({});
+    const [defaultCurrency, setDefaultCurrency] = useState("nzd"); //default is  New Zealand Dollar
+
+    useEffect(() => {
+        // Load the selected country from local storage
+        const country = localStorage.getItem('selectedCountry');
+
+        //  Set the default currency based on the country
+        switch (country) {
+            case 'AU':
+                setDefaultCurrency('aud'); 
+                break;
+            case 'NZ':
+            default:
+                setDefaultCurrency('nzd'); 
+                break;
+        }
+    }, []);
+
     const handleChange = async (e) => {
-        const response = await axios.get("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json");
-        onChange(response.data.nzd[e.target.value], e.target.value.toUpperCase());
+        const currency = e.target.value;
+        const apiUrl = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${defaultCurrency}.json`;
+        console.log("API Request URL:", apiUrl);
+    
+        try {
+            const response = await axios.get(apiUrl);
+            onChange(response.data[defaultCurrency][currency], currency.toUpperCase());
+        } catch (error) {
+            console.error("API request failed:", error);
+        }
     }
     return (
         <div className='curr-div'>
             <h4>Change currency</h4>
             <div>
-                <select onChange={handleChange}>
+                <select onChange={handleChange} value={defaultCurrency}>
                     <option value="nzd">New Zealand Dollar</option>
                     <option value="usd">United States Dollar</option>
                     <option value="aud">Australian Dollar</option>
@@ -32,4 +59,4 @@ function ChangeCurrency({ onChange }) {
     )
 }
 
-export default ChangeCurrency
+export default ChangeCurrency;

@@ -1,7 +1,7 @@
 import React from 'react';
 import AddRetailerForm from '../components/AddRetailerForm';
 import AddProductForm from '../components/AddProductForm';
-import '../css/AddProductRetailer.css';
+import '../pages/css/AddProductRetailer.css';
 
 const AddProductRetailerPage = () => {
   return (

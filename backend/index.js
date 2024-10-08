@@ -1,12 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import productRoutes from './routes/products.js';
-import retailerRoutes from './routes/retailers.js';
-import userRoutes from './routes/users.js';
-import contactRoutes from './routes/contact.js';
-import wishlistRoutes from './routes/wishlist.js'
-import searchRoutes from './routes/search.js';
-import reviewRoutes from './routes/reviews.js';
 import dotenv from 'dotenv';
 import { db } from './firebase.js';
 import path from 'path';
@@ -14,6 +7,16 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import yaml from 'js-yaml';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+
+// Import routes
+import productRoutes from './routes/products.js';
+import retailerRoutes from './routes/retailers.js';
+import userRoutes from './routes/users.js';
+import contactRoutes from './routes/contact.js';
+import wishlistRoutes from './routes/wishlist.js'
+import searchRoutes from './routes/search.js';
+import reviewRoutes from './routes/reviews.js';
+import adRoutes from './routes/ad.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +53,7 @@ app.use('/api/userinfo', userRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/ads', adRoutes);
 //app.use('/api/address', addressRoutes);
 
 
@@ -72,6 +76,10 @@ app.use((err, req, res, next) => {
   } else if (err.status === 500 || err.statusCode === 500) {
     res.status(500).redirect('/500');
   } else {
+    if (req.originalUrl.startsWith('/api')) {
+      // For API routes, send a JSON response instead of redirecting
+      return res.status(404).json({ error: 'API route not found' });
+    }
     res.status(404).redirect('/404');
   }
   });
