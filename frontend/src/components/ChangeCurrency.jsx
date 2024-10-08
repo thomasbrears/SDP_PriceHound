@@ -26,7 +26,7 @@ function ChangeCurrency({ onChange }) {
         const currency = e.target.value;
         const apiUrl = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${defaultCurrency}.json`;
         console.log("API Request URL:", apiUrl);
-    
+        setDefaultCurrency(e.target.value);
         try {
             const response = await axios.get(apiUrl);
             onChange(response.data[defaultCurrency][currency], currency.toUpperCase());
