@@ -1,9 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getAnalytics, logEvent } from "firebase/analytics";
 import app from '../FirebaseAuth/Firebase';
 import "../css/GoogleAnalytics.css"
 function GoogleAnalytics() {
     const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        const cookie = localStorage.getItem('cookies');
+        if (cookie !== null) {
+            if (cookie === 'true') {
+                setVisible(false);
+                const analytics = getAnalytics(app);
+                logEvent(analytics, 'Returning user');
+            } else if (cookie === 'false') {
+                setVisible(false);
+            }
+        }
+    }, [])
 
     const handleClick = () => {
         localStorage.setItem('cookies', true);
@@ -18,6 +31,7 @@ function GoogleAnalytics() {
     }
     const hide = () => {
         setVisible(!visible);
+        localStorage.setItem('cookies', false);
     }
 
     return (
