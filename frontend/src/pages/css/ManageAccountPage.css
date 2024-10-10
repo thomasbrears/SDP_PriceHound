@@ -41,6 +41,22 @@
     padding: 15px;
     box-sizing: border-box;
 }
+.settings-section {
+    display: flex; /* Use Flexbox for alignment */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start; /* Align items to the top */
+    background-color: var(--secondary-bg-color); 
+    color: var(--text-color); 
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px var(--shadow-color); /* Subtle shadow */
+    padding: 15px;
+    box-sizing: border-box;
+}
+.settings-section h1 {
+    margin-bottom: 20px; /* Space between heading and setting section */
+    color: var(--text-color); /* text color */
+}
 
 /* Form input styling */
 .formInput {

@@ -8,10 +8,23 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [adVisible, setAdVisible] = useState(true); // State to control ad visibility
+  const [adsBlocked, setAdsBlocked] = useState(() => {
+    // Initialize the state based on local storage
+    return JSON.parse(localStorage.getItem('adsBlocked')) || false;
+  });
+  const [user, setUser] = useState(null); // New state to track registration
 
 
   // Define rotation interval
   const rotateInterval = process.env.NODE_ENV === 'production' ? 30000 : 10000; // 30s for production, 10s for dev
+
+    // Check if UserId exists in local storage to determine if user is registered
+    useEffect(() => {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser) {
+        setUser(storedUser); 
+      }
+    }, []);
 
   useEffect(() => {
     const shuffleAds = (adsList) => {
@@ -58,22 +71,19 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
     setAdVisible(false); // Set ad visibility to false to hide ads
   };
 
-
+  const handleBlockAds = () => {
+    setAdsBlocked(true);
+    localStorage.setItem('adsBlocked', JSON.stringify(true)); // Save blocked state  to localStorage
+  };
   if (loading) {
-    return (
-      <div className="ad-section">
-        <div className="ad-skeleton"></div>
-        <div className="ad-skeleton"></div>
-        <div className="ad-skeleton"></div>
-      </div>
-    );
+    return <div className="ad-section">Loading ads...</div>;
   }
 
   if (error) {
     return <p>{error}</p>;
   }
-  if (!adVisible) {
-    return null; // Hide ad section if user has closed it
+  if (!adVisible || adsBlocked) {
+    return null; 
   }
 
   return (
@@ -81,8 +91,13 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
       {ads.length > 0 ? (
         <div key={ads[currentAdIndex].id} className="ad-container">
           {/* Close button */}
-          <button className="close-ad-button" onClick={handleCloseAd}>X</button>
-
+          {user && (
+            <>
+              <button className="close-ad-button" onClick={handleCloseAd}>X</button>
+              {/* <button className="block-ad-button" onClick={handleBlockAds}>Block Ads</button>
+            */}
+            </> 
+          )}
           <a href={ads[currentAdIndex].adLink} target="_blank" rel="noopener noreferrer">
             <img
               src={ads[currentAdIndex].adImage}
@@ -93,9 +108,10 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
           </a>
           <p className="ad-label">Advertisement by <strong>{ads[currentAdIndex].companyName}</strong></p>
           <p className="ad-label"><a href="/contact">Advertise with us today</a></p>
+
         </div>
       ) : (
-        <p> </p>
+        <p> No ads available</p>
       )}
     </div>
   );

@@ -21,6 +21,7 @@ function ProductPage() {
   const [user, setUser] = useState(null); // Store user info
   const searchResults = location.state?.searchResults || [];
   const [mainProductPrice, setMainProductPrice] = useState();
+  const [adsBlocked, setAdsBlocked] = useState(false);
   // Function to handle average rating update
   const handleAverageRatingUpdate = (newAverageRating) => {
     setAverageRating(newAverageRating);
@@ -79,6 +80,10 @@ function ProductPage() {
   const handleImageClick = (image) => {
     setMainImage(image);
   };
+  const toggleAdsBlock = () => {
+    setAdsBlocked(!adsBlocked);
+    localStorage.setItem('adsBlocked', JSON.stringify(!adsBlocked));
+  };
 
   // Google AdSense
   useEffect(() => {
@@ -88,11 +93,11 @@ function ProductPage() {
     }
   }, []);
 
-  // Check if user is logged in from local storage
+  // Load ad-block state from localStorage on component mount
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) {
-      setUser(storedUser); // Set user info from local storage
+    const storedAdsBlocked = JSON.parse(localStorage.getItem('adsBlocked'));
+    if (storedAdsBlocked !== null) {
+      setAdsBlocked(storedAdsBlocked);
     }
   }, []);
 
@@ -202,8 +207,9 @@ function ProductPage() {
          Landscape Ads Section
       --------------------------*/}
       <div className="ad-section">
+  
         {/* Ad component for landscape ads, displaying 1 ad */}
-        <AdSection adType="landscape" maxAds={1} />
+        {!adsBlocked && <AdSection adType="landscape" maxAds={1} adsBlocked={adsBlocked} />}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import PinkButton from '../components/PinkButton';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import '../css/PinkButton.css';
 import '../pages/css/ManageAccountPage.css';
-
+import  SettingSection from '../components/SettingSection';
 
 function ManageAccountPage() {
   const auth = getAuth();
@@ -207,27 +207,6 @@ function ManageAccountPage() {
     fetchIcon(storedUser.uid)
   }, []);
 
-  // const handleChangeEmail = async (e) => {
-  //   e.preventDefault();
-
-  //   if (newEmail === currentUser.email) {
-  //     alert('The new email is the same as the current email!');
-  //     return; 
-  //   }
-
-  //   try {
-  //     const user = auth.currentUser;
-  //     const credential = EmailAuthProvider.credential(user.email, currentPassword);
-  //     await reauthenticateWithCredential(user, credential);
-  //     await updateEmail(user, newEmail);
-  //     setCurrentUser({ ...currentUser, email: newEmail });
-  //     alert('Email updated successfully');
-  //   } catch (error) {
-  //     console.error('Error updating email:', error);
-  //     alert('Error updating email');
-  //   }
-  // };
-
   const verifyEmail = async () => {
     //get auth 
     const auth = getAuth();
@@ -270,6 +249,7 @@ function ManageAccountPage() {
         title="Manage Account"
         subtitle={<span><h1><img src={pfp ? pfp : 'images/profile.png'} alt="User Icon" className="subtitle-icon" />&nbsp;&nbsp;{currentUser.name}</h1> </span>}
       />
+      
       {/* Main content section with different forms */}
       <div className='manage-account-page-form'>
         {/* Change Password Form */}
@@ -379,7 +359,11 @@ function ManageAccountPage() {
           />
           <PinkButton text="Delete Account" onClick={handleDeleteAccount} />
         </div>
-
+        {/*  SettingsSection  */}
+      <div className="settings-section">
+      <h1>Settings</h1>
+      <SettingSection title="Dark Mode" description="Toggle dark mode on or off" />
+       </div>
       </div>
     </div>
   );
