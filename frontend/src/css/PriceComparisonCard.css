@@ -52,6 +52,31 @@
   margin-left: auto;
   margin-right: 15px;
   align-items: center;
+  position: relative;
+}
+
+.verification-tooltip {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Position above the badge */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--secondary-bg-color);
+  color: var(--text-color);
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1;
+  box-shadow: 0 4px 8px var(--header-shadow-color);
+}
+
+.company-verification-badge:hover .verification-tooltip {
+  display: block;
+}
+
+.verification-tooltip span {
+  margin: 0 5px;
 }
 
 .retailer-logo {

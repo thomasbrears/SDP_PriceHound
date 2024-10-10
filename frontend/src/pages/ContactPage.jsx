@@ -49,7 +49,7 @@ function ContactPage() {
 
     try {
       // Send the form data to the backend API
-      const response = await axios.post('https://pricehound.tech/api/contact/submit-contact-form', formData);
+      const response = await axios.post(`${contactApiUrl}/submit-contact-form`, formData);
 
       // If the response is successful, show success message
       if (response.data.success) {
@@ -60,7 +60,7 @@ function ContactPage() {
       }
     } catch (error) {
       // If there is an error, show error message
-      toast.error('Sorry, we failed to send your message. Please try again later or email support@pricehound.tech');
+      toast.error('ERROR: Sorry, we failed to send your message. Please try again later or email support@pricehound.tech');
       console.error('Error sending contact form:', error);}
   };
 
@@ -112,6 +112,7 @@ function ContactPage() {
               <option value="account-issues">Account Issues</option>
               <option value="bug">Report a Bug</option>
               <option value="media">Media</option>
+              <option value="company-verification">Company Verification</option>
               <option value="other">Other</option>
             </select>
             <input 
