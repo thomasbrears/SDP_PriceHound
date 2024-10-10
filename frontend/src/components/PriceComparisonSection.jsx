@@ -118,6 +118,7 @@ const placeholderImage =
                     alt="Verified Company"
                     className="verification-badge-image"
                   />
+                  <span className="verification-tooltip">Verified Company</span>
                 </div>
               )}
 

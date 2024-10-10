@@ -56,7 +56,7 @@ function AboutPage() {
           please contact us through out GitHub repository directly .
         </p>
         <a href="https://github.com/thomasbrears/SDP_PriceHound">
-          <svg viewBox="0 0 128 128" class="icon">
+          <svg viewBox="0 0 128 128" className="icon">
             <g fill="currentColor">
               <path
                 fillRule="evenodd"
