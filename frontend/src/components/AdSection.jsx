@@ -7,6 +7,8 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
   const [currentAdIndex, setCurrentAdIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [adVisible, setAdVisible] = useState(true); // State to control ad visibility
+
 
   // Define rotation interval
   const rotateInterval = process.env.NODE_ENV === 'production' ? 30000 : 10000; // 30s for production, 10s for dev
@@ -51,6 +53,12 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
     }
   }, [ads, rotateInterval]);
 
+  // Handle close ad functionality
+  const handleCloseAd = () => {
+    setAdVisible(false); // Set ad visibility to false to hide ads
+  };
+
+
   if (loading) {
     return (
       <div className="ad-section">
@@ -64,11 +72,17 @@ const AdSection = ({ adType, maxAds }) => { // Accept adType and maxAds as props
   if (error) {
     return <p>{error}</p>;
   }
+  if (!adVisible) {
+    return null; // Hide ad section if user has closed it
+  }
 
   return (
     <div className="ad-section">
       {ads.length > 0 ? (
         <div key={ads[currentAdIndex].id} className="ad-container">
+          {/* Close button */}
+          <button className="close-ad-button" onClick={handleCloseAd}>X</button>
+
           <a href={ads[currentAdIndex].adLink} target="_blank" rel="noopener noreferrer">
             <img
               src={ads[currentAdIndex].adImage}

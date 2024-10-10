@@ -62,3 +62,19 @@
     max-width: 200px;
   }
 }
+/* ads close button.css */
+.close-ad-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: #54B4EA;
+  cursor: pointer;
+}
+
+.close-ad-button:hover {
+  color: #023785;
+  background-color: rgba(0, 0, 255, 0.1);
+}
