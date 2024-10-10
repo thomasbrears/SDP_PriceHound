@@ -196,7 +196,7 @@ export const performScraping = async (searchTerm, sortOrder, priceRange, country
     await browser.close();
     return { searchResults, priceRanges };
   } catch (error) {
-    console.error('Error occurred during scraping:', error);
+    console.error('Error occurred during scraping:', error.message);
     if (browser) {
       await browser.close(); // Ensure browser is closed on error
     }
