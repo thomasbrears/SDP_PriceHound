@@ -24,7 +24,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Toastify message css
 import { ThemeContext } from './ThemeContext';
 import AppLayout from './components/AppLayout';
 import AdvertisementsPage from './pages/AdvertisementsPage';
-import GoogleAnalytics from './components/GoogleAnalytics';
+import CookieBanner from './components/CookieBanner';
 
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
@@ -38,7 +38,7 @@ function App() {
     
     <BrowserRouter>
       <div className="App">
-      <GoogleAnalytics/>{/*to allow cookies for google analytics*/}
+      <CookieBanner/>{/*Cookie banner to allow cookies or not*/}
       <AdblockDetect /> {/* Adblock detection */}
       {/* Toastify message container with defult location and theme*/}
       <ToastContainer
