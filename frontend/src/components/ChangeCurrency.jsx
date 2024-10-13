@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState , useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../css/ChangeCurrency.css";
 
 function ChangeCurrency({ onChange }) {
@@ -7,28 +7,29 @@ function ChangeCurrency({ onChange }) {
     const [defaultCurrency, setDefaultCurrency] = useState("nzd"); //default is  New Zealand Dollar
     const [oldCurrency, setOldCurrency] = useState("nzd");
     const [url, setUrl] = useState('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json');
-    // useEffect(() => {
-    //     // Load the selected country from local storage
-    const country = localStorage.getItem('selectedCountry');
-
-    //     //  Set the default currency based on the country
-    //     switch (country) {
-    //         case 'AU':
-    //             setDefaultCurrency('aud');
-    //             setUrl(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/aud.json`);
-    //             break;
-    //         case 'NZ':
-    //         default:
-    //             setDefaultCurrency('nzd'); 
-    //             setUrl(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json`);
-    //             break;
-    //     }
-    // }, []);
+    var curUrl;
+    useEffect(() => {
+        const country = localStorage.getItem('selectedCountry');
+        if(country === "AU")
+        {
+            setDefaultCurrency("aud")
+        }
+        else{
+            setDefaultCurrency("nzd")
+        }
+        
+    }, []);
 
     const handleChange = async (e) => {
+
+
+        //  Set the default currency based on the country
+
+
+        console.log(curUrl);
         const currency = e.target.value;
         setDefaultCurrency(e.target.value);
-        const API_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json';
+        const API_URL = ('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json');
         try {
             const response = await axios.get(API_URL);
             onChange(response.data['nzd'][currency], currency.toUpperCase());

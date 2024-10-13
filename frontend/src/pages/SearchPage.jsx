@@ -9,7 +9,7 @@ import '../pages/css/SearchPage.css';
 import Sort from '../components/Sort';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import ChangeCurrency from '../components/ChangeCurrency';
-
+import axios from 'axios';
 function SearchPage() {
   const location = useLocation();
   const [results, setResults] = useState([]);
@@ -36,34 +36,49 @@ function SearchPage() {
   };
 
   useEffect(() => {
-    if (location.state?.searchResults) {
-      setResults(location.state.searchResults);
-      setPriceRanges(location.state.priceRanges || []); // Set priceRanges if available
-      setQuery(location.state.query || ''); // Set query if available
-
-      const pricesArray = location.state.searchResults.map(item => parseFloat(item.price.replace(/[$,]/g, '')));
-      setCurrency(pricesArray);
-      console.log(pricesArray);
-      const updatedResults = location.state.searchResults.map((item) => {
-        const cur = parseFloat(item.price.replace(/[$,]/g, ''));
-
-        const country = localStorage.getItem('selectedCountry');
-
-        let symbol = "$";
-        // let currencyUnit = "NZD"; 
-        // if (country === 'AU') {
-        //   currencyUnit = "AUD"; 
-        // }  
-        const convertedPrice = cur * 1;
-        return {
-          ...item,
-          price: `${symbol}${convertedPrice.toFixed(2)} ${'NZD'}`
-        };
-      });
-
-      setResults(updatedResults);
-    }
-  }, [location]);
+    const fetchUpdatedResults = async () => {
+      if (location.state?.searchResults) {
+        setResults(location.state.searchResults);
+        setPriceRanges(location.state.priceRanges || []);
+        setQuery(location.state.query || '');
+  
+        const pricesArray = location.state.searchResults.map(item => parseFloat(item.price.replace(/[$,]/g, '')));
+        setCurrency(pricesArray);
+        console.log(pricesArray);
+  
+        const updatedResults = await Promise.all(
+          location.state.searchResults.map(async (item) => {
+            const cur = parseFloat(item.price.replace(/[$,]/g, ''));
+  
+            const country = localStorage.getItem('selectedCountry');
+            let convertedPrice = cur;
+            let symbol = "$";
+            let currencyUnit = "NZD";
+  
+            if (country === 'AU') {
+              currencyUnit = "AUD";
+              const API_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json';
+              try {
+                const response = await axios.get(API_URL);
+                convertedPrice = cur * response.data['nzd']['aud'];
+              } catch (e) {
+                console.error("Error fetching currency data:", e);
+              }
+            }
+  
+            return {
+              ...item,
+              price: `${symbol}${convertedPrice.toFixed(2)} ${currencyUnit}`
+            };
+          })
+        );
+  
+        setResults(updatedResults); // Update state with the new results
+      }
+    };
+  
+    fetchUpdatedResults();
+  }, [location.state]);
 
   //function to display a relevant message when an item is added to the wishlist
   const displayMessage = (messageText, type = 'success') => {

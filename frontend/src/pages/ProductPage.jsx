@@ -9,7 +9,7 @@ import '../pages/css/ProductPage.css';
 import '../css/PriceComparisonCard.css';
 import ChangeCurrency from '../components/ChangeCurrency';
 import AdSection from '../components/AdSection';
-import '../css/AdSection.css'; 
+import '../css/AdSection.css';
 
 function ProductPage() {
   const location = useLocation();
@@ -28,32 +28,50 @@ function ProductPage() {
   };
 
   useEffect(() => {
-    const updatedResults = location.state.searchResults.map((item) => {
-      const priceNumber = item.price ? parseFloat(item.price.replace(/[$,]/g, '')) : 1;
-      
+    const fetchUpdatedPrices = async () => {
+      var currencyUnit = "NZD";
+      var priceNumber;
+      var result = 1;
       const country = localStorage.getItem('selectedCountry');
-      
-      var symbol = "$";
-      let currencyUnit = "NZD"; 
       if (country === 'AU') {
         currencyUnit = "AUD";
+        const API_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json';
+        try {
+          const response = await axios.get(API_URL);
+          result = response.data['nzd']['aud'];
+        } catch (e) {
+          console.error("Error fetching currency data:", e);
+        }
       }
-      
-      const convertedPrice = priceNumber * 1; 
-      return {
-        ...item,
-        price: `${symbol}${convertedPrice.toFixed(2)} ${currencyUnit}`
-      };
-    });
-    
-    setResults(updatedResults);
-    setMainProductPrice(mainProduct.price);
-    
-    if (searchResults.length === 0) {
-      navigate('/product-not-found');
-      toast.error('Sorry, we couldn\'t find that product. Please try again', { autoClose: 3000, position: 'top-right' }); 
-    }
+      const updatedResults = await Promise.all(
+        location.state.searchResults.map(async (item) => {
+          priceNumber = item.price ? parseFloat(item.price.replace(/[$,]/g, '')) : 1;
+
+          var symbol = "$";
+
+          priceNumber *= result;
+          return {
+            ...item,
+            price: `${symbol}${priceNumber.toFixed(2)} ${currencyUnit}`,
+          };
+        })
+      );
+
+      setResults(updatedResults);
+      const mainProductPriceNumber = mainProduct.price ? parseFloat(mainProduct.price.replace(/[$,]/g, '')) : 1;
+      const mainResult = mainProductPriceNumber * (country === 'AU' ? result : 1);
+      const mainp = `${'$'}${mainResult.toFixed(2)} ${currencyUnit}`;
+      setMainProductPrice(mainp);
+
+      if (searchResults.length === 0) {
+        navigate('/product-not-found');
+        toast.error('Sorry, we couldn\'t find that product. Please try again', { autoClose: 3000, position: 'top-right' });
+      }
+    };
+
+    fetchUpdatedPrices();
   }, [searchResults, navigate]);
+
 
   // main product object
   const mainProduct = searchResults[0] || {};
@@ -207,7 +225,7 @@ function ProductPage() {
          Landscape Ads Section
       --------------------------*/}
       <div className="ad-section">
-  
+
         {/* Ad component for landscape ads, displaying 1 ad */}
         {!adsBlocked && <AdSection adType="landscape" maxAds={1} adsBlocked={adsBlocked} />}
       </div>
