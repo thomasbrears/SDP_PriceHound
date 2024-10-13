@@ -20,6 +20,7 @@ function SearchPage() {
   const [priceRanges, setPriceRanges] = useState([]); // show price range
   const [query, setQuery] = useState(''); // header query state
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);// state for handling mobile modal
+  const [currency, setCurrency] = useState([]);
   // const [currency, setCurrency] = useState(''); 
   // const [conversionRate, setConversionRate] = useState(1);
   const handleSortChange = (order) => {
@@ -31,7 +32,7 @@ function SearchPage() {
     const formattedRange = `selectedMinPr=${range.min}&selectedMaxPr=${range.max === Infinity ? 'Infinity' : range.max}`;
     setPriceRange(formattedRange);
     console.log("Selected Price Range:", formattedRange);
-    toast.success(`Price range updated to ${range.min} - ${range.max === Infinity ? 'Infinity' : range.max}`, {position: 'top-right' });
+    toast.success(`Price range updated to ${range.min} - ${range.max === Infinity ? 'Infinity' : range.max}`, { position: 'top-right' });
   };
 
   useEffect(() => {
@@ -39,25 +40,27 @@ function SearchPage() {
       setResults(location.state.searchResults);
       setPriceRanges(location.state.priceRanges || []); // Set priceRanges if available
       setQuery(location.state.query || ''); // Set query if available
-  
-        const updatedResults = location.state.searchResults.map((item) => {
-        const priceNumber = parseFloat(item.price.replace(/[$,]/g, ''));
-  
+
+      const pricesArray = location.state.searchResults.map(item => parseFloat(item.price.replace(/[$,]/g, '')));
+      setCurrency(pricesArray);
+      console.log(pricesArray);
+      const updatedResults = location.state.searchResults.map((item) => {
+        const cur = parseFloat(item.price.replace(/[$,]/g, ''));
+
         const country = localStorage.getItem('selectedCountry');
-  
-        let symbol = "$"; 
-        let currencyUnit = "NZD"; 
-        if (country === 'AU') {
-          currencyUnit = "AUD"; 
-        }
-  
-        const convertedPrice = priceNumber * 1; 
+
+        let symbol = "$";
+        // let currencyUnit = "NZD"; 
+        // if (country === 'AU') {
+        //   currencyUnit = "AUD"; 
+        // }  
+        const convertedPrice = cur * 1;
         return {
           ...item,
-          price: `${symbol}${convertedPrice.toFixed(2)} ${currencyUnit}` 
+          price: `${symbol}${convertedPrice.toFixed(2)} ${'NZD'}`
         };
       });
-  
+
       setResults(updatedResults);
     }
   }, [location]);
@@ -77,26 +80,28 @@ function SearchPage() {
   const closeSidebar = () => {
     setIsSidebarVisible(false);
   };
-// Function to handle currency change
+  // Function to handle currency change
   const changeCurrency = async (newCurrency, curShort) => {
     //const curShort = JSON.parse(localStorage.getItem('cur-short'));
-    const updatedResults = location.state.searchResults.map((item) => {
-      const priceNumber = parseFloat(item.price.replace(/[$,]/g, ''));
+    console.log(currency)
+    const updatedResults = location.state.searchResults.map((item, index) => {
+      const originalPrice = currency[index];
       //\u20AC - euro
       var symbol = "";
-      if (curShort.localeCompare("eur") === 0) {
+      if (curShort.localeCompare("EUR") === 0) {
         symbol = "\u20AC"
       }
       else {
         symbol = "$"
       }
-      const convertedPrice = priceNumber * newCurrency;
+      const convertedPrice = originalPrice * newCurrency;
       return {
         ...item,
         price: `${symbol}${convertedPrice.toFixed(2)} ${curShort}`
       };
     });
     setResults(updatedResults)
+
   }
 
   return (

@@ -5,31 +5,33 @@ import "../css/ChangeCurrency.css";
 function ChangeCurrency({ onChange }) {
     const [exchangeRates, setExchangeRates] = useState({});
     const [defaultCurrency, setDefaultCurrency] = useState("nzd"); //default is  New Zealand Dollar
+    const [oldCurrency, setOldCurrency] = useState("nzd");
+    const [url, setUrl] = useState('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json');
+    // useEffect(() => {
+    //     // Load the selected country from local storage
+    const country = localStorage.getItem('selectedCountry');
 
-    useEffect(() => {
-        // Load the selected country from local storage
-        const country = localStorage.getItem('selectedCountry');
-
-        //  Set the default currency based on the country
-        switch (country) {
-            case 'AU':
-                setDefaultCurrency('aud'); 
-                break;
-            case 'NZ':
-            default:
-                setDefaultCurrency('nzd'); 
-                break;
-        }
-    }, []);
+    //     //  Set the default currency based on the country
+    //     switch (country) {
+    //         case 'AU':
+    //             setDefaultCurrency('aud');
+    //             setUrl(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/aud.json`);
+    //             break;
+    //         case 'NZ':
+    //         default:
+    //             setDefaultCurrency('nzd'); 
+    //             setUrl(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json`);
+    //             break;
+    //     }
+    // }, []);
 
     const handleChange = async (e) => {
         const currency = e.target.value;
-        const apiUrl = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${defaultCurrency}.json`;
-        console.log("API Request URL:", apiUrl);
         setDefaultCurrency(e.target.value);
+        const API_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json';
         try {
-            const response = await axios.get(apiUrl);
-            onChange(response.data[defaultCurrency][currency], currency.toUpperCase());
+            const response = await axios.get(API_URL);
+            onChange(response.data['nzd'][currency], currency.toUpperCase());
         } catch (error) {
             console.error("API request failed:", error);
         }

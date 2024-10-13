@@ -16,9 +16,10 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
   // Launch Puppeteer browser
   const browser = await puppeteer.launch({
     // Hidden browser settings w/ custom settings to hide footprints
-    headless: true,
+    headless: false,
     args: [
       "--no-sandbox",
+      "--screenshot",
       "--disable-setuid-sandbox",
       "--disable-dev-shm-usage",
       "--disable-accelerated-2d-canvas",
