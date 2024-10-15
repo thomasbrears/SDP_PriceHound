@@ -1,4 +1,7 @@
-
+.brand-page{
+    background-color: var(--background-color);
+    min-height: 100vh;
+}
 
 .brand-category-buttons {
     display: flex; /* Use flexbox for layout */
@@ -26,8 +29,8 @@
 }
 
 .brand-button {
-    background-color: white; /* Set background color */
-    color: black; /* Set text color */
+    background-color: var(--secondary-bg-color); /* Set background color */
+    color: var(--text-color); /* Set text color */
     border: solid 1px #093f79; /* Set border color */
     padding: 10px 15px; /* Add padding */
     cursor: pointer; /* Pointer cursor on hover */
@@ -43,7 +46,8 @@
 }
 
 .brand-button:hover {
-    background-color: #f0f2f6; /* Background color on hover */
+    background-color: var(--primary-pink-color); /* Background color on hover */
+    color: black; /* Text color on hover */
 }
 
 .pagination-controls {
@@ -53,7 +57,7 @@
 }
 
 .pagination-controls button {
-    background-color: #dba7c5; /* Button color */
+    background-color: var(--primary-pink-color); /* Button color */
     color: black; /* Text color */
     border: none; /* Remove border */
     border-radius: 5px; /* Rounded corners */
@@ -62,6 +66,10 @@
 }
 
 .pagination-controls button:disabled {
-    background-color: #cccccc; /* Grey out disabled buttons */
+    background-color: var(--icon-color); /* Grey out disabled buttons */
     cursor: not-allowed; /* Not-allowed cursor for disabled buttons */
+}
+
+pagination-controls button:hover{
+    background-color: var(--dark-pink-color);
 }

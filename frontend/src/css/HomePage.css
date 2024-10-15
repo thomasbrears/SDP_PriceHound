@@ -191,8 +191,8 @@
 /* Styles for the country selector dropdown */
 .search-bar-container .country-selector {
   height: 40px !important;    
-  width: 85px !important;     
-  margin-right:  10px !important;     
+  width: 20% !important;     
+  margin-right:  5% !important;     
   border-radius: 10px!important;  
   border-radius: 4px;          /* Maintain border-radius */
   box-sizing: border-box;       /* Ensure proper box model */
