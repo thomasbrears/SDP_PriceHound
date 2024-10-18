@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import '@testing-library/jest-dom'; // For extended matchers
 import { toast } from 'react-toastify';
+import React from 'react';
 
 jest.mock('react-toastify', () => ({
   toast: {

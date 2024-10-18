@@ -66,7 +66,7 @@
 }
 
 .pagination-controls button:disabled {
-    background-color: var(--icon-color); /* Grey out disabled buttons */
+   white-space: var(--icon-color); /* Grey out disabled buttons */
     cursor: not-allowed; /* Not-allowed cursor for disabled buttons */
 }
 

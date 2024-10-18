@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AboutPage from "../pages/AboutPage";
+import React from 'react';
 
 describe('AboutPage', () => {
   test('renders the main title and subtitle', () => {
