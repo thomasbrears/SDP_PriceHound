@@ -7,6 +7,8 @@ import PinkButton from '../components/PinkButton';
 import Loading from '../components/Loading';
 import BrandLogo from '../components/BrandLogo'; 
 import Message from '../components/Message';
+import CountrySelector from '../components/CountrySelector';
+import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/HomePage.css'; 
 
@@ -15,7 +17,6 @@ function HomePage() {
   const location = useLocation(); // Get current location
   const [loading, setLoadingState] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); 
 
   const setLoading = (state, message = '') => {
     setLoadingState(state);
@@ -26,9 +27,9 @@ function HomePage() {
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     if (query.get('logout') === 'true') {
-      setMessageInfo({ message: 'You have successfully logged out.', type: 'success' });
+      toast.success('You have successfully logged out. Have a great day!');
     } else if (query.get('error') === 'true') {
-      setMessageInfo({ message: 'An error occurred during logout.', type: 'error' });
+      toast.error('An error occurred during logout. Please try again.');
     }
   }, [location]);
 
@@ -41,8 +42,6 @@ function HomePage() {
   return (
     <div className="home-page">
       {loading && <Loading message={loadingMessage} />}
-      {messageInfo.message && ( <Message key={Date.now()} message={messageInfo.message} type={messageInfo.type} />)}                
-
 
       <MainHeadTitle 
         title="Compare prices from around the world from the comfort of your couch!"
@@ -51,7 +50,16 @@ function HomePage() {
 
       <div className="search-section">
         <h2>Search over 1000 products from 2 countries</h2>
-        <SearchBarBig onResults={handleSearchResults} />
+        
+          {/* Search ,CountrySelector and location icon */}
+          <div className="search-bar-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+            <path fillRule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clipRule="evenodd" />
+            </svg>
+            <CountrySelector className="country-selector"/>
+          <SearchBarBig onResults={handleSearchResults} />
+        </div>
+
         <div className="suggested-searches">
           <span>Suggested Searches:</span>
           <a href="#">Apple Macbook Pro, 2024</a>
@@ -61,7 +69,7 @@ function HomePage() {
       </div>
 
       <div className="featured-products">
-        <h3>Featured Products</h3>
+        <h2>Featured Products</h2>
         <p className="sub-text">Latest deals</p>
         <div className="product-list">
           <ProductCard productName="iPhone 15 Pro 128GB" setLoading={setLoading} productImg="./images/products/iphone-15-pro.png"/>
@@ -112,7 +120,7 @@ function HomePage() {
           <BrandLogo src="images/brands/canon.png" setLoading={setLoading} alt="Canon" />
           <BrandLogo src="images/brands/pioneer.png" setLoading={setLoading} alt="Pioneer" />
         </div>
-        <PinkButton text="Browse all Brands" />
+        <a href="/brands" className="pink-button">Browse all Brands</a>
       </div>
     </div>
   );

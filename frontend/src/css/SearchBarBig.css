@@ -3,14 +3,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+   
     width: 100%;
   }
   
   .search-big-input-wrapper {
     display: flex;
     align-items: center;
-    background-color: #0363BB;
+    background-color: var(--primary-blue-color);
     border-radius: 10px;
     max-width: 500px; /* maximum width of the entire search bar */
     width: 100%;
@@ -22,14 +22,14 @@
     padding: 15px 15px;
     border: none;
     font-size: 14px;
-    color: #fff;
-    background-color: #0363BB;
+    color: #fff; /* always white text */
+    background-color: var(--primary-blue-color);
     outline: none;
     border-radius: 10px 10px 10px 10px;
   }
   
   .search-big-input::placeholder {
-    color: #fff;
+    color: #fff; /* always text color */
   }
   
   .search-big-input:focus::placeholder {
@@ -38,8 +38,8 @@
   
   .search-big-button {
     padding: 10px 10px;
-    background-color: #000;
-    color: #fff;
+    background-color: #000; /* always black */
+    color: #fff; /* always white */
     border: none;
     cursor: pointer;
     display: flex;

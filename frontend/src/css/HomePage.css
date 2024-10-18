@@ -13,16 +13,21 @@
 
 .search-section {
   padding: 40px 20px;
-  background-color: #f9f9f9; 
+  background-color: var(--background-color); 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
 }
 
 .search-section h2 {
   font-size: 24px;
   margin-bottom: 20px;
+  color: var(--text-color);
 }
 
 .suggested-searches {
   margin-top: 20px;
+  color: var(--text-color);
 }
 
 .suggested-searches span {
@@ -32,12 +37,13 @@
 
 .suggested-searches a {
   margin: 0 10px;
-  color: #0363BB;
-  text-decoration: none;
+  color: var(--link-color);
+  text-decoration:none;
 }
 
 .suggested-searches a:hover {
   text-decoration: underline;
+  color: var(--text-color);
 }
 
 /************************************/
@@ -46,16 +52,18 @@
 
 .featured-products {
   padding: 60px 20px;
+  background-color: var(--secondary-bg-color); 
 }
 
-.featured-products {
+.featured-products h2{
   font-size: 28px;
+  color: var(--text-color);
   margin-bottom: 10px;
 }
 
 .sub-text {
   font-size: 16px;
-  color: #888;
+  color: var(--icon-color);
   margin-bottom: 40px;
 }
 
@@ -73,17 +81,18 @@
 .category-section {
   text-align: center;
   padding: 60px 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
 }
 
 .category-section h2 {
   font-size: 28px;
   margin-bottom: 10px;
+  color: var(--text-color);
 }
 
 .category-section .sub-text {
   font-size: 16px;
-  color: #888;
+  color: var(--icon-color);
   margin-bottom: 40px;
 }
 
@@ -105,7 +114,7 @@
   border-radius: 15px;
   overflow: hidden;
   height: 75px;
-  color: white;
+  color: #fff; /* always white text */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,7 +127,7 @@
 
 .category-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px var(--header-shadow-color);
 }
 
 .category-card::after {
@@ -136,6 +145,22 @@
   z-index: 1;
 }
 
+/***************************/
+/* Brand Section Styles */
+/***************************/
+
+.brand-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: var(--secondary-bg-color);
+}
+
+.brand-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
 /***********************/
 /* Pink buttons styles */
 /***********************/
@@ -144,3 +169,35 @@
   max-width: 300px; /* Centers the pink button */
   margin: 0 auto;
 }
+/***********************/
+/* Country selector styles */
+/***********************/
+
+/* Styles for the container that holds the search elements */
+.search-bar-container {
+  display: flex;               /* Use flexbox to arrange child elements */
+  align-items: center;         /* Vertically center items */
+  justify-content: center;     /* Horizontally center items */
+  width: 50%;               /* Set width to one-third of the parent */
+}
+
+/* Styles for the SVG icon */
+.search-bar-container .size-6 {
+  width: 30px;                 
+  height: 60px;               
+  margin-right: 10px;          /* Add space between the icon and country selector */
+}
+
+/* Styles for the country selector dropdown */
+.search-bar-container .country-selector {
+  height: 40px !important;    
+  width: 20% !important;     
+  margin-right:  5% !important;     
+  border-radius: 10px!important;  
+  border-radius: 4px;          /* Maintain border-radius */
+  box-sizing: border-box;       /* Ensure proper box model */
+  border: 1px solid var(--border-color); /* Keep border style */
+  background-color: var(--background-color); /* Keep background color */
+  color: var(--text-color);    /* Keep text color */
+}
+

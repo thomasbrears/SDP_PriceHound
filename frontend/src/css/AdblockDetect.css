@@ -1,0 +1,42 @@
+.adblock-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+  }
+  
+  .adblock-modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .adblock-modal h2 {
+    margin-bottom: 10px;
+  }
+  
+  .adblock-modal p {
+    margin-bottom: 20px;
+  }
+  
+  .adblock-modal button {
+    background-color: #0363bb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .adblock-modal button:hover {
+    background-color: #023785;
+  }
+  

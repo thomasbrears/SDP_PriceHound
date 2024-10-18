@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import MainHeadTitle from '../components/MainHeadTitle'; 
-import '../css/CategoryPage.css'; 
+import '../pages/css/CategoryPage.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
+// Dynamically set the search API URL based on environment
+const searchApiUrl = process.env.NODE_ENV === 'production'
+? 'https://pricehound.tech/api/search'
+: 'http://localhost:8000/api/search';
 
 function CategoryPage() {
   // State variables for selected category, subcategories, and loading status
@@ -208,12 +213,14 @@ function CategoryPage() {
     setLoading(true); // Show the loading animation
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/search?query=${query}`); // Make an API request to search for the selected category or subcategory
+      const country = localStorage.getItem('selectedCountry'); 
+
+      const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(query)}&country=${encodeURIComponent(country)}`); // Make an API request to search for the selected category or subcategory
       setLoading(false); // Stop the loading animation
       
       const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
-      navigate('/search', { state: { searchResults: searchResults, query } }); // Navigate to the search page with the search results
+      navigate('/search', { state: { searchResults: searchResults, query ,priceRanges: fetchedPriceRanges} }); // Navigate to the search page with the search results
     } catch (error) {
       console.error('Error fetching category products:', error); // Log any errors
       setLoading(false); // Stop the loading animation
@@ -221,9 +228,10 @@ function CategoryPage() {
   };
 
   return (
-    <div className="category-page">
+    <div className="category-page-wrapper">
       {loading && <Loading message={loadingMessage} />} {/* Show loading spinner and message if loading */}
       
+      <div className="category-page"></div>
       {/* Page title and subtitle */}
       <MainHeadTitle 
         title="Browse your favorite Categories"
@@ -308,7 +316,7 @@ function CategoryPage() {
         <div className="subcategories-section">
           {/* Subcategory header */}
           <div className="subcategories-header">
-            <h2><a href="#" className="subcategory-link" onClick={() => handleSearch(selectedCategory, 'category')} style={{ textDecoration: 'none', color: 'black' }} >{selectedCategory}</a></h2>
+            <h2><a href="#" className="subcategory-link-heading" onClick={() => handleSearch(selectedCategory, 'category')} style={{ textDecoration: 'none', color: 'black' }} >{selectedCategory}</a></h2>
             <a href="#" className="view-all-link" onClick={() => handleSearch(selectedCategory, 'category')}>View All &rarr;</a>
           </div>
 
@@ -316,7 +324,7 @@ function CategoryPage() {
           <div className="subcategories-columns">
             {subcategories.map((subcategory, index) => (
               <div className="subcategories-column" key={index}>
-              <h3><a href="#" className="subcategory-link" onClick={() => handleSearch(subcategory.secondLevel, 'subcategory')} style={{ textDecoration: 'none', color: 'black' }} >{subcategory.secondLevel}</a></h3>
+              <h3><a href="#" className="third-level-category-link-heading" onClick={() => handleSearch(subcategory.secondLevel, 'subcategory')} >{subcategory.secondLevel}</a></h3>
                 <ul>
                   {subcategory.thirdLevel.map((thirdLevelCategory, i) => (
                     <li key={i}><a href="#" onClick={() => handleSearch(thirdLevelCategory, 'subcategory')}>{thirdLevelCategory}</a></li>

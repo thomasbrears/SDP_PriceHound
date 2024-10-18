@@ -4,7 +4,7 @@
     left: 50%;
     transform: translateX(-50%);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    color: #fff; /* White */
+    color: #fff; /* always white */
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@
   }
   
   .message.info {
-    background-color: #0c5460; /* Light Blue */
+    background-color: var(--light-blue-color); /* Light Blue */
   }
 
   .message-icon {
@@ -51,7 +51,7 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: white;
+    color: white; /* always white */
     font-size: 16px;
     cursor: pointer;
     padding: 0;
@@ -61,6 +61,6 @@
 }
   
   .close-button:hover {
-    color: #ccc;
+    color: #ccc; /* always light gray */
   }
   

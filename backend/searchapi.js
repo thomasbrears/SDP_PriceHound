@@ -4,7 +4,7 @@ import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
 
-// Initialize Express app & packages etc.
+// Initialise Express app & packages etc.
 const app = express();
 const PORT = 5001;
 app.use(cors());
@@ -16,9 +16,10 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
   // Launch Puppeteer browser
   const browser = await puppeteer.launch({
     // Hidden browser settings w/ custom settings to hide footprints
-    headless: true,
+    headless: false,
     args: [
       "--no-sandbox",
+      "--screenshot",
       "--disable-setuid-sandbox",
       "--disable-dev-shm-usage",
       "--disable-accelerated-2d-canvas",
@@ -256,9 +257,12 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
     return { searchResults, priceRanges };
   } catch (error) {
     console.error("Error occurred during scraping:", error);
-    await browser.close();
     throw error;
-  }
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  };
 };
 
 // ************************
@@ -266,7 +270,7 @@ const performScraping = async (searchTerm, sortOrder, priceRange) => {
 // ************************
 
 // Express route to use scraping
-app.get("/api/search", async (req, res) => {
+app.get("https://pricehound.tech/api/search", async (req, res) => {
   console.log("Incoming Request:", req.query); // print the incoming request query
   let searchTerm = req.query.query;
   let sortOrder = req.query.sort;
@@ -280,6 +284,7 @@ app.get("/api/search", async (req, res) => {
     const results = await performScraping(searchTerm, sortOrder, priceRange);
     res.json(results);
   } catch (error) {
+    console.error("Search scraping failed:", error);
     res.status(500).json({ error: "Error performing search" });
   }
 });

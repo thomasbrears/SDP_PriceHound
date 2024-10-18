@@ -1,0 +1,80 @@
+.ad-section {
+  flex: 1;
+  margin: 20px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ad-skeleton {
+  width: 100%;
+  height: 150px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}  
+  
+.ad-image {
+  margin-top: 20px;
+  height: auto;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.ad-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px var(--shadow-color);
+}
+  
+/* Portrait ads */
+.ad-portrait {
+  max-width: 200px;
+  max-height: 600px;
+}
+
+/* Landscape ads */
+.ad-landscape {
+  max-width: 100%;
+  max-height: 200px;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+
+.ad-label {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--icon-color);
+}  
+
+.ad-label a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.ad-label a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .ad-image {
+    max-width: 200px;
+  }
+}
+/* ads close button.css */
+.close-ad-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: #54B4EA;
+  cursor: pointer;
+}
+
+.close-ad-button:hover {
+  color: #023785;
+  background-color: rgba(0, 0, 255, 0.1);
+}

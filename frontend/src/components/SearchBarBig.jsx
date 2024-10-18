@@ -4,17 +4,19 @@ import Loading from '../components/Loading';
 import '../css/SearchBarBig.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import CountrySelector from './CountrySelector';
 
 function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
   const [localQuery, setLocalQuery] = useState(query || ''); // Initialize with query prop
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const navigate = useNavigate();
-
+  
+  // Dynamically set the search API URL based on environment
   const searchApiUrl = process.env.NODE_ENV === 'production'
     ? 'https://pricehound.tech/api/search'
-    : 'http://localhost:5001/api/search'; 
-
+    : 'http://localhost:8000/api/search';
+    
   const handleInputChange = (e) => {
     setLocalQuery(e.target.value);
   };
@@ -25,26 +27,32 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
       setLocalQuery(query);
     }
   }, [query]);
-   // Check if any of the search parameters are valid
+  
+  // Check if any of the search parameters are valid
   useEffect(() => {
     const isTwoValid = (localQuery && sortOrder) || (localQuery && priceRange) || (sortOrder && priceRange);
     const areAllValid = localQuery && sortOrder && priceRange;
-  // If any of the search parameters are valid, perform search
+    // If any of the search parameters are valid, perform search
     if (areAllValid || isTwoValid) {
       handleSearch();
     }
   }, [localQuery, sortOrder, JSON.stringify(priceRange)]);
- // Search for products
+
+  // Search for products
   const handleSearch = async () => {
     setLoading(true);
     setLoadingMessage(`Searching for "${localQuery}"...`);
 
     try {
+
+      const country = localStorage.getItem('selectedCountry');  
+
       const response = await axios.get(`${searchApiUrl}`, {
         params: {
           query: localQuery,
           sort: sortOrder,
-          priceRange: priceRange
+          priceRange: priceRange,
+          country: country  
         }
       });
 
@@ -71,6 +79,13 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
     }
   };
 
+    // Handle "Enter" key press to trigger search
+    const handleEnterKeySearch = (e) => {
+      if (e.key === 'Enter') {
+        handleSearch(); // Search when Enter key is pressed
+      }
+    };
+
   return (
     <div className="search-big-container">
       <div className="search-big-input-wrapper">
@@ -80,6 +95,7 @@ function SearchBarBig({ onResults, sortOrder, priceRange, query }) {
           onChange={handleInputChange}
           placeholder="Search for a product to compare ..."
           className="search-big-input"
+          onKeyDown={handleEnterKeySearch}
         />
         <button onClick={handleSearch} className="search-big-button">
           <FiSearch className="search-big-icon" />

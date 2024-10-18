@@ -1,0 +1,150 @@
+.manage-account-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+    box-sizing: border-box;
+}
+
+/* Full-width title, unaffected by the card grid */
+.main-head-title {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* 3 cards across on desktop */
+.manage-account-page-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for desktop */
+    grid-template-rows: auto;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px; /* Ensure the cards don’t stretch too far on larger screens */
+    padding: 20px; /* Add some padding around the grid */
+    box-sizing: border-box;
+}
+
+/* Styling for each section (card) */
+.change-password, 
+.change-name, 
+.change-icon, 
+.change-email, 
+.delete-account {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--secondary-bg-color); 
+    color: var(--text-color); 
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px var(--shadow-color); /* Subtle shadow */
+    padding: 15px;
+    box-sizing: border-box;
+}
+.settings-section {
+    display: flex; /* Use Flexbox for alignment */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start; /* Align items to the top */
+    background-color: var(--secondary-bg-color); 
+    color: var(--text-color); 
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px var(--shadow-color); /* Subtle shadow */
+    padding: 15px;
+    box-sizing: border-box;
+}
+.settings-section h1 {
+    margin-bottom: 20px; /* Space between heading and setting section */
+    color: var(--text-color); /* text color */
+}
+
+/* Form input styling */
+.formInput {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--boarder-color);
+}
+#emailChange::placeholder{
+    opacity: 0.6;
+}
+
+/* Label and button styling */
+label {
+    font-size: 15px;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.PinkButton {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    background-color: var(--primary-pink-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.PinkButton:hover {
+    background-color: var(--dark-pink-color);
+}
+
+/* Subtitle icon styling */
+.subtitle-icon {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 2px 6px var(--shadow-color);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 400px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .modal-buttons button {
+    width: 45%;
+  }
+.ver-button{
+    margin: 15px 0;
+}
+  
+/* Responsive layout for mobile */
+@media (max-width: 768px) {
+    .manage-account-page-form {
+        grid-template-columns: 1fr; /* Single column layout for mobile */
+        grid-template-rows: auto;
+    }
+}

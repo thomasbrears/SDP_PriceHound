@@ -1,0 +1,198 @@
+.category-page-wrapper {
+  background-color: var(--secondary-bg-color); 
+  min-height: 100vh;
+}
+
+.category-page h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+  
+  .category-page .sub-text {
+    font-size: 16px;
+    color: var(--icon-color);
+    margin-bottom: 40px;
+    background-color: var(--secondary-bg-color);
+  }
+  
+  .top-level-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid layout */
+    max-width: 1000px;
+    text-align: left;
+    gap: 10px;
+    justify-items: left;
+    align-items: left;
+    margin: 30px auto; 
+    padding: 0 20px;
+    background-color: var(--secondary-bg-color);
+  }
+  
+  .top-level-category {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--secondary-bg-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  }
+  
+  .top-level-category:hover {
+    background-color: var(--secondary-bg-color);;
+    box-shadow: 0px 4px 8px var(--header-shadow-color);
+  }
+  
+  .category-icon {
+    width: 35px;
+    height: auto;
+    margin-right: 5px;
+    color: var(--icon-color);
+  }
+  
+  .category-name {
+    font-size: 18px;
+    color: var(--link-color);
+    font-weight: bold;
+  }
+  
+  /* Subcategories Section */
+  .subcategories-section {
+    margin-top: 40px;
+    text-align: left;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px; 
+  }
+  
+  .subcategories-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+  }
+  
+  .subcategories-header h2 {
+    font-size: 20px;
+    color: var(--link-color);
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .subcategory-link-heading {
+    font-size: 21px;
+    color: var(--text-color)!important;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .third-level-category-link-heading {
+    font-size: 17px;
+    color: var(--text-color)!important;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .subcategory-link, .view-all-link {
+    text-decoration: none; 
+    color: var(--link-color);
+    font-size: 18px;
+  }
+  
+  .subcategory-link:hover, .view-all-link:hover {
+    text-decoration: underline; 
+  }
+  
+  .view-all-link {
+    font-size: 14px;
+  }
+  
+  /* Responsive grid layout for subcategories */
+  .subcategories-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 4 columns, adjust with screen size */
+    gap: 20px; 
+    padding: 0 20px;
+  }
+  
+  .subcategories-column {
+    margin-bottom: 20px;
+  }
+  
+  .subcategories-column h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+  
+  .subcategories-column ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .subcategories-column li {
+    margin-bottom: 5px;
+  }
+  
+  .subcategories-column a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  
+  .subcategories-column a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Mobile Responsive Code */
+  @media (max-width: 1200px) {
+    .top-level-categories {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    }
+    .subcategories-columns {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 3 columns */
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .top-level-categories {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+  
+    .subcategories-columns {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 2 columns */
+    }
+
+    .category-icon {
+      width: 30px;
+      margin-right: 8px;
+    }
+  
+    .category-name {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .top-level-categories {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+  
+    .category-icon {
+      width: 25px;
+      margin-right: 6px;
+    }
+  
+    .category-name {
+      font-size: 14px;
+    }
+  
+    .subcategories-columns {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 1 column */
+    }
+  }
+  

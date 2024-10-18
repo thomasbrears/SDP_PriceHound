@@ -2,38 +2,44 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/ProductCard.css';
-import Message from './Message';
+import Loading from './Loading';
+import { toast } from 'react-toastify';
 
 function WishlistCard({ productName, productImg, price, date, onRemove }) {
   const navigate = useNavigate(); // Initialize navigate hook
   const [loading, setLoading] = useState(false);
-  const [messageInfo, setMessageInfo] = useState({ message: '', type: '' }); // State for managing success/error messages
+  const [loadingMessage, setLoadingMessage] = useState('');
   
   // Dynamically determine the APIs URL based on environment
-  const wishlistApiUrl = process.env.NODE_ENV === 'production'
-    ? 'https://pricehound.tech/api/wishlist'
-    : 'http://localhost:8000/api/wishlist';
+  const apiUrl = process.env.NODE_ENV === 'production'
+    ? 'https://pricehound.tech/api'
+    : 'http://localhost:8000/api';
 
-  const searchApiUrl = process.env.NODE_ENV === 'production'
-    ? 'https://pricehound.tech/api/search'
-    : 'http://localhost:5001/api/search'; 
-
-  const handleSearch = async () => {
-    setLoading(true, `Searching for ${productName}...`); // Set loading with a message
+    const handleSearch = async () => {
+      setLoading(true); 
+      setLoadingMessage(`Sit back; We've got a Hound on it, searching the web for the latest prices`);
+      
+      try {        
+        // Perform search API call
+        const response = await axios.get(`${apiUrl}/search?query=${encodeURIComponent(productName)}`);
+        const { searchResults } = response.data;
     
-    try {
-      const response = await axios.get(`${searchApiUrl}?query=${productName}`);
-      setLoading(false); // Stop loading
+        // Check if searchResults have required data, otherwise set an error message
+        if (searchResults && searchResults.length > 0) {
+          navigate('/product', { state: { searchResults: searchResults, searchQuery: productName } }); // Navigate to product page
+        } else {
+          console.log('No products found');
+          toast.error('Sorry, no products were found. Please try again');
+        }
+    
+      } catch (error) {
+        toast.error('Sorry, an error occurred well fetching the search results. Please try again');
+        console.error('Error fetching search results:', error);
+      } finally {
+        setLoading(false); // Stop loading animation
+      }
+    };    
 
-      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
-
-      navigate('/product', { state: { searchResults: searchResults, query: productName } }); // Navigate with search results
-    } catch (error) {
-      setMessageInfo({ message: 'Error fetching search results', type: 'error' });
-      console.error('Error fetching search results:', error);
-      setLoading(false); // Stop loading on error
-    }
-  };
   //function for removing items from the wishlist, sends info back to the wishlist page to then update using onRemove();
   const removeWishlist = async (name) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -46,20 +52,21 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
       itemName: modifiedString
     };
     try {
-      const response = await axios.post(`${wishlistApiUrl}/remove`, formData);
+      const response = await axios.post(`${apiUrl}/remove`, formData);
       //onremove function to tell wishlist to update
       onRemove();
-      setMessageInfo({ message: 'Item removed from wishlist.', type: 'success' });
+      toast.success('Product successfuly removed from wishlist');
       console.log(response)
     }
     catch (error) {
-      setMessageInfo({ message: 'Error removing item from wishlist.', type: 'error' });
+      toast.error('Sorry, an error occurred well removing the product from your wishlist. Please try again later');
       console.error('Error removing item from wishlist:', error);
     }
   }
   return (
 
     <div className="product-card">
+      {loading && <Loading message={loadingMessage} />}
       <div onClick={handleSearch} > {/* Call handleSearch on click */}
         <div className="product-image">
           <img src={productImg} alt={productName} /> {/* Dynamically set the image source */}

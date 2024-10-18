@@ -3,13 +3,13 @@
 .product-card {
   width: 200px; 
   border-radius: 15px; 
-  background-color: white; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+  background-color: var(--background-color); 
+  box-shadow: 0 4px 6px var(--header-shadow-color); /* Subtle shadow for effect */
   text-align: center; 
   padding: 10px; 
   margin: 10px;
   text-decoration: none; /* Remove underline from link */
-  color: inherit; /* Inherit text color */
+  color: var(--text-color);
   transition: transform 0.2s ease; /* Smooth transition on hover */
   cursor: pointer; /* Show pointer cursor on hover */
   border: none; /* Remove default border */
@@ -22,7 +22,7 @@
 .product-image {
   width: 100%;
   height: 200px; 
-  background-color: #d8d8d8; 
+  background-color: var(--secondary-bg-color); 
   border-radius: 10px; 
   overflow: hidden; 
 }
@@ -36,7 +36,7 @@
 .product-name {
   font-size: 16px; 
   font-weight: normal;
-  color: #555; 
+  color: var(--primary-blue-color); 
   margin: 10px 0; 
   white-space: nowrap; 
   overflow: hidden; 
@@ -46,17 +46,17 @@
 .product-date{
   font-size: 16px; 
   font-weight: normal;
-  color: #555; 
+  color: var(--icon-color); 
 }
 .remove-button{
   height: 30px;
   margin: 5px;
   width: 80%;
   border: none;
-  background-color: #dba7c5;
+  background-color: var(primary-pink-color);
   border-radius: 15px;
   transition: 0.3s ease;
 }
 .remove-button:hover{
-  background-color: #c48fb1;
+  background-color: var(dark-pink-color);
 }

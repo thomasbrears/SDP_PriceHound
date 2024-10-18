@@ -1,0 +1,278 @@
+/* Center container */
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-bg-color);;
+    min-height: 100vm;
+}
+
+/* Detail containers */
+.loginDetails, .signUpDetails, .verifyEmailDetails  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--background-color);;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0px 4px 10px var(--header-shadow-color);
+    box-sizing: border-box;
+    margin: 100px;
+}
+
+/* PriceHound Logo size */
+.loginDetails img, .signUpDetails img, .verifyEmailDetails img{
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.loginDetails h1, .signUpDetails h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+/* Form layout */
+.loginForm, .signUpForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Input fields */
+.formInput {
+    font-family: 'Lato', sans-serif;
+    padding: 12px 15px;
+    height: 48px; 
+    font-size: 16px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    box-shadow: 0px 2px 4px var(--header-shadow-color);
+    transition: border-color 0.2s ease-in-out;
+    text-align: left; 
+}
+
+/* Left align placeholder */
+.formInput::placeholder {
+    font-size: 14px;
+    color: var(--icon-color);
+    text-align: left;
+}
+
+/* Focus state for input fields */
+.formInput:focus {
+    border-color: var(--focus-color);
+    outline: none;
+}
+
+/* Signin and Google buttons */
+.login-btn, .login-with-google-btn {
+    transition: background-color 0.3s, box-shadow 0.3s;
+    padding: 12px 16px 12px 42px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Login button */
+.login-btn {
+    background-color: #dba7c5; 
+    color: black;
+    padding-left: 0;
+}
+
+.login-btn:hover {
+    background-color: #c48fb1;
+}
+
+.login-btn:active {
+    background-color: #dba7c5;
+}
+
+.login-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px #b9e1c1;
+}
+
+/* Google button */
+.login-with-google-btn {
+    background-color: white;
+    color: black;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg');
+    background-repeat: no-repeat;
+    background-position: 12px 11px;
+}
+
+.login-with-google-btn:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+    background-color: #e7add1;
+}
+
+.login-with-google-btn:active {
+    background-color: #eeeeee;
+}
+
+.login-with-google-btn:focus {
+    outline: none;
+    box-shadow: 
+      0 -1px 0 rgba(0, 0, 0, 0.04),
+      0 2px 4px rgba(0, 0, 0, 0.25),
+      0 0 0 3px #c8dafc;
+}
+
+/* Line separator between sections */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.separator::before, .separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.separator::before {
+    margin-right: 10px;
+}
+
+.separator::after {
+    margin-left: 10px;
+}
+
+.separator-text {
+    font-size: 14px;
+    color: var(--icon-color);
+}
+
+/* Paragraph */
+p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+/* Auth links container */
+.auth-links-container {
+    display: flex;
+    justify-content: space-between;
+    color: var(--icon-color);
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* sign-up/login text */
+.signup-text {
+    font-size: 16px;
+    color: var(--icon-color);
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-text a {
+    color: var(--link-color);
+    font-weight: bold;
+}
+
+.signup-text a:hover {
+    text-decoration: underline;
+}
+
+.verifyEmailDetails h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.login-btn:disabled {
+    background-color: var(--secondary-bg-color);
+    cursor: not-allowed;
+}
+
+.login-btn:hover:enabled {
+    background-color: #c48fb1;
+}
+
+/* Small left-aligned text for forgot password */
+.forgot-password {
+    font-size: 12px;
+    color: var(--icon-color);
+    text-align: left;
+    width: 100%;
+    margin-top: 0px !important;
+    padding-bottom: 20px;
+}
+
+/* Back button at the top left */
+.verifyEmailDetails {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    padding: 40px;
+    background-color: var(--background-color);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px var(--header-shadow-color);
+    text-align: center;
+  }
+  
+  /* Back button within the container */
+  .back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .back-arrow {
+    margin-right: 8px;
+  }
+  
+  .back-button:hover {
+    color: #c48fb1;
+  }  
+
+/* Responsive styling for mobile devices */
+@media (max-width: 768px) {
+    .loginDetails, .signUpDetails {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .formInput {
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .login-btn, .login-with-google-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}

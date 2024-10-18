@@ -5,6 +5,7 @@ import '../css/ComparisonCard.css';
 import { storage } from '../FirebaseAuth/Firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { format } from 'date-fns';
+import Loading from './Loading';
 
 function ComparisonCard({
   logo,
@@ -14,27 +15,40 @@ function ComparisonCard({
   shippingInfo,
   deliveryTime,
   location,
+  setLoading, // Receive setLoading prop
+  setLoadingMessage, // Receive setLoadingMessage prop
   onAdd,
 
 }) {
   const navigate = useNavigate(); // Initialize navigate hook
   const userInfo = JSON.parse(localStorage.getItem('user'));
 
+// Dynamically set the search API URL based on environment
+const searchApiUrl = process.env.NODE_ENV === 'production'
+? 'https://pricehound.tech/api/search'
+: 'http://localhost:8000/api/search';
+
 // Function to handle search rerun
 const handleSearch = async () => {
+  setLoading(true); // Show loading overlay
+  setLoadingMessage(`Sit tight; A hound is getting the latest prices for you...`);
+
   try {
     // Replace any "/" with "-" in the title
     const sanitizedTitle = title.replace(/\//g, '-');
 
     // Make API call to backend to run searchapi.js with the sanitized title
-    const response = await axios.get(`http://localhost:5001/api/search?query=${encodeURIComponent(sanitizedTitle)}`);
+    const country = localStorage.getItem('selectedCountry'); 
 
+    const response = await axios.get(`${searchApiUrl}?query=${encodeURIComponent(sanitizedTitle)}&country=${encodeURIComponent(country)}`);
     const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
 
     // Navigate to product page with new search results and include search query (title)
     navigate('/product', { state: { searchResults: searchResults, searchQuery: title } });
   } catch (error) {
     console.error('Error searching for the product:', error);
+  } finally {
+    setLoading(false); // stop loading animation
   }
 };
 
@@ -89,7 +103,7 @@ const handleSearch = async () => {
       <h3 className="comparison-card-price">{price}</h3>
       { /* rerun search with the product name */}
       <div className="comparison-card-price-action">
-        <button onClick={handleSearch} className="comparison-card-button">Buy Now</button>
+        <button onClick={handleSearch} className="comparison-card-button">Compare Prices</button>
         {userInfo !== null ? <button onClick={() => addToWishlist(logo, title, price)} className="comparison-card-wishlist-button">Add to wishlist</button> : <></>}
       </div>
     </div>

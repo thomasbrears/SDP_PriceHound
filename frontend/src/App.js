@@ -1,8 +1,6 @@
 import './css/Global.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
 import SearchPage from './pages/SearchPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -20,6 +18,13 @@ import VerifyCheck from './components/VerifyCheck';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import CompleteSignInPage from './pages/CompleteSignInPage';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import AdblockDetect from './components/AdblockDetect';
+import { ToastContainer, toast } from 'react-toastify'; // Toastify message container
+import 'react-toastify/dist/ReactToastify.css'; // Toastify message css
+import { ThemeContext } from './ThemeContext';
+import AppLayout from './components/AppLayout';
+import AdvertisementsPage from './pages/AdvertisementsPage';
+import CookieBanner from './components/CookieBanner';
 
 import NotFoundPage from './pages/error/NotFoundPage';
 import ProductNotFoundPage from './pages/error/ProductNotFoundPage';
@@ -28,10 +33,25 @@ import UnauthorisedPage from './pages/error/UnauthorisedPage';
 import ForbiddenPage from './pages/error/ForbiddenPage';
 
 function App() {
+  const { theme } = useContext(ThemeContext);
   return (
+    
     <BrowserRouter>
       <div className="App">
-        <Header />
+      <CookieBanner/>{/*Cookie banner to allow cookies or not*/}
+      <AdblockDetect /> {/* Adblock detection */}
+      {/* Toastify message container with defult location and theme*/}
+      <ToastContainer
+        theme={theme} // Dynamically set theme (light/dark)
+        position="top-center" // Set default position
+        draggable={true} // Allow toasts to be draggable
+        closeOnClick={true} // Close toast on click
+        autoClose={5000} // Auto close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        pauseOnHover={true} // Pause on hover
+        pauseOnFocusLoss={false} // Keep toast running even when focus is lost
+      />
+      <AppLayout> {/* App layout */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -42,6 +62,7 @@ function App() {
           <Route path="/product" element={<ProductPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/admin/add-product-or-retailer" element={<AddProductRetailerPage />} />
+          <Route path="/ads" element={<AdvertisementsPage />} />
 
           {/* Error pages */}
           <Route path="*" element={<NotFoundPage />} />  {/* 404 Error */}
@@ -65,7 +86,7 @@ function App() {
           <Route path="/email-signin" element={<CompleteSignInPage />} />
         </Routes>
         <ScrollToTopButton />
-        <Footer />
+        </AppLayout>
       </div>
     </BrowserRouter>
   );

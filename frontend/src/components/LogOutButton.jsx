@@ -7,6 +7,7 @@ const LogOutButton = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('icon');
+        localStorage.removeItem('adsBlocked');  // Remove adsBlocked state
         navigate("/?logout=true");
     }
     return (
