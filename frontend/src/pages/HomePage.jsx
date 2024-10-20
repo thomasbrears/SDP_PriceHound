@@ -10,7 +10,12 @@ import Message from '../components/Message';
 import CountrySelector from '../components/CountrySelector';
 import { toast } from 'react-toastify'; // Toastify success/error/info messages
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios'; // Import axios
 import '../css/HomePage.css'; 
+
+const searchApiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://pricehound.tech/api/search'
+  : 'http://localhost:8000/api/search'; // Define searchApiUrl
 
 function HomePage() {
   const navigate = useNavigate(); // Initialise navigate
@@ -18,6 +23,10 @@ function HomePage() {
   const [loading, setLoadingState] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
 
+  const onResults = (results) => {
+    console.log('Search results:', results); // Handle the results (e.g., display or pass them)
+  };
+  
   const setLoading = (state, message = '') => {
     setLoadingState(state);
     setLoadingMessage(message); // Set the loading message
@@ -38,6 +47,39 @@ function HomePage() {
     setLoading(false); // Hide loading once results are ready
     navigate('/search', { state: { searchResults: results } });
   };
+
+  // handleSearch for suggested searches
+  const handleSearch = async (searchTerm) => {
+    setLoading(true, `Searching for ${searchTerm}...`);
+  
+    try {
+      const country = localStorage.getItem('selectedCountry'); 
+      const response = await axios.get(`${searchApiUrl}`, {
+        params: {
+          query: searchTerm,
+          country: country  
+        }
+      });
+  
+      setLoading(false);
+      const { searchResults, priceRanges: fetchedPriceRanges } = response.data;
+      if (searchResults && searchResults.length > 0) {
+        const isSpecific = searchResults.some(item => item.title && item.shopLogo);
+        if (isSpecific) {
+          navigate('/product', { state: { searchResults, searchQuery: searchTerm, priceRanges: fetchedPriceRanges } });
+        } else {
+          navigate('/search', { state: { searchResults, query: searchTerm, priceRanges: fetchedPriceRanges } });
+        }
+      } else {
+        onResults([]); 
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Error searching:', error);
+      setLoading(false);
+    }
+  };
+  
 
   return (
     <div className="home-page">
@@ -60,11 +102,11 @@ function HomePage() {
           <SearchBarBig onResults={handleSearchResults} />
         </div>
 
-        <div className="suggested-searches">
-          <span>Suggested Searches:</span>
-          <a href="#">Apple Macbook Pro, 2024</a>
-          <a href="#">Samsung S23 256gb</a>
-          <a href="#">GeForce RTX</a>
+      <div className="suggested-searches">
+        <span>Suggested Searches:</span>
+          <a href="#" onClick={() => handleSearch("Apple Macbook Pro, 2024")}>Apple Macbook Pro, 2024</a>
+          <a href="#" onClick={() => handleSearch("Samsung S23 256gb")}>Samsung S23 256gb</a>
+          <a href="#" onClick={() => handleSearch("GeForce RTX")}>GeForce RTX</a>
         </div>
       </div>
 
