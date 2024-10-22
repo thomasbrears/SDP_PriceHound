@@ -21,7 +21,10 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
       
       try {        
         // Perform search API call
-        const response = await axios.get(`${apiUrl}/search?query=${encodeURIComponent(productName)}`);
+        const fixedName = productName.replace(/,/g, '.');
+        console.log(productName)
+        console.log(fixedName)
+        const response = await axios.get(`${apiUrl}/search?query=${encodeURIComponent(fixedName)}`);
         const { searchResults } = response.data;
     
         // Check if searchResults have required data, otherwise set an error message
@@ -43,16 +46,17 @@ function WishlistCard({ productName, productImg, price, date, onRemove }) {
   //function for removing items from the wishlist, sends info back to the wishlist page to then update using onRemove();
   const removeWishlist = async (name) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
-
+    console.log(name)
     const sanitizedTitle = name.replace(/\//g, '-');
-    const modifiedString = sanitizedTitle.replace(/\./g, ' ');
+    const modifiedString = sanitizedTitle.replace(/\./g, ',');
+    console.log(modifiedString);
     //replace characters like . and / due to errors caused by them then sending this info off to the backend to be removed from the database
     const formData = {
       uid: storedUser.uid,
-      itemName: modifiedString
+      itemName: name
     };
     try {
-      const response = await axios.post(`${apiUrl}/remove`, formData);
+      const response = await axios.post(`${apiUrl}/wishlist/remove`, formData);
       //onremove function to tell wishlist to update
       onRemove();
       toast.success('Product successfuly removed from wishlist');

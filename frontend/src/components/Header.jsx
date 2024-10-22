@@ -246,7 +246,7 @@ function Header() {
               </div>
             )}
 
-            <button onClick={toggleTheme} className="theme-toggle">{theme === 'light' ? <FaMoon /> : <FaSun />} </button>
+            <button onClick={toggleTheme} className="theme-toggle" id='test'>{theme === 'light' ? <FaMoon /> : <FaSun />} </button>
           </nav>
         )}
       </div>

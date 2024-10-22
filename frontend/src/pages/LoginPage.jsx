@@ -145,7 +145,7 @@ function LoginPage() {
     const logoSrc = theme === 'light' ? 'images/PH-logo-blacktext.png' : 'images/PH-logo-whitetext.png';
     
     return (
-        <div className='center'>
+        <div id='center' className='center'>
             <div className='loginDetails'>
                 <img src={logoSrc} alt='PriceHound logo' />
                 <h1>Sign in</h1>

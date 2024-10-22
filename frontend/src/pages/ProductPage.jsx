@@ -10,6 +10,7 @@ import '../css/PriceComparisonCard.css';
 import ChangeCurrency from '../components/ChangeCurrency';
 import AdSection from '../components/AdSection';
 import '../css/AdSection.css';
+import { format } from 'date-fns';
 
 function ProductPage() {
   const location = useLocation();
@@ -22,19 +23,25 @@ function ProductPage() {
   const searchResults = location.state?.searchResults || [];
   const [mainProductPrice, setMainProductPrice] = useState();
   const [adsBlocked, setAdsBlocked] = useState(false);
+  const [currencyUnit, setCurrencyUnit] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem('user'));
+
   // Function to handle average rating update
   const handleAverageRatingUpdate = (newAverageRating) => {
     setAverageRating(newAverageRating);
   };
 
   useEffect(() => {
+    setUser(userInfo);
     const fetchUpdatedPrices = async () => {
-      var currencyUnit = "NZD";
+      setCurrencyUnit("NZD");
+      var pric = "NZD";
       var priceNumber;
       var result = 1;
       const country = localStorage.getItem('selectedCountry');
       if (country === 'AU') {
-        currencyUnit = "AUD";
+        pric = "AUD"
+        setCurrencyUnit("AUD");
         const API_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/nzd.json';
         try {
           const response = await axios.get(API_URL);
@@ -52,7 +59,7 @@ function ProductPage() {
           priceNumber *= result;
           return {
             ...item,
-            price: `${symbol}${priceNumber.toFixed(2)} ${currencyUnit}`,
+            price: `${symbol}${priceNumber.toFixed(2)} ${pric}`,
           };
         })
       );
@@ -60,7 +67,7 @@ function ProductPage() {
       setResults(updatedResults);
       const mainProductPriceNumber = mainProduct.price ? parseFloat(mainProduct.price.replace(/[$,]/g, '')) : 1;
       const mainResult = mainProductPriceNumber * (country === 'AU' ? result : 1);
-      const mainp = `${'$'}${mainResult.toFixed(2)} ${currencyUnit}`;
+      const mainp = `${'$'}${mainResult.toFixed(2)} ${pric}`;
       setMainProductPrice(mainp);
 
       if (searchResults.length === 0) {
@@ -122,12 +129,12 @@ function ProductPage() {
   const changeCurrency = async (newCurrency, curShort) => {
     //const curShort = JSON.parse(localStorage.getItem('cur-short'));
     const updatedResults = location.state.searchResults.map((item) => {
-
+      setCurrencyUnit(curShort);
       const priceNumber = item.price ? parseFloat(item.price.replace(/[$,]/g, '')) : 1;
 
       //\u20AC - euro
       var symbol = "";
-      if (curShort.localeCompare("eur") === 0) {
+      if (curShort.localeCompare("EUR") === 0) {
         symbol = "\u20AC"
       }
       else {
@@ -145,6 +152,39 @@ function ProductPage() {
     const mainProductP = updatedResults[0] || {};
     setMainProductPrice(mainProductP.price);
   }
+
+  const addToWishlist = async (logo, name, price) => {
+    const country = localStorage.getItem('selectedCountry');
+    if (country === 'AU') {
+
+    }
+    //replace annoying characters that cause issues with spaces or - to then be sent off to firestore to store
+    const sanitizedTitle = name.replace(/\//g, '-');
+    const modifiedString = sanitizedTitle.replace(/\./g, ',');
+
+    //collects date as a time stamp
+    const datenow = new Date();
+    const date = format(datenow, 'eeee, MMMM d, yyyy');
+    const uid = userInfo.uid;
+    try {
+      const formData = {
+        uid,
+        name: modifiedString,
+        price,
+        logo,
+        date,
+      };
+      //sends a post request with all the relevant information to the backend to then be stored in the firestore databased based on the uid
+      const response = await axios.post('http://localhost:8000/api/wishlist', formData);
+      toast.success('This item has been successfully added to your wishlist!');
+    }
+    catch (error) {
+      toast.error("There was an error adding this item to the wishlist")
+    }
+  }
+
+
+
   return (
     <div className="product-page">
 
@@ -208,6 +248,7 @@ function ProductPage() {
           <ChangeCurrency className="change-currency"
             onChange={changeCurrency}
           />
+          {userInfo !== null ? <button onClick={() => addToWishlist(mainImage, searchQuery, mainProductPrice)} className="comparison-card-wishlist-button">Add to wishlist</button> : <></>}
         </div>
       </div>
       {/* Price Comparison Section */}

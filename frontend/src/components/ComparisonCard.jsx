@@ -56,7 +56,7 @@ const handleSearch = async () => {
   const addToWishlist = async (logo, name, price) => {
     //replace annoying characters that cause issues with spaces or - to then be sent off to firestore to store
     const sanitizedTitle = name.replace(/\//g, '-');
-    const modifiedString = sanitizedTitle.replace(/\./g, ' ');
+    const modifiedString = sanitizedTitle.replace(/\./g, ',');
     //collects date as a time stamp
     const datenow = new Date();
     const date = format(datenow, 'eeee, MMMM d, yyyy');
