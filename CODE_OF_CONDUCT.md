@@ -1,4 +1,6 @@
-# Contributor Covenant Code of Conduct
+![PriceHound_Logo_WHITEBG_V3](https://github.com/user-attachments/assets/75ba909d-8c00-4f63-8068-897120534420)
+
+# **PriceHound** Contributor Covenant Code of Conduct
 
 ## Our Pledge
 
