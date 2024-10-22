@@ -526,7 +526,7 @@ Reviews & Raitings Styling
   margin-top: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 20px;
   background-color: var(--background-color);
   border-radius: 10px;
