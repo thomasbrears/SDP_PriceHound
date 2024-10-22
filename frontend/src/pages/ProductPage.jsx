@@ -32,6 +32,7 @@ function ProductPage() {
   };
 
   useEffect(() => {
+    setUser(userInfo);
     const fetchUpdatedPrices = async () => {
       setCurrencyUnit("NZD");
       var pric = "NZD";
