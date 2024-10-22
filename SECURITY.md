@@ -1,4 +1,6 @@
-# Security Policy
+![PriceHound_Logo_WHITEBG_V3](https://github.com/user-attachments/assets/75ba909d-8c00-4f63-8068-897120534420)
+
+# **PriceHound** Security Policy
 
 ## Supported Versions
 We are committed to maintaining the security of **PriceHound** and its users. Security updates will be applied to the following versions of the project:
